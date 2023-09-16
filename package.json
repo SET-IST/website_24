@@ -21,7 +21,7 @@
     "dev:db:dump": "command -v psql >/dev/null && pg_dump -h localhost -p 5432 -U postgres setdb -f ./database/seeds/db_seed-$(date +'%d-%m-%Y').sql && echo \"Dump saved to ./database/seeds/db_seed-$(date +'%d-%m-%Y').sql\" || echo 'Error: You need to have postgresql 15.1 installed'"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.304.0",
+    "@aws-sdk/client-s3": "^3.414.0",
     "@babel/core": "^7.21.0",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.9.0",
