@@ -1,0 +1,8 @@
+.bgTexture {
+  background: rgba(63, 71, 89);
+  background: linear-gradient(rgba(63, 71, 89, 0.9), rgba(63, 71, 89, 0.9)),
+    url('../../../core/assets/img/footer_bg.webp');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

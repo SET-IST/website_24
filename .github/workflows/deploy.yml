@@ -1,0 +1,124 @@
+name: Deploy to Production
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    if: github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    steps:
+      - name: set environment DB_USER
+        run: echo DB_USER="${{ secrets.DB_USER }}" > env
+      - name: set environment POSTGRES_USER
+        run: echo POSTGRES_USER="${{ secrets.DB_USER }}" > env
+      - name: set environment DB_PASSWORD
+        run: echo DB_PASSWORD="${{ secrets.DB_PASSWORD }}" >> env
+      - name: set environment POSTGRES_PASSWORD
+        run: echo POSTGRES_PASSWORD="${{ secrets.DB_PASSWORD }}" >> env
+      - name: set environment DB_NAME
+        run: echo DB_NAME="${{ secrets.DB_NAME }}" >> env
+      - name: set environment POSTGRES_DB
+        run: echo POSTGRES_DB="${{ secrets.DB_NAME }}" >> env
+      - name: set environment DB_HOST
+        run: echo DB_HOST="${{ secrets.DB_HOST }}" >> env
+      - name: set environment DB_PORT
+        run: echo DB_PORT="${{ secrets.DB_PORT }}" >> env
+      - name: set database url env
+        run: echo DATABASE_URL="postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}?schema=public" >> env
+      - name: set environment S3_ROOT_USER
+        run: echo MINIO_ROOT_USER="${{ secrets.S3_ROOT_USER }}" >> env
+      - name: set environment S3_ROOT_PASSWORD
+        run: echo MINIO_ROOT_PASSWORD="${{ secrets.S3_ROOT_PASSWORD }}" >> env
+      - name: set environment GOOGLE_CLIENT_ID
+        run: echo GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" >> env
+      - name: set environment GOOGLE_CLIENT_SECRET
+        run: echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
+      - name: set environment GOOGLE_CLIENT_SECRET
+        run: echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
+      - name: set environment NEXTAUTH_URL
+        run: echo NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL }}" >> env
+      - name: set environment NEXTAUTH_SECRET
+        run: echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> env
+      - name: set environment FENIX_ID
+        run: echo FENIX_ID="${{ secrets.FENIX_ID }}" >> env
+      - name: set environment FENIX_SECRET
+        run: echo FENIX_SECRET="${{ secrets.FENIX_SECRET }}" >> env
+      - name: set environment FENIX_URL
+        run: echo FENIX_URL="${{ secrets.FENIX_URL }}" >> env
+      - name: set environment CALENDAR_ID
+        run: echo CALENDAR_ID="${{ secrets.CALENDAR_ID }}" >> env
+      - name: set environment API_KEY
+        run: echo API_KEY="${{ secrets.API_KEY }}" >> env
+      - name: set environment SCHEDULE_URL
+        run: echo SCHEDULE_URL="${{ secrets.SCHEDULE_URL }}" >> env
+      - name: set environment S3_HOST
+        run: echo S3_HOST="${{ secrets.S3_HOST }}" >> env
+      - name: set environment S3_BUCKET
+        run: echo S3_BUCKET="${{ secrets.S3_BUCKET }}" >> env
+      - name: set environment S3_ACS_KEY
+        run: echo S3_ACS_KEY="${{ secrets.S3_ACS_KEY }}" >> env
+      - name: set environment S3_ACS_SCRT
+        run: echo S3_ACS_SCRT="${{ secrets.S3_ACS_SCRT }}" >> env
+      - name: set environment AUTH_COMPANY_SECRET_CODE
+        run: echo AUTH_COMPANY_SECRET_CODE="${{ secrets.AUTH_COMPANY_SECRET_CODE }}" >> env
+      - name: upload env artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Environment
+          path: env
+          retention-days: 1
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - uses: tenhaus/get-release-or-tag@v2
+        id: tag
+      - name: Docker Login
+        # You may pin to the exact commit or the version.
+        # uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        uses: docker/login-action@v2.1.0
+        with:
+          #registry: index.docker.io # optional
+          username: ${{ secrets.DOCKER_USER }} # optional
+          password: ${{ secrets.DOCKER_TOKEN }} # optional
+          # Specifies whether the given registry is ECR (auto, true or false)
+          ecr: false # optional, default is auto
+          # Log out from the Docker registry at the end of a job
+          logout: false # optional, default is true
+      - name: Build and push Docker images
+        # You may pin to the exact commit or the version.
+        # uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5
+        uses: docker/build-push-action@v3.2.0
+        with:
+          file: Dockerfile
+          push: true
+          # List of secrets to expose to the build (e.g., key=string, GIT_AUTH_TOKEN=mytoken)
+          #secrets: # optional
+          # List of tags
+          #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:${GITHUB_REF#refs/*/}"
+          #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest"
+          #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:v0.0.0"
+          tags: |
+            "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest"
+            "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:${{ steps.tag.outputs.tag }}"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create ssh identity
+        run: echo "${{ secrets.PRIVATE_KEY }}" > ./id_rsa
+      - name: Change privateKey perms
+        run: chmod 400 ./id_rsa
+      - name: Download Environment
+        uses: actions/download-artifact@v3
+        with:
+          name: Environment
+      - name: copy env to destination
+        run: scp -o StrictHostKeyChecking=no -i ./id_rsa ./env ubuntu@set.vps.tecnico.ulisboa.pt:~
+      - name: Reload Deployment
+        run: ssh -o StrictHostKeyChecking=no -i ./id_rsa ubuntu@set.vps.tecnico.ulisboa.pt sudo /home/ubuntu/redeploy.sh ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest

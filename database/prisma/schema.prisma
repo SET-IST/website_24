@@ -1,0 +1,152 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum UserType {
+  STUDENT
+  COMPANY
+  STAFF
+}
+
+model CompanyCategory {
+  id        Int              @id @default(autoincrement())
+  name      String
+  companies CompanyDetails[]
+}
+
+model StudentDetails {
+  id            Int              @id @default(autoincrement())
+  cv            CV?
+  age           Int
+  scans         Int              @default(0)
+  points        Int              @default(0)
+  course        String           @db.VarChar(128)
+  university    String           @db.VarChar(128)
+  companies_ids String[]
+  companies     CompanyDetails[]
+  user          User             @relation(fields: [userId], references: [id])
+  userId        String           @unique
+  awardToken    AwardToken?
+  reedems       Int              @default(0)
+}
+
+model CompanyDetails {
+  id         Int              @id @default(autoincrement())
+  categoryId Int
+  category   CompanyCategory  @relation(fields: [categoryId], references: [id])
+  username   String           @unique
+  password   String
+  students   StudentDetails[]
+  workshops  Workshop[]
+  user       User             @relation(fields: [userId], references: [id])
+  userId     String           @unique
+
+  codes CompanyCode[]
+}
+
+model User {
+  id             String          @id @default(uuid())
+  name           String
+  email          String          @unique
+  emailVerified  DateTime?
+  image          String?
+  readChangelog  Boolean         @default(true)
+  accounts       Account[]
+  sessions       Session[]
+  role           UserType        @default(STUDENT) //custom relation for roles of student and company
+  studentDetails StudentDetails? //custom table with aditional info of student
+  companyDetails CompanyDetails? //custom table with aditional info of company
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Speaker {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(60)
+  name        String   @db.VarChar(60)
+  date        DateTime
+  description String   @db.VarChar(128)
+}
+
+model CV {
+  id         Int            @id @default(autoincrement())
+  cvLocation String         @db.VarChar(128)
+  studentId  Int            @unique
+  student    StudentDetails @relation(fields: [studentId], references: [id])
+}
+
+model Workshop {
+  id          Int            @id @default(autoincrement())
+  name        String         @db.VarChar(60)
+  date        DateTime
+  description String         @db.VarChar(128)
+  companyId   Int
+  company     CompanyDetails @relation(fields: [companyId], references: [id])
+}
+
+enum AwardType {
+  NORMAL
+  SPECIAL
+}
+
+model AwardToken {
+  id        String         @id @default(uuid())
+  type      AwardType
+  studentId Int            @unique
+  student   StudentDetails @relation(fields: [studentId], references: [id])
+}
+
+model CompanyCode {
+  id        String         @id @default(uuid())
+  companyId Int
+  company   CompanyDetails @relation(fields: [companyId], references: [id])
+
+  // Tells if this code is permanent or temporary
+  // If false, the code will be deleted as soon as
+  // the company stops showing the QR code
+  permanent Boolean @default(false)
+
+  // Used for websocket callback after the scan of a temporary QR code
+  socketId String @default("")
+}

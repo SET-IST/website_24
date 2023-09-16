@@ -1,0 +1,28 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          {
+            "target": "./core",
+            "from": "./lib"
+          },
+          {
+            "target": "./core",
+            "from": "./pages"
+          },
+          {
+            "target": "./lib",
+            "from": "./pages"
+          },
+          {
+            "target": "./components",
+            "from": "./pages"
+          }
+        ]
+      }
+    ]
+  }
+}

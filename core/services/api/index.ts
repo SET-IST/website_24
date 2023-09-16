@@ -1,0 +1,11 @@
+const QueryCacheKeys = {
+  STUDENT_DATA: 'STUDENT_DATA',
+  COMPANY_DATA: 'COMPANY_DATA',
+  STUDENT_CVS: 'STUDENT_CVS',
+  COURSES: 'COURSES',
+  SCAN: 'SCAN',
+  SCHEDULE: 'SCHEDULE',
+  AWARD: 'AWARD',
+}
+
+export { QueryCacheKeys }

@@ -1,0 +1,43 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: <Por favor insere o título aqui>"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Pedimos-te que preenchas este formulário para que te possamos ajudar
+  - type: input
+    id: email
+    attributes:
+      label: Identificar conta
+      description: Por favor indica o email associado à tua conta na aplicação (email associado ao fénix)
+      placeholder: ex. email@example.com
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Onde foi?
+      description: Insere o link da página onde isto aconteceu
+      placeholder: https://
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: O que aconteceu?
+      description: Descreve mais detalhadamente o problema
+      placeholder: "ex. quando carrego no botão de upload aparece uma mensagem a dizer 401 - Unauthorized"
+    validations:
+      required: false
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Em que browser estás a usar a app?
+      multiple: false
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Outro
