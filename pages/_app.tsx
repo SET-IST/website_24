@@ -14,8 +14,11 @@ import type { NextPage } from 'next'
 import type { Session } from 'next-auth'
 import type { AppProps } from 'next/app'
 import type { ReactElement, ReactNode } from 'react'
+
 //  Styles
 import '../styles/globals.css'
+import '@mantine/core/styles.css'
+import { MantineProvider, createTheme, rem } from '@mantine/core'
 
 type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (_page: ReactElement) => ReactNode
@@ -26,6 +29,14 @@ type AppPropsWithLayout<
 > = AppProps<P> & {
   Component: NextPageWithLayout<P>
 }
+
+const theme = createTheme({
+  headings: {
+    // properties for all headings
+    fontWeight: '900',
+    fontFamily: 'Poppins',
+  },
+})
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const [queryClient] = useState(
@@ -46,14 +57,16 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return (
     <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <SessionProvider session={pageProps.session}>
-            {getLayout(<Component {...pageProps} />)}
-          </SessionProvider>
-        </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <MantineProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <SessionProvider session={pageProps.session}>
+              {getLayout(<Component {...pageProps} />)}
+            </SessionProvider>
+          </Hydrate>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </MantineProvider>
     </ErrorBoundary>
   )
 }
