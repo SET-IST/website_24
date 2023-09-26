@@ -4,7 +4,6 @@ import NavbarLayout from '@/_pages/layouts/NavbarLayout'
 
 //  Layouts
 import FooterLayout from '@/core/layouts/FooterLayout'
-import InvertedNavbarLayout from '@/core/layouts/InvertedNavbarLayout'
 
 //  Types
 import type { ReactElement } from 'react'
