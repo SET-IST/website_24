@@ -112,7 +112,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         const sessionToken = randomUUID?.() //function to generate the session token (you can use randomUUID as an example)
         const sessionExpiry = fromDate(30 * 24 * 60 * 60) //function to calculate the session cookie expiry date -> 30 days
 
-        await PrismaAdapter(PrismaService).createSession({
+        await PrismaAdapter(PrismaService).createSession?.({
           sessionToken: sessionToken,
           userId: user.id,
           expires: sessionExpiry,
