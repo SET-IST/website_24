@@ -4,6 +4,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
   content: [
     './pages/**/*.{ts,tsx}',
+    './_pages/**/*.{ts,tsx}',
     './core/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
   ],
@@ -58,7 +59,7 @@ module.exports = {
           200: '#ff6e4a',
           300: '#5b89bc',
           400: '#d69d3a',
-        }
+        },
       },
       animation: {
         'fade-down': 'fade-down 0.4s ease-out',
