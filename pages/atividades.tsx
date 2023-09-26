@@ -3,7 +3,7 @@ import { ModalProvider } from '@/core/components/modal-context'
 import AtividadesPage from '@/components/pages/AtividadesPage/AtividadesPage'
 //  Layouts
 import FooterLayout from '@/core/layouts/FooterLayout/FooterLayout'
-import NavbarLayout from '@/core/layouts/NavbarLayout/NavbarLayout'
+import NavbarLayout from '@/_pages/layouts/NavbarLayout/NavbarLayout'
 //  Types
 import type { ReactElement } from 'react'
 

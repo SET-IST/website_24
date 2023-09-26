@@ -2,7 +2,7 @@
 import AjudaPage from '@/components/pages/AjudaPage/AjudaPage'
 //  Layouts
 import FooterLayout from '@/core/layouts/FooterLayout/FooterLayout'
-import NavbarLayout from '@/core/layouts/NavbarLayout/NavbarLayout'
+import NavbarLayout from '@/_pages/layouts/NavbarLayout/NavbarLayout'
 //  Types
 import type { ReactElement } from 'react'
 

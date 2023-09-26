@@ -1,8 +1,11 @@
 //  Components
-import IndexPage from '@/components/pages/IndexPage'
+import IndexPage from '@/_pages/IndexPage'
+import NavbarLayout from '@/_pages/layouts/NavbarLayout'
+
 //  Layouts
 import FooterLayout from '@/core/layouts/FooterLayout'
 import InvertedNavbarLayout from '@/core/layouts/InvertedNavbarLayout'
+
 //  Types
 import type { ReactElement } from 'react'
 
@@ -11,11 +14,7 @@ const Index = () => {
 }
 
 Index.getLayout = (page: ReactElement) => {
-  return (
-    <InvertedNavbarLayout>
-      <FooterLayout>{page}</FooterLayout>
-    </InvertedNavbarLayout>
-  )
+  return <NavbarLayout>{page}</NavbarLayout>
 }
 
 export default Index
