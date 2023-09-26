@@ -2,7 +2,7 @@ import AuthGuard from '@/components/AuthGuard'
 import { UserType } from '@prisma/client'
 import type { PropsWithChildren } from 'react'
 import { ModalProvider } from '../../components/modal-context'
-import NavbarLayout from '../NavbarLayout'
+import NavbarLayout from '../../../_pages/layouts/NavbarLayout'
 
 type AlunoLayoutProps = PropsWithChildren
 
