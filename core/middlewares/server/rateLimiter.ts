@@ -31,7 +31,7 @@ export const customRedisRateLimiter = async (
   if (record == null) {
     let newRecord: RLRecord[] = []
     let requestLog: RLRecord = {
-      requestTimestamp: currentRequestTime.toISO(),
+      requestTimestamp: currentRequestTime.toISO()!,
       requestCount: 1,
     }
     newRecord.push(requestLog)
@@ -45,7 +45,7 @@ export const customRedisRateLimiter = async (
     .minus({
       hours: WINDOW_SIZE_IN_HOURS,
     })
-    .toISO()
+    .toISO()!
 
   let requestsWithinWindow = data.filter((entry) => {
     return entry.requestTimestamp > windowStartTimestamp
@@ -70,7 +70,7 @@ export const customRedisRateLimiter = async (
       .minus({
         hours: WINDOW_LOG_INTERVAL_IN_HOURS,
       })
-      .toISO()
+      .toISO()!
 
     //  if interval has not passed since last request log, increment counter
     if (
@@ -82,7 +82,7 @@ export const customRedisRateLimiter = async (
     } else {
       //  if interval has passed, log new entry for current user and timestamp
       data.push({
-        requestTimestamp: currentRequestTime.toISO(),
+        requestTimestamp: currentRequestTime.toISO()!,
         requestCount: 1,
       })
     }
