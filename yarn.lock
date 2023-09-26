@@ -2650,6 +2650,11 @@
   resolved "https://registry.yarnpkg.com/@types/keygrip/-/keygrip-1.0.3.tgz#2286b16ef71d8dea74dab00902ef419a54341bfe"
   integrity sha512-tfzBBb7OV2PbUfKbG6zRE5UbmtdLVCKT/XT364Z9ny6pXNbd9GnIB6aFYpq2A5lZ6mq9bhXgK6h5MFGNwhMmuQ==
 
+"@types/lodash@^4.14.199":
+  version "4.14.199"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.199.tgz#c3edb5650149d847a277a8961a7ad360c474e9bf"
+  integrity sha512-Vrjz5N5Ia4SEzWWgIVwnHNEnb1UE1XMkvY5DGXrAeOGE9imk0hgTHh5GyDjLDJi9OTCn9oo9dXH1uToK1VRfrg==
+
 "@types/luxon@^3.2.0":
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-3.3.2.tgz#f6e3524c2486b949a4db445e85d93c8e9886dfe2"
