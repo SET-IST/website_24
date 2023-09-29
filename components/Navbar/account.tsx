@@ -47,9 +47,9 @@ export function AccountMenu({ inverted, renderForMobile }: AccountMenuProps) {
         <Group
           gap={12}
           p="sm"
-          className="rounded-md hover:bg-gray-50 hover:bg-opacity-80"
+          className="rounded-lg hover:bg-gray-50 hover:bg-opacity-80"
         >
-          <Avatar src={user.image} alt={user.name} radius="xl" size={45} />
+          <Avatar src={user.image} alt={user.name} radius="xl" size={50} />
           <Stack gap={2}>
             <Text fw={600} size="md" lh={1} mr={3}>
               {user.name}

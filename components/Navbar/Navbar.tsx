@@ -89,7 +89,7 @@ export default function Navbar({ children }: PropsWithChildren) {
           </Group>
           <Stack gap={0} className="border-none">
             <AccountMenu renderForMobile={true} inverted={isInverted()} />
-            <Divider my="sm" />
+            <Divider my="xs" />
             {links.map((link) => createNavItem(link, isInverted(), true))}
           </Stack>
         </Stack>
