@@ -2,10 +2,20 @@
 import { FaGift, FaListUl, FaUsers } from 'react-icons/fa'
 import { links as appLinks } from '@/core/services/links'
 import type { ReactNode } from 'react'
-import { Center, Menu } from '@mantine/core'
+import { Center, Divider, Menu, NavLink, Stack } from '@mantine/core'
 import classes from './Navbar.module.css'
-import { IconChevronDown } from '@tabler/icons-react'
+import {
+  IconChevronDown,
+  IconList,
+  IconGift,
+  IconUser,
+} from '@tabler/icons-react'
 import classNames from 'classnames'
+
+enum NavItemType {
+  LINK,
+  DIVIDER,
+}
 
 type Link = {
   label: string
@@ -13,28 +23,70 @@ type Link = {
   link: string
   icon?: ReactNode
   links?: Omit<Link, 'links'>[]
+  type: NavItemType
 }
 
 const links: Array<Link> = [
   {
+    type: NavItemType.LINK,
     label: 'Atividades',
     slug: 'atividades',
     link: appLinks.activities,
-    icon: <FaListUl />,
+    icon: <IconList />,
   },
   {
+    type: NavItemType.LINK,
     label: 'Prémios',
     slug: 'premios',
     link: appLinks.awards,
-    icon: <FaGift />,
+    icon: <IconGift />,
   },
   {
+    type: NavItemType.LINK,
     label: 'Equipa',
     slug: 'equipa',
     link: appLinks.team,
-    icon: <FaUsers />,
+    icon: <IconUser />,
   },
 ]
+
+const createMobileNavItem = (link: Link) => {
+  switch (link.type) {
+    case NavItemType.DIVIDER:
+      return (
+        <Stack key={link.label} gap={0}>
+          <span
+            style={{
+              padding:
+                'calc(var(--mantine-spacing-xs) / 2) var(--mantine-spacing-sm)',
+            }}
+            className=" font-medium text-[color:var(--mantine-color-dimmed)] text-[length:var(--mantine-font-size-sm)]"
+          >
+            {link.label}
+          </span>
+          <Divider className="text-gray-50" />
+        </Stack>
+      )
+    default:
+      return (
+        <NavLink
+          key={link.label}
+          //active={index === active}
+          label={link.label}
+          onClick={() => {}}
+          variant="subtle"
+          styles={{
+            label: {
+              fontSize: 'var(--mantine-font-size-md)',
+            },
+            description: {
+              fontSize: 'var(--mantine-font-size-sm)',
+            },
+          }}
+        />
+      )
+  }
+}
 
 const createNavItem = (
   link: Link,
@@ -70,16 +122,15 @@ const createNavItem = (
     )
   }
 
-  return (
+  return renderForMobile ? (
+    createMobileNavItem(link)
+  ) : (
     <a
       key={link.label}
       href={link.link}
       className={classNames(
         classes.mainLink,
-        'transition-all',
-        renderForMobile
-          ? 'text-[color:var(--mantine-color-white)] text-[length:var(--mantine-font-size-md)]'
-          : 'hover:border-b-[color:var(--mantine-color-blue-6)] text-[length:var(--mantine-font-size-sm)]',
+        'transition-all hover:border-b-[color:var(--mantine-color-blue-6)] text-[length:var(--mantine-font-size-sm)]',
         inverted
           ? 'text-[color:var(--mantine-color-gray-7)] hover:text-[color:var(--mantine-color-black)]'
           : 'text-[color:var(--mantine-color-gray-5)] hover:text-white'
@@ -91,5 +142,5 @@ const createNavItem = (
   )
 }
 
-export { createNavItem, links }
+export { createNavItem, createMobileNavItem, links, NavItemType }
 export type { Link }

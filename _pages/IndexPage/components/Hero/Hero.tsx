@@ -17,7 +17,7 @@ export default function Example() {
           className={classNames(
             'text-white font-poppins font-bold text-center my-10 text-4xl',
             'md:text-6xl md:leading-relaxed',
-            'lg:text-[80px] lg:leading-[120px] lg:tracking-[0.035em]'
+            'lg:text-[60px] lg:leading-[100px] lg:tracking-[0.035em]'
           )}
         >
           Semana Empresarial e <br />
