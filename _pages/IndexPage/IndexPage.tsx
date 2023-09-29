@@ -9,6 +9,8 @@ const IndexPage = () => {
   return (
     <main>
       <Hero />
+      <div className="h-screen w-screen"></div>
+      <div className="h-screen w-screen"></div>
     </main>
   )
 }

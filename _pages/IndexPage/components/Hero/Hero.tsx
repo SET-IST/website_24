@@ -1,39 +1,39 @@
-import { Title, Text, Container } from '@mantine/core'
+import { Title, Text, Container, Group, Button } from '@mantine/core'
 import classNames from 'classnames'
-import { useState } from 'react'
-
-const navigation = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
-]
 
 export default function Example() {
   return (
-    <div>
-      <div className="h-screen relative overflow-hidden bg-cover bg-no-repeat bg-[url('/img/feira.webp')] flex flex-col items-center justify-center">
-        <h1
-          className={classNames(
-            'text-white font-poppins font-bold text-center my-10 text-4xl',
-            'md:text-6xl md:leading-relaxed',
-            'lg:text-[60px] lg:leading-[100px] lg:tracking-[0.035em]'
-          )}
-        >
-          Semana Empresarial e <br />
-          Tecnológica
-        </h1>
+    <div className="h-screen relative overflow-hidden bg-cover bg-no-repeat bg-[url('/img/feira.webp')] flex flex-col items-center justify-center gap-5 sm:gap-10">
+      <h1
+        className={classNames(
+          'text-white font-poppins font-bold text-center text-4xl',
+          'md:text-6xl md:leading-relaxed',
+          'lg:text-[60px] lg:leading-[90px] lg:tracking-[0.035em]'
+        )}
+      >
+        Semana Empresarial e <br />
+        Tecnológica
+      </h1>
 
-        <Container p={0} size={600}>
-          <Text size="lg" c="gray.0">
-            Build more reliable software with AI companion. AI is also trained
-            to detect lazy developers who do nothing and just complain on
-            Twitter.
-          </Text>
-        </Container>
-      </div>
-      <div className="h-screen w-screen"></div>
-      <div className="h-screen w-screen"></div>
+      <Container p={0} size={800} c="#228be6">
+        <Text
+          className="text-center font-poppins uppercase"
+          fw={600}
+          c="gray.0"
+        >
+          <span className="sm:text-xl">
+            De 26 a 29 de Fevereiro no Instituto Superior Técnico - Taguspark
+          </span>
+        </Text>
+      </Container>
+      <Group mt={30}>
+        <Button className="transition-all mx-4" fullWidth radius="md" size="md">
+          Sobre o evento
+        </Button>
+        <Button className="transition-all mx-4" fullWidth radius="md" size="md">
+          Empresas parceiras
+        </Button>
+      </Group>
     </div>
   )
 }

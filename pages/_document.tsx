@@ -23,7 +23,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body>
+      <body className=" bg-[#228be6]">
         <Main />
         <NextScript />
       </body>
