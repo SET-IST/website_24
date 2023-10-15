@@ -1,9 +1,9 @@
 import { PropsWithChildren } from 'react'
-import Navbar from '../../../components/Navbar'
+import Navbar from '../../components/Navbar'
 
 type NavbarLayoutProps = PropsWithChildren
 
-const NavbarLayout = ({ children }: NavbarLayoutProps) => {
+export const NavbarLayout = ({ children }: NavbarLayoutProps) => {
   return (
     <>
       <Navbar>{children}</Navbar>
@@ -11,5 +11,4 @@ const NavbarLayout = ({ children }: NavbarLayoutProps) => {
   )
 }
 
-export default NavbarLayout
 export type { NavbarLayoutProps }
