@@ -1,68 +1,123 @@
-import cn from 'classnames'
-//  Components
-import FooterBody from './FooterBody'
-import FooterHeader from './FooterHeader'
-import Lage from './Lage'
-import SocialMedia from './SocialMedia'
-//  Assets
-//  Styles
-import { links } from '@/core/services/links'
-import Link from 'next/link'
-import Divider from '../../core/components/Divider'
-import styles from './Footer.module.css'
+import { Text, Container, ActionIcon, Group, rem } from '@mantine/core'
+import {
+  IconBrandTwitter,
+  IconBrandYoutube,
+  IconBrandInstagram,
+} from '@tabler/icons-react'
+import SetLogo from '@/core/assets/logos/logo_set.svg'
+import classes from './FooterLinks.module.css'
 
-const Footer = () => {
+const data = [
+  {
+    title: 'About',
+    links: [
+      { label: 'Features', link: '#' },
+      { label: 'Pricing', link: '#' },
+      { label: 'Support', link: '#' },
+      { label: 'Forums', link: '#' },
+    ],
+  },
+  {
+    title: 'Project',
+    links: [
+      { label: 'Contribute', link: '#' },
+      { label: 'Media assets', link: '#' },
+      { label: 'Changelog', link: '#' },
+      { label: 'Releases', link: '#' },
+    ],
+  },
+  {
+    title: 'Community',
+    links: [
+      { label: 'Join Discord', link: '#' },
+      { label: 'Follow on Twitter', link: '#' },
+      { label: 'Email newsletter', link: '#' },
+      { label: 'GitHub discussions', link: '#' },
+    ],
+  },
+]
+
+export default function FooterLinks() {
+  const groups = data.map((group) => {
+    const links = group.links.map((link, index) => (
+      <Text<'a'>
+        key={index}
+        className={classes.link}
+        component="a"
+        href={link.link}
+        onClick={(event) => event.preventDefault()}
+      >
+        {link.label}
+      </Text>
+    ))
+
+    return (
+      <div className={classes.wrapper} key={group.title}>
+        <Text className={classes.title}>{group.title}</Text>
+        {links}
+      </div>
+    )
+  })
+
   return (
-    <footer
-      className={cn(
-        'px-5 py-8 md:px-15 lg:px-16 flex flex-col lg:items-center',
-        styles.bgTexture
-      )}
-    >
-      <FooterHeader>Semana Empresarial e Tecnológica</FooterHeader>
-      <FooterBody className="lg:self-start">
-        <div className="mt-8 mb-4 lg:my-8 col-span-4">
-          <h2 className="text-secondary-500 font-poppins font-normal md:text-lg lg:text-xl">
-            Localização
-          </h2>
-          <p className="text-white font-normal text-sm md:text-base lg:text-lg">
-            Instituto Superior Técnico (Campus Taguspark)
-            <br />
-            Av. Prof. Doutor Cavaco Silva, 2744-016 Porto Salvo
-          </p>
-        </div>
-        <div className="mt-4 mb-8 lg:my-8 col-span-4">
-          <h2 className="text-secondary-500 font-poppins font-normal md:text-lg lg:text-xl">
-            Contactos
-          </h2>
-          <p className="text-white font-normal text-sm md:text-base lg:text-lg">
-            <span>+351 214 233 759 (5179)</span>
-            <br />
-            <span>geral@set-tagus.tecnico.ulisboa.pt</span>
-          </p>
-        </div>
-        <div className="mt-4 mb-8 lg:my-8 col-span-4">
-          <h2 className="text-secondary-500 font-poppins font-normal md:text-lg lg:text-xl">
-            Páginas
-          </h2>
-          <p className="text-white font-normal text-sm md:text-base lg:text-lg">
-            <Link href={links.help}>Ajuda</Link>
-            <br />
-            <Link
-              href="https://github.com/SET-IST/bug-tracking/issues/new?assignees=&labels=bug&template=REPORT.yml&title=Insere+um+t%C3%ADtulo"
-              passHref
-              target="_blank"
+    <footer className="border-t border-[color:var(--mantine-color-gray-2)] bg-[color:var(--mantine-color-gray-0)] pt-10 pb-5">
+      <div className="flex flex-row justify-between items-center mx-20 py-8">
+        <SetLogo aria-hidden />
+        <div className="flex flex-row gap-8">
+          <div>
+            <Text className={classes.title}>Localização</Text>
+            <span>
+              Instituto Superior Técnico (Campus Taguspark) <br /> Av. Prof.
+              Doutor Cavaco Silva, 2744-016 Porto Salvo
+            </span>
+          </div>
+          <div>
+            <Text className={classes.title}>Contactos</Text>
+            <span>
+              +351 214 233 759 (5179) <br /> geral@set-tagus.tecnico.ulisboa.pt
+            </span>
+          </div>
+          <div>
+            <Text className={classes.title}>Ajuda</Text>
+            <Text<'a'>
+              className={classes.link}
+              component="a"
+              href="#"
+              onClick={(event) => event.preventDefault()}
+            >
+              FAQ
+            </Text>
+            <Text<'a'>
+              className={classes.link}
+              component="a"
+              href="#"
+              onClick={(event) => event.preventDefault()}
             >
               Reportar um bug
-            </Link>
-          </p>
+            </Text>
+          </div>
         </div>
-      </FooterBody>
-      <Divider />
-      <SocialMedia />
-      <Lage className="self-center lg:self-end" />
+      </div>
+      <div className="flex flex-row justify-center items-center border-t py-1 mx-20">
+        <ActionIcon size="xl" color="gray" variant="subtle">
+          <IconBrandTwitter
+            style={{ width: rem(22), height: rem(22) }}
+            stroke={1.5}
+          />
+        </ActionIcon>
+        <ActionIcon size="xl" color="gray" variant="subtle">
+          <IconBrandYoutube
+            style={{ width: rem(22), height: rem(22) }}
+            stroke={1.5}
+          />
+        </ActionIcon>
+        <ActionIcon size="xl" color="gray" variant="subtle">
+          <IconBrandInstagram
+            style={{ width: rem(24), height: rem(24) }}
+            stroke={1.5}
+          />
+        </ActionIcon>
+      </div>
     </footer>
   )
 }
-
-export default Footer
