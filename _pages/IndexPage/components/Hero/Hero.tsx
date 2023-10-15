@@ -26,14 +26,6 @@ export default function Example() {
           </span>
         </Text>
       </Container>
-      <Group mt={30}>
-        <Button className="transition-all mx-4" fullWidth radius="md" size="md">
-          Sobre o evento
-        </Button>
-        <Button className="transition-all mx-4" fullWidth radius="md" size="md">
-          Empresas parceiras
-        </Button>
-      </Group>
     </div>
   )
 }
