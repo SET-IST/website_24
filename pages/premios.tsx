@@ -1,6 +1,5 @@
 //  Layouts
-import FooterLayout from '../core/layouts/FooterLayout'
-import NavbarLayout from '../_pages/layouts/NavbarLayout'
+import { FooterLayout, NavbarLayout } from '@/_pages/layouts'
 //  Pages
 import PremiosPage from '@/components/pages/PremiosPage'
 //  Types
