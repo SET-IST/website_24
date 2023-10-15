@@ -1,5 +1,12 @@
 import { useDisclosure, useViewportSize, useWindowScroll } from '@mantine/hooks'
-import { AppShell, Burger, Group, Stack, UnstyledButton } from '@mantine/core'
+import {
+  AppShell,
+  Burger,
+  Divider,
+  Group,
+  Stack,
+  UnstyledButton,
+} from '@mantine/core'
 
 import classes from './Navbar.module.css'
 import SetLogoInverted from '@/core/assets/logos/logo_set_inverted.svg'
@@ -16,7 +23,7 @@ export default function Navbar({ children }: PropsWithChildren) {
   const [scroll, scrollTo] = useWindowScroll()
 
   const isInverted = (): boolean => {
-    return scroll.y > height - 200
+    return scroll.y > height / 4
   }
 
   return (
@@ -56,7 +63,7 @@ export default function Navbar({ children }: PropsWithChildren) {
               {links.map((link) => createNavItem(link, isInverted(), false))}
             </Group>
             <Group ml="xl" gap={0} visibleFrom="sm">
-              <AccountMenu inverted={isInverted()} />
+              <AccountMenu renderForMobile={false} inverted={isInverted()} />
             </Group>
           </Group>
           <Burger
@@ -69,18 +76,11 @@ export default function Navbar({ children }: PropsWithChildren) {
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar
-        py="md"
-        px="md"
-        style={{
-          backgroundColor: 'rgb(0 145 218)',
-        }}
-      >
+      <AppShell.Navbar py="md" px="md">
         <Stack gap="xl">
           <Group justify="space-between">
-            <SetLogoInverted aria-hidden />
+            <SetLogo aria-hidden />
             <Burger
-              color="white"
               opened={opened}
               onClick={toggle}
               hiddenFrom="sm"
@@ -88,6 +88,8 @@ export default function Navbar({ children }: PropsWithChildren) {
             />
           </Group>
           <Stack gap={0} className="border-none">
+            <AccountMenu renderForMobile={true} inverted={isInverted()} />
+            <Divider my="xs" />
             {links.map((link) => createNavItem(link, isInverted(), true))}
           </Stack>
         </Stack>

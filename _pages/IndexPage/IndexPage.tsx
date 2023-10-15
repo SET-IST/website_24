@@ -1,14 +1,17 @@
 //  Components
 import { Animate } from '@/components/AnimateIn'
 import Hero from './components/Hero'
-import OurMissionSection from './components/OurMissionSection'
-import TutorialSection from './components/TutorialSection/TutorialSection'
-import WelcomeCard from './components/WelcomeCard/WelcomeCard'
+import Welcome from './components/Welcome'
+import OurMission from './components/OurMission'
+import Companies from './components/Companies'
 
 const IndexPage = () => {
   return (
     <main>
       <Hero />
+      <Welcome />
+      <OurMission />
+      <Companies />
     </main>
   )
 }

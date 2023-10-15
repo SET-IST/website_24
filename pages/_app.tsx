@@ -18,6 +18,7 @@ import type { ReactElement, ReactNode } from 'react'
 //  Styles
 import '../styles/globals.css'
 import '@mantine/core/styles.css'
+import '@mantine/carousel/styles.css'
 import { MantineProvider, createTheme, rem } from '@mantine/core'
 
 type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -64,7 +65,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
               {getLayout(<Component {...pageProps} />)}
             </SessionProvider>
           </Hydrate>
-          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </MantineProvider>
     </ErrorBoundary>

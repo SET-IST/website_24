@@ -1,9 +1,9 @@
 import { PropsWithChildren } from 'react'
-import Footer from '../../../components/Footer'
+import Footer from '@/components/Footer'
 
 type FooterLayoutProps = PropsWithChildren
 
-const FooterLayout = ({ children }: FooterLayoutProps) => {
+export const FooterLayout = ({ children }: FooterLayoutProps) => {
   return (
     <>
       {children}
@@ -12,5 +12,4 @@ const FooterLayout = ({ children }: FooterLayoutProps) => {
   )
 }
 
-export default FooterLayout
 export type { FooterLayoutProps }

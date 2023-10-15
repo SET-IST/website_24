@@ -1,68 +1,46 @@
-import cn from 'classnames'
-//  Components
-import FooterBody from './FooterBody'
-import FooterHeader from './FooterHeader'
-import Lage from './Lage'
-import SocialMedia from './SocialMedia'
-//  Assets
-//  Styles
-import { links } from '@/core/services/links'
-import Link from 'next/link'
-import Divider from '../../core/components/Divider'
-import styles from './Footer.module.css'
+import { Text } from '@mantine/core'
+import SetLogo from '@/core/assets/logos/logo_set.svg'
+import classes from './FooterLinks.module.css'
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer
-      className={cn(
-        'px-5 py-8 md:px-15 lg:px-16 flex flex-col lg:items-center',
-        styles.bgTexture
-      )}
-    >
-      <FooterHeader>Semana Empresarial e Tecnológica</FooterHeader>
-      <FooterBody className="lg:self-start">
-        <div className="mt-8 mb-4 lg:my-8 col-span-4">
-          <h2 className="text-secondary-500 font-poppins font-normal md:text-lg lg:text-xl">
-            Localização
-          </h2>
-          <p className="text-white font-normal text-sm md:text-base lg:text-lg">
-            Instituto Superior Técnico (Campus Taguspark)
-            <br />
-            Av. Prof. Doutor Cavaco Silva, 2744-016 Porto Salvo
-          </p>
-        </div>
-        <div className="mt-4 mb-8 lg:my-8 col-span-4">
-          <h2 className="text-secondary-500 font-poppins font-normal md:text-lg lg:text-xl">
-            Contactos
-          </h2>
-          <p className="text-white font-normal text-sm md:text-base lg:text-lg">
+    <footer className="border-t border-[color:var(--mantine-color-gray-2)] bg-[color:var(--mantine-color-gray-0)] pt-5 sm:pt-10 pb-5">
+      <div className="flex flex-col gap-6 sm:gap-0 sm:flex-row sm:justify-between items-start sm:items-center mx-5 sm:mx-20 py-8">
+        <SetLogo aria-hidden />
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
+          <div className="flex flex-col gap-0">
+            <Text className={classes.title}>Localização</Text>
+            <span>Instituto Superior Técnico (Campus Taguspark)</span>
+            <span>Av. Prof. Doutor Cavaco Silva, 2744-016 Porto Salvo</span>
+          </div>
+          <div className="flex flex-col gap-0">
+            <Text className={classes.title}>Contactos</Text>
             <span>+351 214 233 759 (5179)</span>
-            <br />
-            <span>geral@set-tagus.tecnico.ulisboa.pt</span>
-          </p>
-        </div>
-        <div className="mt-4 mb-8 lg:my-8 col-span-4">
-          <h2 className="text-secondary-500 font-poppins font-normal md:text-lg lg:text-xl">
-            Páginas
-          </h2>
-          <p className="text-white font-normal text-sm md:text-base lg:text-lg">
-            <Link href={links.help}>Ajuda</Link>
-            <br />
-            <Link
-              href="https://github.com/SET-IST/bug-tracking/issues/new?assignees=&labels=bug&template=REPORT.yml&title=Insere+um+t%C3%ADtulo"
-              passHref
-              target="_blank"
+            <span>
+              <strong>geral@set-tagus.tecnico.ulisboa.pt</strong>
+            </span>
+          </div>
+          <div className="flex flex-col gap-1 sm:gap-0">
+            <Text className={classes.title}>Ajuda</Text>
+            <Text<'a'>
+              className={classes.link}
+              component="a"
+              href="#"
+              onClick={(event) => event.preventDefault()}
+            >
+              FAQ
+            </Text>
+            <Text<'a'>
+              className={classes.link}
+              component="a"
+              href="#"
+              onClick={(event) => event.preventDefault()}
             >
               Reportar um bug
-            </Link>
-          </p>
+            </Text>
+          </div>
         </div>
-      </FooterBody>
-      <Divider />
-      <SocialMedia />
-      <Lage className="self-center lg:self-end" />
+      </div>
     </footer>
   )
 }
-
-export default Footer

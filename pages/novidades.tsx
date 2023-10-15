@@ -2,8 +2,7 @@
 import AuthGuard from '@/components/AuthGuard'
 import NovidadesPage from '@/components/pages/NovidadesPage'
 //  Layouts
-import FooterLayout from '@/core/layouts/FooterLayout/FooterLayout'
-import NavbarLayout from '@/_pages/layouts/NavbarLayout/NavbarLayout'
+import { FooterLayout, NavbarLayout } from '@/_pages/layouts'
 import { UserType } from '@prisma/client'
 //  Types
 import type { ReactElement } from 'react'

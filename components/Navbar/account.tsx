@@ -1,4 +1,12 @@
-import { Avatar, Group, Menu, UnstyledButton, rem, Text } from '@mantine/core'
+import {
+  Avatar,
+  Group,
+  Menu,
+  UnstyledButton,
+  rem,
+  Text,
+  Stack,
+} from '@mantine/core'
 import {
   IconChevronDown,
   IconHeart,
@@ -15,22 +23,45 @@ import cx from 'clsx'
 import { useState } from 'react'
 import classes from './Navbar.module.css'
 import classNames from 'classnames'
+import { Link, NavItemType, createMobileNavItem } from './utils'
 
 const user = {
-  name: 'Test Account',
-  email: 'janspoon@fighter.dev',
-  image:
-    'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80',
+  name: 'Gonçalo Silva',
+  email: 'testn@fighter.dev',
+  image: 'https://avatars.githubusercontent.com/u/20109157?v=4',
 }
+
+const settings: Array<Link> = []
 
 interface AccountMenuProps {
   inverted: boolean
+  renderForMobile: boolean
 }
 
-export function AccountMenu({ inverted }: AccountMenuProps) {
+export function AccountMenu({ inverted, renderForMobile }: AccountMenuProps) {
   const [userMenuOpened, setUserMenuOpened] = useState(false)
 
-  return (
+  return renderForMobile ? (
+    <Stack gap={8}>
+      <UnstyledButton>
+        <Group
+          gap={12}
+          p="sm"
+          className="rounded-lg hover:bg-gray-50 hover:bg-opacity-80"
+        >
+          <Avatar src={user.image} alt={user.name} radius="xl" size={50} />
+          <Stack gap={2}>
+            <Text fw={600} size="md" lh={1} mr={3}>
+              {user.name}
+            </Text>
+            <span className=" font-medium text-[color:var(--mantine-color-dimmed)] text-[length:var(--mantine-font-size-sm)]">
+              Ver perfil
+            </span>
+          </Stack>
+        </Group>
+      </UnstyledButton>
+    </Stack>
+  ) : (
     <Menu
       width={260}
       position="bottom-end"
@@ -50,15 +81,17 @@ export function AccountMenu({ inverted }: AccountMenuProps) {
               : 'hover:bg-gray-200 hover:bg-opacity-10'
           )}
         >
-          <Group gap={7}>
-            <Avatar src={user.image} alt={user.name} radius="xl" size={30} />
-            <Text fw={500} size="sm" lh={1} mr={3}>
-              {user.name}
-            </Text>
-            <IconChevronDown
-              style={{ width: rem(12), height: rem(12) }}
-              stroke={1.5}
-            />
+          <Group gap={12}>
+            <Avatar src={user.image} alt={user.name} radius="xl" size={35} />
+            <Group gap={7}>
+              <Text fw={600} size="sm" lh={1} mr={3}>
+                {user.name}
+              </Text>
+              <IconChevronDown
+                style={{ width: rem(12), height: rem(12) }}
+                stroke={1.5}
+              />
+            </Group>
           </Group>
         </UnstyledButton>
       </Menu.Target>
