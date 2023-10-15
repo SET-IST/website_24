@@ -2,7 +2,7 @@
 import { Animate } from '@/components/AnimateIn'
 import Hero from './components/Hero'
 import Welcome from './components/Welcome'
-import OurMissionSection from './components/OurMissionSection'
+import OurMission from './components/OurMission'
 import TutorialSection from './components/TutorialSection/TutorialSection'
 import WelcomeCard from './components/WelcomeCard/WelcomeCard'
 import { Badge, Card, Group, Space, Stack, Text, Title } from '@mantine/core'
@@ -14,8 +14,8 @@ const IndexPage = () => {
     <main>
       <Hero />
       <Welcome />
+      <OurMission />
       {/* <div>
-        <OurMissionSection />
       </div>
       <Footer /> */}
     </main>
