@@ -23,7 +23,7 @@ export default function Navbar({ children }: PropsWithChildren) {
   const [scroll, scrollTo] = useWindowScroll()
 
   const isInverted = (): boolean => {
-    return scroll.y > height - 700
+    return scroll.y > height / 4
   }
 
   return (
