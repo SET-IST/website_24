@@ -1,0 +1,14 @@
+.indicators {
+    top: 105px
+}
+
+.indicator {
+    width: rem(24px);
+    transition: all 250ms ease;
+    background-color: #c3c3c377;
+}
+
+.indicator[data-active] {
+  width: rem(40px);
+  background-color: #00b8ff;
+}
