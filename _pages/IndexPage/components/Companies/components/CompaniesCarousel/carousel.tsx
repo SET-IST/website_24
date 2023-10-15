@@ -24,12 +24,22 @@ const images = [
   brighten.src,
 ]
 
-export function CompaniesCarousel() {
+interface CompaniesCarouselProps {
+  isMobile: boolean
+}
+
+export function CompaniesCarousel({ isMobile }: CompaniesCarouselProps) {
   const autoplay = useRef(Autoplay({ delay: 2000 }))
+  const logoSize = isMobile ? 160 : 140
   const slides = images.map((url) => (
     <Carousel.Slide key={url}>
       <div className="h-full w-full flex flex-col items-center justify-center">
-        <Image src={url} alt="Picture of the author" height={140} width={140} />
+        <Image
+          src={url}
+          alt="Picture of the author"
+          height={logoSize}
+          width={logoSize}
+        />
       </div>
     </Carousel.Slide>
   ))
@@ -38,14 +48,14 @@ export function CompaniesCarousel() {
     <div style={{ height: 100, width: '100%', display: 'flex' }}>
       <Carousel
         plugins={[autoplay.current]}
-        slideSize="20%"
+        slideSize={isMobile ? '100%' : '20%'}
         height="100%"
         style={{ flex: 1 }}
         classNames={classes}
         slideGap="md"
         loop
-        withIndicators
-        withControls={false}
+        withIndicators={!isMobile}
+        withControls={isMobile}
         onMouseEnter={autoplay.current.stop}
         onMouseLeave={autoplay.current.reset}
       >
