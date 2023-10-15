@@ -39,7 +39,7 @@ const OurMissionSection = () => {
           As nossas atividades
         </Button>
       </div>
-      <MantineImage src={Palestra.src} h={350} />
+      <MantineImage className=" sm:max-w-lg" src={Palestra.src} />
     </div>
   )
 }
