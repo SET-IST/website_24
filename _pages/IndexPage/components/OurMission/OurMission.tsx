@@ -1,6 +1,6 @@
 //TODO: Use links
 import { useRouter } from 'next/router'
-import { links } from '@/core/services/links'
+import { links } from '@/data/links'
 
 import Palestra from '@/assets/img/palestra.webp'
 

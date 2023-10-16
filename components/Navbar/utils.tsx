@@ -1,6 +1,6 @@
 //  Components
 import { FaGift, FaListUl, FaUsers } from 'react-icons/fa'
-import { links as appLinks } from '@/core/services/links'
+import { links as appLinks } from '@/data/links'
 import type { ReactNode } from 'react'
 import { Center, Divider, Menu, NavLink, Stack } from '@mantine/core'
 import classes from './Navbar.module.css'

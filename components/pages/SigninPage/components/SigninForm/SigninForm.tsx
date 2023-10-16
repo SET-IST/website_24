@@ -9,7 +9,7 @@ import FormikTextInput from '@/core/components/FormikTextInput/FormikTextInput'
 import { useAuth } from '@/lib/hooks/use-auth'
 import { useRouter } from 'next/router'
 //  Services
-import { links } from '@/core/services/links'
+import { links } from '@/data/links'
 //  Types
 import type { FormikHelpers } from 'formik'
 
