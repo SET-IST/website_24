@@ -17,7 +17,7 @@ export default function WelcomeSection() {
           <strong>empresarial</strong>.
         </Text>
       </Container>
-      <Button mt={10} fullWidth={isMobile} size="md">
+      <Button mt={10} fullWidth={isMobile} size={isMobile ? 'sm' : 'md'}>
         Conhece a nossa equipa
       </Button>
     </div>

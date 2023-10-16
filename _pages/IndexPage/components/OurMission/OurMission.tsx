@@ -35,7 +35,12 @@ const OurMissionSection = () => {
             </Text>
           </Container>
         </div>
-        <Button variant="filled" fullWidth={isMobile} mt={10} size="md">
+        <Button
+          variant="filled"
+          fullWidth={isMobile}
+          mt={10}
+          size={isMobile ? 'sm' : 'md'}
+        >
           As nossas atividades
         </Button>
       </div>
