@@ -1,12 +1,5 @@
 import { useDisclosure, useViewportSize, useWindowScroll } from '@mantine/hooks'
-import {
-  AppShell,
-  Burger,
-  Divider,
-  Group,
-  Stack,
-  UnstyledButton,
-} from '@mantine/core'
+import { AppShell, Burger, Divider, Group, Stack } from '@mantine/core'
 
 import classes from './Navbar.module.css'
 import SetLogoInverted from '@/core/assets/logos/logo_set_inverted.svg'
@@ -16,11 +9,15 @@ import classNames from 'classnames'
 import Link from 'next/link'
 import { createNavItem, links, Link as RouteLink } from './utils'
 import { AccountMenu } from './account'
+import { useSession } from 'next-auth/react'
 
 export default function Navbar({ children }: PropsWithChildren) {
   const [opened, { toggle }] = useDisclosure()
   const { height } = useViewportSize()
   const [scroll, scrollTo] = useWindowScroll()
+
+  //TODO: migrate to auth.js
+  const sessionContext = useSession()
 
   const isInverted = (): boolean => {
     return scroll.y > height / 4
@@ -51,6 +48,8 @@ export default function Navbar({ children }: PropsWithChildren) {
               : 'bg-transparent'
           )}
         >
+          {/* Logo */}
+
           <Group justify="space-between" style={{ flex: 1 }}>
             <Link href="#" className="w-28 h-auto">
               {isInverted() ? (
@@ -59,13 +58,22 @@ export default function Navbar({ children }: PropsWithChildren) {
                 <SetLogoInverted aria-hidden />
               )}
             </Link>
+
+            {/* Desktop navbar */}
+
             <Group ml="xl" gap={8} visibleFrom="sm">
               {links.map((link) => createNavItem(link, isInverted(), false))}
             </Group>
             <Group ml="xl" gap={0} visibleFrom="sm">
-              <AccountMenu renderForMobile={false} inverted={isInverted()} />
+              <AccountMenu
+                session={sessionContext}
+                renderForMobile={false}
+                inverted={isInverted()}
+              />
             </Group>
           </Group>
+
+          {/* Mobile menu burger */}
           <Burger
             color={isInverted() ? 'gray.7' : 'white'}
             opened={opened}
@@ -75,6 +83,8 @@ export default function Navbar({ children }: PropsWithChildren) {
           />
         </Group>
       </AppShell.Header>
+
+      {/* Mobile menu */}
 
       <AppShell.Navbar py="md" px="md">
         <Stack gap="xl">
@@ -88,12 +98,18 @@ export default function Navbar({ children }: PropsWithChildren) {
             />
           </Group>
           <Stack gap={0} className="border-none">
-            <AccountMenu renderForMobile={true} inverted={isInverted()} />
+            <AccountMenu
+              session={sessionContext}
+              renderForMobile={true}
+              inverted={isInverted()}
+            />
             <Divider my="xs" />
             {links.map((link) => createNavItem(link, isInverted(), true))}
           </Stack>
         </Stack>
       </AppShell.Navbar>
+
+      {/* End Mobile menu */}
 
       <AppShell.Main>{children}</AppShell.Main>
     </AppShell>

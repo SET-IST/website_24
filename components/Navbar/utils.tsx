@@ -71,13 +71,14 @@ const createMobileNavItem = (link: Link) => {
       return (
         <NavLink
           key={link.label}
-          //active={index === active}
           label={link.label}
           onClick={() => {}}
           variant="subtle"
+          c="#00415a"
           styles={{
             label: {
               fontSize: 'var(--mantine-font-size-md)',
+              fontWeight: 500,
             },
             description: {
               fontSize: 'var(--mantine-font-size-sm)',
