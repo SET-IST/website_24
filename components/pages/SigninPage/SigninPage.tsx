@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 //  Services
 import { links } from '@/core/services/links'
 //  Icons
-import SetLogo from '@/core/assets/logos/logo_set_inverted.svg'
+import SetLogo from '@/assets/logos/logo_set_inverted.svg'
 //  Styles
 import styles from './SigninPage.module.css'
 //  Types

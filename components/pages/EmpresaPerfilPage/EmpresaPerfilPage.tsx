@@ -6,7 +6,7 @@ import TeamMember from '@/core/components/TeamMember/TeamMember'
 import { useModal } from '@/core/components/modal-context'
 import { useUserData } from '@/lib/hooks/use-user-data'
 
-import Unkonwn from '@/core/assets/team/unknown.webp'
+import Unkonwn from '@/assets/team/unknown.webp'
 
 const transformToUsername = (fullName: string) => {
   const arr = fullName.split(' ')

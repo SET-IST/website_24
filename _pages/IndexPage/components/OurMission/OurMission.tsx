@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router'
 import { links } from '@/core/services/links'
 
-import Palestra from '@/core/assets/img/palestra.webp'
+import Palestra from '@/assets/img/palestra.webp'
 
 import {
   Title,
