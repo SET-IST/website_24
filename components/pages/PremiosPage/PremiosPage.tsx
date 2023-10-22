@@ -1,5 +1,5 @@
 import { Animate } from '@/components/AnimateIn'
-import { premios } from '@/core/services/awards'
+import { premios } from '@/data/awards'
 import Image from 'next/image'
 
 const PremiosPage = () => {

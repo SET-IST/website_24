@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 //  Components
 import Loader from '../Loader'
 //  Services
-import { links } from '@/core/services/links'
+import { links } from '@/data/links'
 //  Types
 import type { UserType } from '@prisma/client'
 import type { PropsWithChildren } from 'react'

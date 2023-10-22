@@ -15,17 +15,11 @@ export default function Example() {
         Tecnológica
       </h1>
 
-      <Container p={0} size={800} c="#228be6">
-        <Text
-          className="text-center font-poppins uppercase"
-          fw={600}
-          c="gray.0"
-        >
-          <span className="sm:text-xl">
-            De 26 a 29 de Fevereiro no Instituto Superior Técnico - Taguspark
-          </span>
-        </Text>
-      </Container>
+      <Text className="text-center font-poppins uppercase" fw={600} c="gray.0">
+        <span className="sm:text-xl">
+          De 26 a 29 de Fevereiro no Instituto Superior Técnico - Taguspark
+        </span>
+      </Text>
     </div>
   )
 }

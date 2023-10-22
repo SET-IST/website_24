@@ -1,12 +1,17 @@
 import { PropsWithChildren } from 'react'
 import Navbar from '../../components/Navbar'
 
-type NavbarLayoutProps = PropsWithChildren
+type NavbarLayoutProps = PropsWithChildren & {
+  startTransparent?: boolean
+}
 
-export const NavbarLayout = ({ children }: NavbarLayoutProps) => {
+export const NavbarLayout = ({
+  children,
+  startTransparent,
+}: NavbarLayoutProps) => {
   return (
     <>
-      <Navbar>{children}</Navbar>
+      <Navbar startTransparent={startTransparent}>{children}</Navbar>
     </>
   )
 }

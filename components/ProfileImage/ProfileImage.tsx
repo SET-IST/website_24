@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { CiCamera } from 'react-icons/ci'
 //  Assets
-import DefaultProfileImage from '../../core/assets/team/unknown.jpg'
+import DefaultProfileImage from '../../assets/team/unknown.jpg'
 //  Types
 import type { StaticImageData } from 'next/image'
 import Image from 'next/image'

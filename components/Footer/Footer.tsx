@@ -1,5 +1,5 @@
 import { Text } from '@mantine/core'
-import SetLogo from '@/core/assets/logos/logo_set.svg'
+import SetLogo from '@/assets/logos/logo_set.svg'
 import classes from './FooterLinks.module.css'
 
 export default function Footer() {

@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import Image from 'next/image'
 //  Assets
-import Test from '@/core/assets/logos/logo_set.svg'
+import Test from '@/assets/logos/logo_set.svg'
 //  Types
 import type { Company } from '../../types'
 

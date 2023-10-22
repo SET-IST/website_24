@@ -1,4 +1,4 @@
-import SetLogo from '@/core/assets/logos/logo_set.svg'
+import SetLogo from '@/assets/logos/logo_set.svg'
 
 const Loader = () => {
   return (

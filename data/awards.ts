@@ -1,12 +1,12 @@
 //  Assets
-import Airpods from '@/core/assets/img/airpods.webp'
-import JblFlip from '@/core/assets/img/jbl-flip-6.webp'
-import Kindle from '@/core/assets/img/kindle.webp'
-import Mala from '@/core/assets/img/mala.webp'
-import NintendSwitch from '@/core/assets/img/nintendo-switch.webp'
-import Polaroid from '@/core/assets/img/polaroid.webp'
-import RatoRazor from '@/core/assets/img/rato-razor.webp'
-import Viagem from '@/core/assets/img/viagem.webp'
+import Airpods from '@/assets/img/airpods.webp'
+import JblFlip from '@/assets/img/jbl-flip-6.webp'
+import Kindle from '@/assets/img/kindle.webp'
+import Mala from '@/assets/img/mala.webp'
+import NintendSwitch from '@/assets/img/nintendo-switch.webp'
+import Polaroid from '@/assets/img/polaroid.webp'
+import RatoRazor from '@/assets/img/rato-razor.webp'
+import Viagem from '@/assets/img/viagem.webp'
 
 const premios = [
   {

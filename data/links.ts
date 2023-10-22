@@ -9,17 +9,19 @@ const links = {
   },
   staff: {
     redeem: '/staff/redeem',
+    managePoints: '/staff/manage-points',
+  },
+  user: {
+    profile: '/profile',
   },
   student: {
-    profile: '/aluno/perfil',
-    scan: '/aluno/scan',
+    scan: '/student/scan',
   },
   company: {
-    profile: '/empresa/perfil',
-    cvPlatform: '/empresa/plataforma-cv',
+    cvPlatform: '/company/cvs-explorer',
   },
-  help: '/ajuda',
-  bugReport: 'reportar-bug',
+  help: '/help',
+  bugReport: 'bug-report',
 }
 
 export { links }

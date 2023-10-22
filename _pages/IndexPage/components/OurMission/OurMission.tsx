@@ -1,8 +1,8 @@
 //TODO: Use links
 import { useRouter } from 'next/router'
-import { links } from '@/core/services/links'
+import { links } from '@/data/links'
 
-import Palestra from '@/core/assets/img/palestra.webp'
+import Palestra from '@/assets/img/palestra.webp'
 
 import {
   Title,
@@ -35,7 +35,12 @@ const OurMissionSection = () => {
             </Text>
           </Container>
         </div>
-        <Button variant="filled" fullWidth={isMobile} mt={10} size="md">
+        <Button
+          variant="filled"
+          fullWidth={isMobile}
+          mt={10}
+          size={isMobile ? 'sm' : 'md'}
+        >
           As nossas atividades
         </Button>
       </div>

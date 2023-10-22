@@ -11,9 +11,9 @@ import SignupForm from './components/SignupForm'
 import { useModal } from '@/core/components/modal-context'
 import { useRouter } from 'next/router'
 //  Services
-import { links } from '@/core/services/links'
+import { links } from '@/data/links'
 //  Icons
-import SetLogo from '@/core/assets/logos/logo_set_inverted.svg'
+import SetLogo from '@/assets/logos/logo_set_inverted.svg'
 //  Styles
 import styles from './SigninPage.module.css'
 //  Types

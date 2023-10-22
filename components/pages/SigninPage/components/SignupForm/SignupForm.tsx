@@ -1,71 +1,71 @@
-import { Form, Formik } from "formik";
-import { useEffect, useId, useState } from "react";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik'
+import { useEffect, useId, useState } from 'react'
+import * as Yup from 'yup'
 //  Components
-import Alert from "@/core/components/Alert";
-import { Button } from "@/core/components/Button";
-import FormikTextInput from "@/core/components/FormikTextInput/FormikTextInput";
+import Alert from '@/core/components/Alert'
+import { Button } from '@/core/components/Button'
+import FormikTextInput from '@/core/components/FormikTextInput/FormikTextInput'
 //  Hooks
-import { useAuth } from "@/lib/hooks/use-auth";
-import { useRouter } from "next/router";
+import { useAuth } from '@/lib/hooks/use-auth'
+import { useRouter } from 'next/router'
 //  Services
-import { links } from "@/core/services/links";
+import { links } from '@/data/links'
 //  Types
-import type { FormikHelpers } from "formik";
+import type { FormikHelpers } from 'formik'
 
 type SignupFormProps = {
-  csrfToken?: string;
-};
+  csrfToken?: string
+}
 
 type SignupFormValuesProps = {
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  csrfToken: string;
-  code: string;
-  categoryId: number;
-};
+  name: string
+  username: string
+  email: string
+  password: string
+  confirmPassword: string
+  csrfToken: string
+  code: string
+  categoryId: number
+}
 
 const SignupForm = ({ csrfToken }: SignupFormProps) => {
-  const id = useId();
-  const router = useRouter();
+  const id = useId()
+  const router = useRouter()
   const {
     signupWithCredentials,
     isSignupSuccess,
     isSignupLoading,
     isSignupError,
-  } = useAuth();
-  const [isAlertVisible, setAlertVisible] = useState(isSignupSuccess);
+  } = useAuth()
+  const [isAlertVisible, setAlertVisible] = useState(isSignupSuccess)
 
   const initialValues = {
-    name: "",
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    csrfToken: csrfToken || "",
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    csrfToken: csrfToken || '',
     categoryId: 1,
-    code: "",
-  };
+    code: '',
+  }
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Este campo é obrigatório"),
-    username: Yup.string().required("Este campo é obrigatório"),
-    email: Yup.string().required("Este campo é obrigatório"),
+    name: Yup.string().required('Este campo é obrigatório'),
+    username: Yup.string().required('Este campo é obrigatório'),
+    email: Yup.string().required('Este campo é obrigatório'),
     password: Yup.string()
-      .min(3, "Tem de ter, no mínimo, 3 caractéres")
-      .max(128, "Tem de ter, no máximo, 128 caractéres")
-      .required("Este campo é obrigatório"),
+      .min(3, 'Tem de ter, no mínimo, 3 caractéres')
+      .max(128, 'Tem de ter, no máximo, 128 caractéres')
+      .required('Este campo é obrigatório'),
     confirmPassword: Yup.string()
-      .min(3, "Tem de ter, no mínimo, 3 caractéres")
-      .max(128, "Tem de ter, no máximo, 128 caractéres")
-      .required("Este campo é obrigatório"),
+      .min(3, 'Tem de ter, no mínimo, 3 caractéres')
+      .max(128, 'Tem de ter, no máximo, 128 caractéres')
+      .required('Este campo é obrigatório'),
     csrfToken: Yup.string(),
-    categoryId: Yup.number().required("Este campo é obrigatório"),
-    code: Yup.string().required("Este campo é obrigatório"),
-  });
+    categoryId: Yup.number().required('Este campo é obrigatório'),
+    code: Yup.string().required('Este campo é obrigatório'),
+  })
 
   const submitHandler = async (
     values: SignupFormValuesProps,
@@ -73,17 +73,17 @@ const SignupForm = ({ csrfToken }: SignupFormProps) => {
   ) => {
     await signupWithCredentials(values)
       .then(() => router.push(links.company.profile))
-      .finally(() => setSubmitting(false));
-  };
+      .finally(() => setSubmitting(false))
+  }
 
   useEffect(() => {
     if (isSignupSuccess || isSignupError) {
-      setAlertVisible(true);
+      setAlertVisible(true)
       setTimeout(() => {
-        setAlertVisible(false);
-      }, 3000);
+        setAlertVisible(false)
+      }, 3000)
     }
-  }, [isSignupSuccess, isSignupError]);
+  }, [isSignupSuccess, isSignupError])
 
   return (
     <Formik
@@ -214,8 +214,8 @@ const SignupForm = ({ csrfToken }: SignupFormProps) => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default SignupForm;
-export type { SignupFormProps, SignupFormValuesProps };
+export default SignupForm
+export type { SignupFormProps, SignupFormValuesProps }

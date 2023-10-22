@@ -1,5 +1,5 @@
 import { Button } from '@/core/components/Button'
-import { links } from '@/core/services/links'
+import { links } from '@/data/links'
 import { UserType } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import getConfig from 'next/config'
@@ -16,12 +16,6 @@ const NovidadesPage = () => {
   const { publicRuntimeConfig } = getConfig()
   const router = useRouter()
   const session = useSession()
-
-  const getRoute = () => {
-    return [UserType.COMPANY].includes(session.data?.user.role)
-      ? links.company.profile
-      : links.student.profile
-  }
 
   useEffect(() => {
     fetch(`${window.location.origin}/api/changelog/check`, {
@@ -57,7 +51,7 @@ const NovidadesPage = () => {
           <div className="h-px w-full bg-primary-500 my-10"></div>
           <Button
             onClick={() => {
-              window.location.replace(getRoute())
+              window.location.replace(links.user.profile)
             }}
             size="lg"
           >

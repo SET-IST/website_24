@@ -7,7 +7,7 @@ import {
   marketing,
   relacoesExternas,
   suporteInformático,
-} from '@/core/services/team'
+} from '@/data/team'
 import cn from 'classnames'
 
 const EquipaPage = () => {

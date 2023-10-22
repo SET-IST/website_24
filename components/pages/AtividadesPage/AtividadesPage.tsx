@@ -8,10 +8,10 @@ import DailySchedule from './components/DailySchedule'
 //  Hooks
 import { useGoogleSchedule } from '@/lib/hooks/use-google-schedule'
 //  Assets
-import Palestra from '@/core/assets/img/palestra-palco.webp'
-import SpeedInterview from '@/core/assets/img/speed-interview.webp'
-import TeamBuilding from '@/core/assets/img/team-building.webp'
-import Workshop from '@/core/assets/img/workshop.webp'
+import Palestra from '@/assets/img/palestra-palco.webp'
+import SpeedInterview from '@/assets/img/speed-interview.webp'
+import TeamBuilding from '@/assets/img/team-building.webp'
+import Workshop from '@/assets/img/workshop.webp'
 //  Types
 import type { Event } from '@/core/services/api/schedule'
 import { EventType } from './types'

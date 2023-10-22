@@ -1,6 +1,6 @@
 import { Button } from '@/core/components/Button'
 import { useModal } from '@/core/components/modal-context'
-import { links } from '@/core/services/links'
+import { links } from '@/data/links'
 import { useScan } from '@/lib/hooks/use-scan'
 import { QrScanner, QrScannerProps } from '@yudiel/react-qr-scanner'
 import { AxiosError } from 'axios'

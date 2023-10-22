@@ -1,6 +1,6 @@
 import CVButton from '@/components/CVButton/CVButton'
 import TextInput from '@/core/components/TextInput/TextInput'
-import { links } from '@/core/services/links'
+import { links } from '@/data/links'
 import { useUserData } from '@/lib/hooks/use-user-data'
 import cn from 'classnames'
 import Image from 'next/image'
