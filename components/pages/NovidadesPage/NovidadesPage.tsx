@@ -17,12 +17,6 @@ const NovidadesPage = () => {
   const router = useRouter()
   const session = useSession()
 
-  const getRoute = () => {
-    return [UserType.COMPANY].includes(session.data?.user.role)
-      ? links.company.profile
-      : links.student.profile
-  }
-
   useEffect(() => {
     fetch(`${window.location.origin}/api/changelog/check`, {
       method: 'POST',
@@ -57,7 +51,7 @@ const NovidadesPage = () => {
           <div className="h-px w-full bg-primary-500 my-10"></div>
           <Button
             onClick={() => {
-              window.location.replace(getRoute())
+              window.location.replace(links.user.profile)
             }}
             size="lg"
           >
