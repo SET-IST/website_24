@@ -16,18 +16,11 @@ import {
 } from '@tabler/icons-react'
 import classes from './Navbar.module.css'
 import classNames from 'classnames'
-import { Link } from './utils'
+import { createAccountNavItems } from './utils'
 import { SessionContextValue, signOut } from 'next-auth/react'
 import { useState } from 'react'
 import { displayName } from '@/lib/frontend/utils'
-
-const user_mock = {
-  name: 'Gonçalo Silva',
-  email: 'testn@fighter.dev',
-  image: 'https://avatars.githubusercontent.com/u/20109157?v=4',
-}
-
-const settings: Array<Link> = []
+import { useRouter } from 'next/router'
 
 interface AccountMenuProps {
   inverted: boolean
@@ -40,6 +33,7 @@ export function AccountMenu({
   renderForMobile,
   session,
 }: AccountMenuProps) {
+  const router = useRouter()
   const [userMenuOpened, setUserMenuOpened] = useState(false)
   const user = session.data?.user
 
@@ -128,42 +122,7 @@ export function AccountMenu({
       </Menu.Target>
       {session.status === 'authenticated' && (
         <Menu.Dropdown>
-          <Menu.Item
-            leftSection={
-              <IconUser
-                style={{ width: rem(16), height: rem(16) }}
-                stroke={1.5}
-              />
-            }
-          >
-            Ver perfil
-          </Menu.Item>
-          <Menu.Divider />
-          <Menu.Label>Staff</Menu.Label>
-          <Menu.Item>Editar conta</Menu.Item>
-          <Menu.Divider />
-          <Menu.Label>Definições</Menu.Label>
-          <Menu.Item
-            leftSection={
-              <IconSettings
-                style={{ width: rem(16), height: rem(16) }}
-                stroke={1.5}
-              />
-            }
-          >
-            Editar conta
-          </Menu.Item>
-          <Menu.Item
-            leftSection={
-              <IconLogout
-                style={{ width: rem(16), height: rem(16) }}
-                stroke={1.5}
-              />
-            }
-            onClick={() => signOut()}
-          >
-            Terminar sessão
-          </Menu.Item>
+          {createAccountNavItems(session, router, false)}
         </Menu.Dropdown>
       )}
     </Menu>

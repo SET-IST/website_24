@@ -13,10 +13,6 @@ module.exports = {
       zIndex: {
         12000: '12000',
       },
-      fontFamily: {
-        sans: ['Montserrat', 'Poppins', ...defaultTheme.fontFamily.sans],
-        poppins: ['Poppins'],
-      },
       spacing: {
         15: '70px',
         16: '100px',

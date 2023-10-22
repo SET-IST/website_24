@@ -11,7 +11,7 @@ const Index = () => {
 
 Index.getLayout = (page: ReactElement) => {
   return (
-    <NavbarLayout>
+    <NavbarLayout startTransparent={true}>
       <FooterLayout>{page}</FooterLayout>
     </NavbarLayout>
   )
