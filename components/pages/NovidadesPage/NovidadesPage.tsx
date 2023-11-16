@@ -50,11 +50,11 @@ const NovidadesPage = () => {
           <div className="h-px w-full bg-primary-500 my-10"></div>
           <Button
             onClick={() => {
-              window.location.replace(links.user.profile)
+              window.location.replace(links.home)
             }}
             size="lg"
           >
-            Prosseguir para o perfil
+            Prosseguir para a página principal
           </Button>
 
           <p className="text-center text-xs mt-10">
