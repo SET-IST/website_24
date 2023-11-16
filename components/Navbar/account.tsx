@@ -21,6 +21,8 @@ import { SessionContextValue, signOut } from 'next-auth/react'
 import { useState } from 'react'
 import { displayName } from '@/lib/frontend/utils'
 import { useRouter } from 'next/router'
+import { links } from '@/data/links'
+import { UserType } from '@prisma/client'
 
 interface AccountMenuProps {
   inverted: boolean
@@ -40,7 +42,15 @@ export function AccountMenu({
   return renderForMobile ? (
     <Stack gap={8}>
       {session.status === 'authenticated' ? (
-        <UnstyledButton>
+        <UnstyledButton
+          onClick={() => {
+            router.push(
+              user.role === UserType.COMPANY
+                ? links.company.profile
+                : links.student.profile
+            )
+          }}
+        >
           <Group
             gap={12}
             p="sm"
