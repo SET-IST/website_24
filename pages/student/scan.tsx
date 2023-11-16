@@ -1,5 +1,5 @@
 //  Layouts
-import AlunoLayout from '@/core/layouts/AlunoLayout'
+import { StudentLayout } from '@/_pages/layouts'
 //  Pages
 import ScanPage from '@/components/pages/ScanPage/ScanPage'
 //  Types
@@ -10,7 +10,7 @@ const Scan = () => {
 }
 
 Scan.getLayout = (page: ReactElement) => {
-  return <AlunoLayout>{page}</AlunoLayout>
+  return <StudentLayout>{page}</StudentLayout>
 }
 
 export default Scan
