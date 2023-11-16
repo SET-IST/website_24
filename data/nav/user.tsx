@@ -5,6 +5,7 @@ import { NavLink, NavLinkType, NavLinkVisibility } from './types'
 import { rem } from '@mantine/core'
 import { signOut } from 'next-auth/react'
 import { links } from '../links'
+import { UserType } from '@prisma/client'
 
 export const staffRoutes: NavLink[] = [
   {
