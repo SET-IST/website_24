@@ -19,6 +19,7 @@ import type { ReactElement, ReactNode } from 'react'
 import '../styles/globals.css'
 import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css'
+import '@mantine/dropzone/styles.css'
 import { MantineProvider, createTheme, rem } from '@mantine/core'
 
 type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
