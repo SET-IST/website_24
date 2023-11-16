@@ -22,6 +22,7 @@ import { MainLinks, NavLinkType, NavLinkVisibility } from '@/data/nav'
 import { useRouter } from 'next/router'
 import { IconArrowLeft } from '@tabler/icons-react'
 import { links } from '@/data/links'
+import { useUserData } from '@/lib/hooks/use-user-data'
 
 type NavbarProps = PropsWithChildren & {
   startTransparent?: boolean
@@ -34,7 +35,7 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
   const [showSettings, setShowSettings] = useState<boolean>(false)
   const router = useRouter()
 
-  //TODO: migrate to auth.js
+  //TODO: migrate to auth.js REFACTOR ASAP
   const sessionContext = useSession()
 
   const isInverted = (): boolean => {
