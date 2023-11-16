@@ -1,3 +1,4 @@
+import { UserType } from '@prisma/client'
 import { ReactNode } from 'react'
 
 export enum NavLinkType {
@@ -20,7 +21,7 @@ export type NavLink = {
   visibility: NavLinkVisibility
   label: string
   slug: string
-  link: string
+  link: string | Record<UserType, string>
   icon?: ReactNode
   linkFn?: () => void
 }

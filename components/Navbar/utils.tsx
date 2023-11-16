@@ -14,9 +14,44 @@ import { SessionContextValue } from 'next-auth/react'
 import { staffRoutes, userDefaultRoutes } from '@/data/nav/user'
 import { UserType } from '@prisma/client'
 
+// Thank you ChatGPT for this masterpiece of ts predicates
+function isRecordOfUserType(obj: any): obj is Record<UserType, string> {
+  if (typeof obj !== 'object' || obj === null) {
+    return false
+  }
+
+  const allowedUserTypes: UserType[] = ['STUDENT', 'COMPANY', 'STAFF']
+
+  for (const userType of allowedUserTypes) {
+    if (!(userType in obj) || typeof obj[userType] !== 'string') {
+      return false
+    }
+  }
+
+  return true
+}
+
+// Handle account related link pushes
+function handleAccountRouterPush(
+  router: NextRouter,
+  link: NavLinkElement,
+  role?: UserType
+) {
+  if (link.type === NavLinkType.FUNCTION && link.linkFn) {
+    link.linkFn()
+  } else {
+    if (isRecordOfUserType(link.link)) {
+      const linkRecords = link.link as Record<UserType, string>
+      router.push(linkRecords[role ?? 'STUDENT']) // Use student route as a default value
+    } else {
+      router.push(link.link)
+    }
+  }
+}
+
 const createMobileNavItem = (
   link: NavLinkElement,
-  router: NextRouter,
+  linkCallback: () => void,
   closeCallback: () => void
 ) => {
   if (link.type === NavLinkType.DIVIDER) {
@@ -40,10 +75,8 @@ const createMobileNavItem = (
         key={link.slug}
         label={link.label}
         onClick={() => {
-          if (link.type === NavLinkType.FUNCTION && link.linkFn) {
-            link.linkFn()
-          } else {
-            router.push(link.link)
+          linkCallback()
+          if (link.slug != 'mobile_settings') {
             closeCallback()
           }
         }}
@@ -63,7 +96,10 @@ const createMobileNavItem = (
   }
 }
 
-const createDropdownNavItem = (link: NavLinkElement, router: NextRouter) => {
+const createDropdownNavItem = (
+  link: NavLinkElement,
+  linkCallback: () => void
+) => {
   if (link.type === NavLinkType.DIVIDER) {
     return (
       <>
@@ -73,17 +109,7 @@ const createDropdownNavItem = (link: NavLinkElement, router: NextRouter) => {
     )
   } else {
     return (
-      <Menu.Item
-        key={link.slug}
-        leftSection={link.icon}
-        onClick={() => {
-          if (link.type === NavLinkType.FUNCTION && link.linkFn) {
-            link.linkFn()
-          } else {
-            router.push(link.link)
-          }
-        }}
-      >
+      <Menu.Item key={link.slug} leftSection={link.icon} onClick={linkCallback}>
         {link.label}
       </Menu.Item>
     )
@@ -115,9 +141,15 @@ const createAccountNavItems = (
               throw new Error(
                 '[Navbar createAccountNavItems]: renderForMobile is true but missing close callback!'
               )
-            return createMobileNavItem(item, router, closeCallback)
+            return createMobileNavItem(
+              item,
+              () => handleAccountRouterPush(router, item, userRole),
+              closeCallback
+            )
           } else {
-            return createDropdownNavItem(item, router)
+            return createDropdownNavItem(item, () =>
+              handleAccountRouterPush(router, item, userRole)
+            )
           }
         }
       })}
@@ -138,12 +170,16 @@ const createNavItem = (
         '[Navbar createNavItem]: renderForMobile is true but missing close callback!'
       )
 
-    return createMobileNavItem(link, router, closeCallback)
+    return createMobileNavItem(
+      link,
+      () => handleAccountRouterPush(router, link),
+      closeCallback
+    )
   } else {
     return (
       <a
         key={link.label}
-        href={link.link}
+        href="#"
         className={classNames(
           classes.mainLink,
           'transition-all hover:border-b-[color:var(--mantine-color-blue-6)] text-[length:var(--mantine-font-size-sm)]',
@@ -153,11 +189,7 @@ const createNavItem = (
         )}
         onClick={(event) => {
           event.preventDefault()
-          if (link.type === NavLinkType.FUNCTION && link.linkFn) {
-            link.linkFn()
-          } else {
-            router.push(link.link)
-          }
+          handleAccountRouterPush(router, link)
         }}
       >
         {link.label}
