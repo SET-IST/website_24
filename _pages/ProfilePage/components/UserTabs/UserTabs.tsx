@@ -38,7 +38,7 @@ const UserTabs = () => {
         className="h-full"
       >
         <Tabs.List
-          className="w-full !bg-[color:var(--mantine-color-white)] rounded-md"
+          className="!sticky top-15 z-20 sm:relative sm:top-0 w-full !bg-[color:var(--mantine-color-white)] rounded-md"
           grow={isMobile}
         >
           {tabs.map((tab, index) => (
