@@ -15,12 +15,11 @@ interface ActivityComponentProps {
 
 const Activity = ({ data }: ActivityComponentProps) => {
   return (
-    <div className="w-full h-fit p-4 flex flex-col gap-2">
+    <div className="w-full h-fit p-4 flex flex-col gap-2 sm:flex-row sm:justify-between">
       <div>
         <Text c="#00415a" fw={600}>
           <span className="text-base">{data.name}</span>
         </Text>
-
         <Text c="dimmed" lh={1} fw={500}>
           <span className="text-sm">{data.desc}</span>
         </Text>
