@@ -1,5 +1,5 @@
 import { StudentLayout } from '@/_pages/layouts'
-import ProfilePage from '@/_pages/student/ProfilePage'
+import ProfilePage from '@/_pages/ProfilePage'
 
 //  Types
 import type { ReactElement } from 'react'
