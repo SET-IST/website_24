@@ -5,18 +5,21 @@ on:
     types:
       - closed
     branches:
-      - main
+      - production
   workflow_dispatch:
 
 jobs:
   build:
-    if: github.event.pull_request.merged
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged)
     runs-on: ubuntu-latest
     steps:
       - name: set environment DB_USER
         run: echo DB_USER="${{ secrets.DB_USER }}" > env
       - name: set environment POSTGRES_USER
-        run: echo POSTGRES_USER="${{ secrets.DB_USER }}" > env
+        run: echo POSTGRES_USER="${{ secrets.DB_USER }}" >> env
       - name: set environment DB_PASSWORD
         run: echo DB_PASSWORD="${{ secrets.DB_PASSWORD }}" >> env
       - name: set environment POSTGRES_PASSWORD
@@ -37,8 +40,6 @@ jobs:
         run: echo MINIO_ROOT_PASSWORD="${{ secrets.S3_ROOT_PASSWORD }}" >> env
       - name: set environment GOOGLE_CLIENT_ID
         run: echo GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" >> env
-      - name: set environment GOOGLE_CLIENT_SECRET
-        run: echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
       - name: set environment GOOGLE_CLIENT_SECRET
         run: echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
       - name: set environment NEXTAUTH_URL
@@ -103,7 +104,7 @@ jobs:
           #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest"
           #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:v0.0.0"
           tags: |
-            "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest"
+            "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest-prod"
             "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:${{ steps.tag.outputs.tag }}"
 
   deploy:
@@ -119,6 +120,6 @@ jobs:
         with:
           name: Environment
       - name: copy env to destination
-        run: scp -o StrictHostKeyChecking=no -i ./id_rsa ./env ubuntu@set.vps.tecnico.ulisboa.pt:~
+        run: scp -o StrictHostKeyChecking=no -i ./id_rsa ./env ubuntu@set.vps.tecnico.ulisboa.pt:~/env-prod
       - name: Reload Deployment
-        run: ssh -o StrictHostKeyChecking=no -i ./id_rsa ubuntu@set.vps.tecnico.ulisboa.pt sudo /home/ubuntu/redeploy.sh ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest
+        run: ssh -o StrictHostKeyChecking=no -i ./id_rsa ubuntu@set.vps.tecnico.ulisboa.pt sudo /home/ubuntu/deploy-main.sh ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest-prod
