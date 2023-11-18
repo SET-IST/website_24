@@ -4,7 +4,11 @@ import { SettingsForm } from '@/components/student'
 import { em } from '@mantine/core'
 import { useState } from 'react'
 
-const ProfilePage = () => {
+interface ProfilePageProps {
+  isCompany: boolean
+}
+
+const ProfilePage = ({ isCompany }: ProfilePageProps) => {
   const [showSettings, setShowSettings] = useState(false)
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
 
@@ -12,6 +16,7 @@ const ProfilePage = () => {
     <div className="w-full h-full flex flex-col sm:flex-row sm:gap-4">
       {(!showSettings || !isMobile) && (
         <UserCard
+          isCompany={isCompany}
           openSettings={() => {
             setShowSettings(true)
             window.scrollTo(0, 0)
