@@ -52,6 +52,14 @@ const UserCard = ({
     return isCompany ? companyData : studentData
   }
 
+  const isLoadingData = () => {
+    return isCompany ? isLoadingCompanyData : isLoadingStudentData
+  }
+
+  const data = () => {
+    return isCompany ? companyData : studentData
+  }
+
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
 
   return (
