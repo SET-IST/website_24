@@ -49,6 +49,7 @@ model CompanyCategory {
   companies CompanyDetails[]
 }
 
+// Add activities to students
 model StudentDetails {
   id            Int              @id @default(autoincrement())
   cv            CV?
@@ -63,8 +64,10 @@ model StudentDetails {
   userId        String           @unique
   awardToken    AwardToken?
   reedems       Int              @default(0)
+  activities    Activity[]
 }
 
+// add activities to companies
 model CompanyDetails {
   id         Int              @id @default(autoincrement())
   categoryId Int
@@ -72,11 +75,13 @@ model CompanyDetails {
   username   String           @unique
   password   String
   students   StudentDetails[]
-  workshops  Workshop[]
+  activities Activity[]
   user       User             @relation(fields: [userId], references: [id])
   userId     String           @unique
 
-  codes CompanyCode[]
+  description String @db.VarChar(150)
+  linkHref    String
+  linkText    String @db.VarChar(30)
 }
 
 model User {
@@ -116,13 +121,38 @@ model CV {
   student    StudentDetails @relation(fields: [studentId], references: [id])
 }
 
-model Workshop {
-  id          Int            @id @default(autoincrement())
-  name        String         @db.VarChar(60)
+//create the activity model
+enum ActivityType {
+  Lecture
+  Workshop
+  SpeedInterview
+}
+
+model Activity {
+  id          Int          @id @default(autoincrement())
+  title       String       @db.VarChar(60)
+  description String       @db.VarChar(128)
   date        DateTime
-  description String         @db.VarChar(128)
-  companyId   Int
-  company     CompanyDetails @relation(fields: [companyId], references: [id])
+  duration    Int
+  location    String       @db.VarChar(60)
+  type        ActivityType
+
+  companies CompanyDetails[]
+
+  enrolledStudents StudentDetails[]
+}
+
+// create the QRCode model
+enum ObjectType {
+  ACTIVITY
+  COMPANY
+  REDEEM
+}
+
+model QRCode {
+  id         String     @id @default(uuid())
+  objectId   String
+  objectType ObjectType
 }
 
 enum AwardType {
@@ -135,18 +165,4 @@ model AwardToken {
   type      AwardType
   studentId Int            @unique
   student   StudentDetails @relation(fields: [studentId], references: [id])
-}
-
-model CompanyCode {
-  id        String         @id @default(uuid())
-  companyId Int
-  company   CompanyDetails @relation(fields: [companyId], references: [id])
-
-  // Tells if this code is permanent or temporary
-  // If false, the code will be deleted as soon as
-  // the company stops showing the QR code
-  permanent Boolean @default(false)
-
-  // Used for websocket callback after the scan of a temporary QR code
-  socketId String @default("")
 }
