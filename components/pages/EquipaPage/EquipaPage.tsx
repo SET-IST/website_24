@@ -12,16 +12,22 @@ import cn from 'classnames'
 
 const EquipaPage = () => {
   return (
-    <main className={cn('flex flex-col items-start py-9 px-5', 'lg:px-52')}>
-      <h1
-        className={cn(
-          'font-bold border-t-4 border-primary-500 text-primary-500 text-2xl my-5 w-min',
-          'md:w-auto',
-          'lg:text-3xl lg:my-10'
-        )}
-      >
-        Comité Executivo
-      </h1>
+<main className={cn('flex flex-col items-start py-16 px-5', 'lg:px-52')}>
+  <h1 className="font-bold text-center text-primary-500 lg:text-4xl lg:my-3">
+    A nossa Equipa
+  </h1>
+  <p className="text-center text-lg text-gray-500 mt-1">
+    Conheça a equipa responsável por este evento.
+  </p>
+        <h1
+          className={cn(
+            'font-bold border-t-4 border-primary-500 text-primary-500 text-2xl my-5 w-min',
+            'md:w-auto',
+            'lg:text-3xl lg:my-10'
+          )}
+        >
+          Comité Executivo
+        </h1>
       <div className="grid grid-cols-4 gap-20 mx-auto">
         {coordenacao.map((member, index) => (
           <div
