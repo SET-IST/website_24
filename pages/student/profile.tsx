@@ -1,11 +1,12 @@
+//  Layouts
 import { StudentLayout } from '@/_pages/layouts'
+//  Pages
 import ProfilePage from '@/_pages/ProfilePage'
-
 //  Types
 import type { ReactElement } from 'react'
 
 const StudentProfile = () => {
-  return <ProfilePage />
+  return <ProfilePage isCompany={false} />
 }
 
 StudentProfile.getLayout = (page: ReactElement) => {
