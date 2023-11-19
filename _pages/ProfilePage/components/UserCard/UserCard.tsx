@@ -69,9 +69,11 @@ const UserCard = ({ openSettings, isCompany }: UserCardProps) => {
               ? 'Empresa portuguesa de venda a retalho de produtos eletrónicos, de consumo e de entretenimento, pertencente ao grupo Sonae, com sede em Carnaxide.'
               : studentData?.course}
           </Text>
-          <AnchorLink href="https://pt.wikipedia.org/wiki/Worten">
-            Saber mais sobre nós
-          </AnchorLink>
+          {isCompany && (
+            <AnchorLink href="https://pt.wikipedia.org/wiki/Worten">
+              Saber mais sobre nós
+            </AnchorLink>
+          )}
         </Skeleton>
 
         <Skeleton className="mt-2" visible={isLoadingData()}>
