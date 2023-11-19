@@ -1,16 +1,12 @@
 import * as Yup from 'yup'
 import { useForm, yupResolver } from '@mantine/form'
 import {
-  NumberInput,
   TextInput,
   Button,
-  Box,
-  Group,
   Paper,
   em,
   Text,
   Checkbox,
-  Autocomplete,
   Divider,
   FileInput,
   rem,
@@ -30,7 +26,7 @@ interface SettingsFormProps {
   onCancel: () => void
 }
 
-const SettingsForm = ({ onCancel }: SettingsFormProps) => {
+const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
   const form = useForm({
     validate: yupResolver(schema),
     initialValues: {
@@ -51,7 +47,7 @@ const SettingsForm = ({ onCancel }: SettingsFormProps) => {
       bg="var(--mantine-color-body)"
     >
       <Text c="#00415a" fz="xl" fw={700}>
-        Editar perfil
+        Editar perfil de estudante
       </Text>
       <form
         className="mt-4 flex flex-col gap-2"
@@ -128,4 +124,4 @@ const SettingsForm = ({ onCancel }: SettingsFormProps) => {
   )
 }
 
-export { SettingsForm }
+export { StudentSettingsForm }
