@@ -1,8 +1,8 @@
 import { Paper, Tabs, em, rem } from '@mantine/core'
-import { ReactNode, useEffect, useState } from 'react'
-import { useMediaQuery, useViewportSize, useWindowScroll } from '@mantine/hooks'
-import { UserActivities, VisitedStands } from '.'
-import classNames from 'classnames'
+import { ReactNode, useState } from 'react'
+import { useMediaQuery, useWindowScroll } from '@mantine/hooks'
+import { VisitedStands } from './VisitedStands'
+import { UserActivities } from './UserActivities'
 
 interface Tab {
   title: string
