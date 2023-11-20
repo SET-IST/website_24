@@ -102,3 +102,7 @@ The following Git hooks are being used to ensure code quality:
 
 If you're having troubles pushing or commiting code then you should probably check your code and confirm that it's working.<br>
 Also be in mind that pushing code will take longer than expected
+
+## Deployment
+
+Documentation regarding **Deployment** and **DevOps** can be found on [Deployment.md](Deployment.md)
