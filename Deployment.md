@@ -8,6 +8,23 @@ To login into the VM you can use ssh `ssh ubuntu@set.vps.tecnico.ulisboa.pt`
 
 _The server is running __fail2ban__, if you can't login, ask someone to verify that your key is correctly placed on the server_
 
+### Firewall
+
+Firewalls in openstack are configured in the security groups section. `Project>Network>Security Groups`
+
+We have 3 security groups configured:
+- Default
+  - Allows traffic originating from the VM
+  - Traffic to port 80 and 443 (HTTP, HTTPS)
+  - Traffic to port 22 (SSH)
+  - ICMP traffic
+- bd
+  - Traffic to port tcp:5432 originating from Eduroam at Taguspark
+  - Traffic to port tcp:5432 originating from Técnico VPN
+- S3
+  - Traffic to port tcp:9000
+
+
 # Deployment
 
 ## Nginx
