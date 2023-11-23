@@ -10,16 +10,28 @@ interface Tab {
   component?: ReactNode
 }
 
-const tabs: Tab[] = [
-  { title: 'Bancas visitadas', ref: 'visited', component: <VisitedStands /> },
-  { title: 'Inscrições', ref: 'activities', component: <UserActivities /> },
-]
+interface UserTabsProps {
+  selectCallback: (context: string, objectId: string) => void
+}
 
-const UserTabs = () => {
+const UserTabs = ({ selectCallback }: UserTabsProps) => {
   const iconStyle = { width: rem(12), height: rem(12) }
   const [activeTab, setActiveTab] = useState<string | null>('visited')
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
   const [scroll, scrollTo] = useWindowScroll()
+
+  const selectObject = (objectId: string) => {
+    activeTab && selectCallback(activeTab, objectId)
+  }
+
+  const tabs: Tab[] = [
+    {
+      title: 'Bancas visitadas',
+      ref: 'visited',
+      component: <VisitedStands selectCallback={selectObject} />,
+    },
+    { title: 'Inscrições', ref: 'activities', component: <UserActivities /> },
+  ]
 
   return (
     <Paper

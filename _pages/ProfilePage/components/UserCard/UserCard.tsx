@@ -9,6 +9,7 @@ import {
   Group,
   em,
   Anchor,
+  CloseButton,
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconFileCv, IconLink, IconQrcode } from '@tabler/icons-react'
@@ -16,11 +17,21 @@ import UserStats from './UserStats'
 import { AnchorLink } from '@/components/AnchorLink'
 
 interface UserCardProps {
-  openSettings: () => void
+  openSettings?: () => void
+  closeCallback?: () => void
+  userId?: string
   isCompany: boolean
+  isPreview: boolean
 }
 
-const UserCard = ({ openSettings, isCompany }: UserCardProps) => {
+const UserCard = ({
+  openSettings,
+  closeCallback,
+  isCompany,
+  isPreview,
+  userId,
+}: UserCardProps) => {
+  // TODO: UserCard should receive the id of the company to work as a preview
   const {
     studentData,
     companyData,
@@ -42,11 +53,16 @@ const UserCard = ({ openSettings, isCompany }: UserCardProps) => {
 
   return (
     <Paper
-      className="h-fit w-full sm:w-1/3 !rounded-none sm:!rounded-lg"
+      className="h-fit min-w-min w-full sm:w-1/3 !rounded-none sm:!rounded-lg"
       withBorder
       p={isMobile ? 'xl' : 'lg'}
       bg="var(--mantine-color-body)"
     >
+      {isPreview && (
+        <Group justify="flex-end">
+          <CloseButton onClick={closeCallback} />
+        </Group>
+      )}
       <div className=" w-full flex flex-col justify-center items-center">
         {isLoadingData() ? (
           <Skeleton circle height={120} />
@@ -56,7 +72,7 @@ const UserCard = ({ openSettings, isCompany }: UserCardProps) => {
 
         <Text c="#00415a" ta="center" fz="xl" fw={700} mt="md">
           <Skeleton visible={isLoadingData()}>
-            {displayName(data()?.name)}
+            {userId ?? displayName(data()?.name)}
           </Skeleton>
         </Text>
 
@@ -64,7 +80,13 @@ const UserCard = ({ openSettings, isCompany }: UserCardProps) => {
           className="flex flex-col items-center gap-2"
           visible={isLoadingData()}
         >
-          <Text ta="center" c="dimmed" fw={500} fz="sm">
+          <Text
+            className="sm:min-w-[18rem]"
+            ta="center"
+            c="dimmed"
+            fw={500}
+            fz="sm"
+          >
             {isCompany
               ? 'Empresa portuguesa de venda a retalho de produtos eletrónicos, de consumo e de entretenimento, pertencente ao grupo Sonae, com sede em Carnaxide.'
               : studentData?.course}
@@ -76,27 +98,31 @@ const UserCard = ({ openSettings, isCompany }: UserCardProps) => {
           )}
         </Skeleton>
 
-        <Skeleton className="mt-2" visible={isLoadingData()}>
-          <UserStats
-            stats={
-              isCompany
-                ? [
-                    { label: 'Scans', value: 5 },
-                    { label: 'Eventos', value: 2 },
-                  ]
-                : [
-                    { label: 'Pontos', value: studentData?.points },
-                    { label: 'Bancas', value: studentData?.scans },
-                    {
-                      label: 'Brindes',
-                      value: studentData && Math.floor(studentData.points / 15),
-                    },
-                  ]
-            }
-          />
-        </Skeleton>
-        {!isCompany && (
-          <div className="flex flex-row gap-2 w-full">
+        {!isPreview && (
+          <Skeleton className="mt-2" visible={isLoadingData()}>
+            <UserStats
+              stats={
+                isCompany
+                  ? [
+                      { label: 'Scans', value: 5 },
+                      { label: 'Eventos', value: 2 },
+                    ]
+                  : [
+                      { label: 'Pontos', value: studentData?.points },
+                      { label: 'Bancas', value: studentData?.scans },
+                      {
+                        label: 'Brindes',
+                        value:
+                          studentData && Math.floor(studentData.points / 15),
+                      },
+                    ]
+              }
+            />
+          </Skeleton>
+        )}
+
+        {!isPreview && !isCompany && (
+          <div className="flex flex-row gap-2 w-full min-w-fit">
             <Button fullWidth mt="lg">
               Redimir prémio
             </Button>
@@ -105,9 +131,11 @@ const UserCard = ({ openSettings, isCompany }: UserCardProps) => {
             </Button>
           </div>
         )}
-        <Button onClick={openSettings} variant="default" fullWidth mt="sm">
-          Editar perfil
-        </Button>
+        {!isPreview && (
+          <Button onClick={openSettings} variant="default" fullWidth mt="sm">
+            Editar perfil
+          </Button>
+        )}
       </div>
     </Paper>
   )
