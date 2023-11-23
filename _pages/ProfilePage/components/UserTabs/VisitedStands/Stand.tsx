@@ -2,6 +2,7 @@ import { Text } from '@mantine/core'
 import { Image } from '@mantine/core'
 
 export interface StandData {
+  id: string
   name: string
   desc: string
   img: string
@@ -9,12 +10,16 @@ export interface StandData {
 
 interface StandComponentProps {
   data: StandData
+  selectCallback: (companyId: string) => void
 }
 
-const Stand = ({ data }: StandComponentProps) => {
+const Stand = ({ data, selectCallback }: StandComponentProps) => {
   return (
-    <div className="w-full h-fit p-4 flex flex-row items-center">
-      <div className="relative h-12 w-12 sm:h-15 sm:w-15 shrink-0 overflow-hidden rounded-lg bg-gray-200">
+    <div
+      onClick={() => selectCallback(data.id)}
+      className="w-full h-fit p-4 flex flex-row items-center hover:bg-gray-50 transition-all cursor-pointer"
+    >
+      <div className="relative h-12 w-12 sm:h-14 sm:w-14 shrink-0 overflow-hidden rounded-lg bg-gray-200">
         <Image
           src={data.img}
           alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps."

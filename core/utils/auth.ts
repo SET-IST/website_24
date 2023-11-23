@@ -49,7 +49,7 @@ export async function isSamePass(plain: string, hashed: string) {
   return await compare(plain, hashed)
 }
 
-const CompanyCategories: {[id: number]: string} = {
+const CompanyCategories: { [id: number]: string } = {
   1: 'Platina',
   2: 'Gold',
   3: 'Silver',
