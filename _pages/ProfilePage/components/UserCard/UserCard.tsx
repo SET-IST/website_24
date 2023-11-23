@@ -56,7 +56,7 @@ const UserCard = ({
 
   return (
     <Paper
-      className="h-fit w-full sm:w-1/3 !rounded-none sm:!rounded-lg"
+      className="h-fit min-w-min w-full sm:w-1/3 !rounded-none sm:!rounded-lg"
       withBorder
       p={isMobile ? 'xl' : 'lg'}
       bg="var(--mantine-color-body)"
