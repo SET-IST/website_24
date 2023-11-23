@@ -20,6 +20,7 @@ const Activity = ({ data }: ActivityComponentProps) => {
         <Text c="#00415a" fw={600}>
           <span className="text-base">{data.name}</span>
         </Text>
+
         <Text c="dimmed" lh={1} fw={500}>
           <span className="text-sm">{data.desc}</span>
         </Text>
