@@ -1,7 +1,7 @@
 //  Layouts
 import { FooterLayout, NavbarLayout } from '@/_pages/layouts'
 //  Pages
-import EquipaPage from '../components/pages/EquipaPage/EquipaPage'
+import EquipaPage from '../_pages/TeamPage'
 //  Types
 import type { ReactElement } from 'react'
 
