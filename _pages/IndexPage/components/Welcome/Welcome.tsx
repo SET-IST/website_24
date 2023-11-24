@@ -1,9 +1,12 @@
 import { Container, Title, Text, Button, em } from '@mantine/core'
 import classes from './welcome.module.css'
 import { useMediaQuery } from '@mantine/hooks'
+import { links } from '@/data/links'
+import { useRouter } from 'next/router'
 
 export default function WelcomeSection() {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
+  const router = useRouter()
 
   return (
     <div className="flex flex-col justify-center items-start sm:items-center gap-4 p-4 py-8 sm:py-15 bg-white">
@@ -17,7 +20,12 @@ export default function WelcomeSection() {
           <strong>empresarial</strong>.
         </Text>
       </Container>
-      <Button mt={10} fullWidth={isMobile} size={isMobile ? 'sm' : 'md'}>
+      <Button
+        onClick={() => router.push(links.team)}
+        mt={10}
+        fullWidth={isMobile}
+        size={isMobile ? 'sm' : 'md'}
+      >
         Conhece a nossa equipa
       </Button>
     </div>
