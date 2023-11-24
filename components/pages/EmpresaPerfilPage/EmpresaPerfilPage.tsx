@@ -70,10 +70,10 @@ const EmpresaPerfilPage = () => {
               className="col-span-12 md:col-span-4 lg:col-span-3"
               key={student.user.name}
             >
-              <TeamMember
+              {/* <TeamMember
                 name={transformToUsername(student.user.name)}
                 src={student.user.image || Unkonwn.src}
-              />
+              /> */}
             </div>
           ))}
         </div>
