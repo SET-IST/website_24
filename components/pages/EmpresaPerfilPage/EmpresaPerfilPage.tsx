@@ -1,7 +1,7 @@
 import ProfileImage from '@/components/ProfileImage/ProfileImage'
 import UploadImageModal from '@/components/UploadImageModal/UploadImageModal'
 import Card from '@/core/components/Card/Card'
-import TeamMember from '@/core/components/TeamMember/TeamMember'
+import TeamMember from '@/components/TeamMember/TeamMember'
 
 import { useModal } from '@/core/components/modal-context'
 import { useUserData } from '@/lib/hooks/use-user-data'
