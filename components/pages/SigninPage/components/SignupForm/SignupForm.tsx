@@ -72,7 +72,7 @@ const SignupForm = ({ csrfToken }: SignupFormProps) => {
     { setSubmitting }: FormikHelpers<SignupFormValuesProps>
   ) => {
     await signupWithCredentials(values)
-      .then(() => router.push(links.company.profile))
+      .then(() => router.push(links.user.profile))
       .finally(() => setSubmitting(false))
   }
 
