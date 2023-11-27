@@ -1,5 +1,5 @@
 import { Animate } from '@/components/AnimateIn'
-import { premios } from '@/data/awards'
+import { premios } from '@/data/prizes'
 import { Card, CardSection } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import Image from 'next/image'
@@ -33,12 +33,18 @@ const PremiosPage = () => {
     </main>
     */
     <main className="py-16 px-0">
-      <div className="flex mb-16">   {/* first content div */}
-        <div className="mx- w-7/12 flex flex-col items-end pr-16 justify-center bg-[#00415a] rounded-r">  {/* text box */}
+      <div className="flex mb-16">
+        {' '}
+        {/* first content div */}
+        <div className="mx- w-7/12 flex flex-col items-end pr-16 justify-center bg-[#00415a] rounded-r">
+          {' '}
+          {/* text box */}
           <h1 className="text-4xl text-white font-bold mb-2">Prémio do Dia</h1>
           <p className="text-white">{premios[2].description}</p>
         </div>
-        <div className="w-5/12 flex ml-6 pl-16 border-2 border-[#00415a] rounded-l border-r-0"> {/* images */}
+        <div className="w-5/12 flex ml-6 pl-16 border-2 border-[#00415a] rounded-l border-r-0">
+          {' '}
+          {/* images */}
           <div className="align-center h-{280}">
             <Image
               src={premios[2].image.src}
@@ -49,8 +55,17 @@ const PremiosPage = () => {
           </div>
         </div>
       </div>
-      <h1 className="text-2xl text-primary-500 font-bold mb-4 ml-8">Prémios da Semana</h1>  {/* second content title */}
-      <Carousel slideSize="320px" height={460} slideGap="md" controlSize={32} loop>
+      <h1 className="text-2xl text-primary-500 font-bold mb-4 ml-8">
+        Prémios da Semana
+      </h1>{' '}
+      {/* second content title */}
+      <Carousel
+        slideSize="320px"
+        height={460}
+        slideGap="md"
+        controlSize={32}
+        loop
+      >
         {premios.map((premio, key) => (
           <Carousel.Slide key={`premio_${key}`}>
             <Card radius="md" withBorder padding="xl">
