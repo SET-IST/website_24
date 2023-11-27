@@ -1,12 +1,13 @@
 //  Layouts
+import PrizesPage from '@/_pages/PrizesPage'
 import { FooterLayout, NavbarLayout } from '@/_pages/layouts'
 //  Pages
-import PremiosPage from '@/components/pages/PremiosPage'
+
 //  Types
 import type { ReactElement } from 'react'
 
 const Premios = () => {
-  return <PremiosPage />
+  return <PrizesPage />
 }
 
 Premios.getLayout = (page: ReactElement) => {
