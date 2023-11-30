@@ -38,15 +38,15 @@ model Session {
 }
 
 enum UserType {
-  STUDENT
-  COMPANY
-  STAFF
+  Student
+  Company
+  Staff
 }
 
-model CompanyCategory {
-  id        Int              @id @default(autoincrement())
-  name      String
-  companies CompanyDetails[]
+enum CompanyCategory {
+  Platinum
+  Gold
+  Silver
 }
 
 // Add activities to students
@@ -70,8 +70,7 @@ model StudentDetails {
 // add activities to companies
 model CompanyDetails {
   id         Int              @id @default(autoincrement())
-  categoryId Int
-  category   CompanyCategory  @relation(fields: [categoryId], references: [id])
+  category   CompanyCategory
   username   String           @unique
   password   String
   students   StudentDetails[]
@@ -93,7 +92,7 @@ model User {
   readChangelog  Boolean         @default(true)
   accounts       Account[]
   sessions       Session[]
-  role           UserType        @default(STUDENT) //custom relation for roles of student and company
+  role           UserType        @default(Student) //custom relation for roles of student and company
   studentDetails StudentDetails? //custom table with aditional info of student
   companyDetails CompanyDetails? //custom table with aditional info of company
 }
