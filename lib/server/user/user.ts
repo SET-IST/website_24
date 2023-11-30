@@ -21,6 +21,7 @@ import {
   UploadImageResponse,
 } from './dtos'
 import { processUploadCV, processUploadProfileImage } from './utils'
+import { CompanyCategory, UserType } from '@prisma/client'
 
 /*** Resource getters ***/
 
@@ -306,21 +307,13 @@ export async function createCompany({
       data: {
         email: email,
         name: name,
-        role: 'COMPANY',
+        role: UserType.Company,
         companyDetails: {
           create: {
             username: username,
             password: hashedPassword,
-            category: {
-              connectOrCreate: {
-                create: {
-                  name: getCategoryName(categoryId),
-                },
-                where: {
-                  id: categoryId,
-                },
-              },
-            },
+            category: CompanyCategory.Silver,
+            description: '',
           },
         },
       },
