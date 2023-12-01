@@ -21,7 +21,7 @@ import {
   UploadImageResponse,
 } from './dtos'
 import { processUploadCV, processUploadProfileImage } from './utils'
-import { CompanyCategory, UserType } from '@prisma/client'
+import { CompanyCategory, ObjectType, UserType } from '@prisma/client'
 
 /*** Resource getters ***/
 
@@ -441,17 +441,14 @@ export async function scan(
     })
 
     // Retrieve QR code data
-    const qrData = await PrismaService.companyCode.findUniqueOrThrow({
+    const qrData = await PrismaService.qrCode.findUniqueOrThrow({
       where: {
         id: scanReq.code,
-      },
-      include: {
-        company: true,
       },
     })
 
     // Check if student was already scaned by the company
-    if (student.companies_ids.includes(qrData.company.userId)) {
+    if (student.companies_ids.includes(qrData.objectId)) {
       throw new ConflictException('Company already scanned')
     }
 
@@ -459,7 +456,7 @@ export async function scan(
     const [companyUpdate] = await PrismaService.$transaction([
       PrismaService.companyDetails.update({
         where: {
-          id: qrData.companyId,
+          userId: qrData.objectId,
         },
         data: {
           students: {
@@ -479,26 +476,17 @@ export async function scan(
         data: {
           companies: {
             connect: {
-              id: qrData.companyId,
+              userId: qrData.objectId,
             },
           },
           companies_ids: {
-            push: qrData.company.userId,
+            push: qrData.objectId,
           },
           scans: student.scans + 1,
           points: student.points + 5,
         },
       }),
     ])
-
-    if (!qrData.permanent) {
-      // Send feedback to associated socket
-
-      const io = WebsocketService.getInstance()
-      if (io) {
-        io.to(qrData.socketId).emit('scan', student.userId)
-      }
-    }
 
     return {
       student: await getStudentById(student.userId, false),
@@ -533,15 +521,10 @@ export async function generateQR(
     qrReq.socketId = qrReq.permanent ? '' : qrReq.socketId
 
     // Generate code
-    const code = await PrismaService.companyCode.create({
+    const code = await PrismaService.qrCode.create({
       data: {
-        company: {
-          connect: {
-            id: company.id,
-          },
-        },
-        socketId: qrReq.socketId,
-        permanent: qrReq.permanent,
+        objectType: ObjectType.COMPANY,
+        objectId: company.userId,
       },
     })
 
