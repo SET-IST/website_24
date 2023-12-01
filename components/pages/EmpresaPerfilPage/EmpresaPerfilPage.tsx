@@ -49,7 +49,7 @@ const EmpresaPerfilPage = () => {
           <p className="text-primary-500 text-lg md:text-xl lg:text-2xl font-medium mb-5">
             Categoria:{' '}
             <span className="text-white !font-light">
-              {companyData.category.name}
+              {companyData.category}
             </span>
           </p>
           <p className="text-primary-500 text-lg md:text-xl lg:text-2xl font-medium mb-5">
