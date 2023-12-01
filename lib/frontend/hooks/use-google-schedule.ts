@@ -1,7 +1,7 @@
 import { QueryCacheKeys } from '@/core/services/api'
 import { getSchedule } from '@/core/services/api/schedule'
 import { useQuery } from '@tanstack/react-query'
-import { ServerSideFetchQueryCall } from '../types'
+import { ServerSideFetchQueryCall } from '../../types'
 
 const useGoogleSchedule = () => {
   const { data, ...rest } = useQuery([QueryCacheKeys.SCHEDULE], getSchedule)
