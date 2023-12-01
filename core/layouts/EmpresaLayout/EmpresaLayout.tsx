@@ -9,7 +9,7 @@ type EmpresaLayoutProps = PropsWithChildren
 const EmpresaLayout = ({ children }: EmpresaLayoutProps) => {
   return (
     <ModalProvider>
-      <AuthGuard roles={[UserType.COMPANY]}>
+      <AuthGuard roles={[UserType.Company]}>
         <NavbarLayout>
           <div className="px-5 md:px-10 py-6">{children}</div>
         </NavbarLayout>

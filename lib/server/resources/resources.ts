@@ -12,7 +12,7 @@ export async function retrieveCV(
   return await databaseQueryWrapper(async () => {
     // Check permissions
 
-    if (user.role === UserType.COMPANY) {
+    if (user.role === UserType.Company) {
       // Check company rank
 
       const company = await PrismaService.companyDetails.findUnique({
