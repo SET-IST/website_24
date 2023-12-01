@@ -139,12 +139,12 @@ enum ObjectType {
   REDEEM
 }
 
-model QRCode {
+model qrCode {
   id         String     @id @default(uuid())
   objectId   String
   objectType ObjectType
 
-  @@map("qrCode")
+  @@map("QRCode")
 }
 
 enum AwardType {
