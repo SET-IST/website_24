@@ -27,7 +27,7 @@ const ScanPage = () => {
       await scanCompany(code)
         .then((res) => {
           setModal(<SuccessModal companyName={res.company.name} />)
-          router.push(links.student.profile)
+          router.push(links.user.profile)
           scanRef.current = code
         })
         .catch((e: AxiosError) => {
