@@ -9,7 +9,7 @@ type AlunoLayoutProps = PropsWithChildren
 const AlunoLayout = ({ children }: AlunoLayoutProps) => {
   return (
     <ModalProvider>
-      <AuthGuard roles={[UserType.STUDENT, UserType.STAFF]}>
+      <AuthGuard roles={[UserType.Student, UserType.Staff]}>
         <NavbarLayout>
           <div className="px-2 md:px-10 py-6">{children}</div>
         </NavbarLayout>

@@ -1,6 +1,5 @@
 import { Button } from '@/core/components/Button'
 import { links } from '@/data/links'
-import { UserType } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import getConfig from 'next/config'
 import { useRouter } from 'next/router'

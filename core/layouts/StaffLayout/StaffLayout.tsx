@@ -9,7 +9,7 @@ type StaffLayoutProps = PropsWithChildren
 const StaffLayout = ({ children }: StaffLayoutProps) => {
   return (
     <ModalProvider>
-      <AuthGuard roles={[UserType.STAFF]}>
+      <AuthGuard roles={[UserType.Staff]}>
         <NavbarLayout>
           <div className="px-10 py-6">{children}</div>
         </NavbarLayout>

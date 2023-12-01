@@ -69,7 +69,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 
     if (account.provider == 'student-google') {
       //External student login
-      user.role = UserType.STUDENT
+      user.role = UserType.Student
 
       user.studentDetails = {
         create: {
@@ -80,7 +80,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       }
     } else if (account.provider == 'fenix') {
       // IST student login
-      user.role = UserType.STUDENT
+      user.role = UserType.Student
       //@ts-ignore
       const age = getAge(profile.birthday)
       user.studentDetails = {
@@ -106,7 +106,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         req.method === 'POST'
       ) {
         //Company login
-        user.role = UserType.COMPANY
+        user.role = UserType.Company
 
         //Create database session
         const sessionToken = randomUUID?.() //function to generate the session token (you can use randomUUID as an example)

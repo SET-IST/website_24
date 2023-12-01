@@ -20,7 +20,7 @@ class UploadRoutes {
   }
 
   @Post('/cv')
-  @Role(UserType.STUDENT, UserType.STAFF)
+  @Role(UserType.Student, UserType.Staff)
   async uploadStudentCv(
     @UserData() user: User,
     @Req() req: Request,
