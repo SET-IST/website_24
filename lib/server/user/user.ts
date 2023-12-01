@@ -49,12 +49,6 @@ export async function getStudentById(
         cv: true,
         companies: {
           select: {
-            category: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
             user: {
               select: {
                 id: true,
