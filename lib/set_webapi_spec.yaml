@@ -1,0 +1,516 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: 'SET Web API'
+  description: 'Web API for interacting with SET backend'
+
+servers:
+  - url: https://server.set.tp.vps.tecnico.ulisboa.pt
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: next-auth.session-token
+  schemas:
+    Error:
+      description: 'Error response body'
+      properties:
+        error:
+          type: string
+    Activity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+        duration:
+          type: integer
+        location:
+          type: string
+        type:
+          type: string
+          enum: [SpeedInterview, Workshop, Lecture]
+        studentEnrolled:
+          type: string
+          enum: [Enrolled, Confirmed]
+          description: "Note: Only returned if it's an authenticated student and it's enrolled or confirmed"
+    ActivityManagementDetails:
+      type: object
+      properties:
+        enrolledStudents:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentPublic'
+        confirmedStudents:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentPublic'
+    ActivityManagement:
+      allOf:
+        - $ref: '#/components/schemas/Activity'
+        - $ref: '#/components/schemas/ActivityManagementDetails'
+    Award:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [Regular, Special]
+        student:
+          $ref: '#/components/schemas/StudentPublic'
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        role:
+          type: string
+          enum: [Company, Student, Staff]
+        image:
+          type: string
+    StudentPublicProperties:
+      type: object
+      properties:
+        studentId:
+          type: integer
+        university:
+          type: string
+        course:
+          type: string
+        email:
+          type: string
+          format: email
+          description: Only returned if requested by a company
+        cvId:
+          type: string
+          format: uuid
+          description: Only returned if requested by a company with PLATINUM category
+    StudentPrivateProperties:
+      type: object
+      properties:
+        readChangelog:
+          type: boolean
+        scans:
+          type: integer
+        points:
+          type: integer
+        enrolledActivities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Activity'
+        confirmedActivities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Activity'
+        scannedCompanies:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyPublic'
+    StudentPublic:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/StudentPublicProperties'
+    StudentPrivate:
+      allOf:
+        - $ref: '#/components/schemas/StudentPublic'
+        - $ref: '#/components/schemas/StudentPrivateProperties'
+    StudentPartialData:
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        university:
+          type: string
+        course:
+          type: string
+        cv:
+          type: string
+          format: binary
+    CompanyPublicProperties:
+      type: object
+      properties:
+        companyId:
+          type: integer
+        description:
+          type: string
+        link:
+          type: object
+          properties:
+            href:
+              type: string
+              format: url
+            text:
+              type: string
+    CompanyPrivateProperties:
+      type: object
+      properties:
+        category:
+          type: string
+          enum:
+            - SILVER
+            - GOLD
+            - PLATINUM
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        readChangelog:
+          type: boolean
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentPublic'
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Activity'
+    CompanyPublic:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/CompanyPublicProperties'
+    CompanyPrivate:
+      allOf:
+        - $ref: '#/components/schemas/CompanyPublic'
+        - $ref: '#/components/schemas/CompanyPrivateProperties'
+    CompanyPartialData:
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+        name:
+          type: string
+        description:
+          type: string
+        link:
+          type: object
+          properties:
+            href:
+              type: string
+              format: url
+            text:
+              type: string
+
+security:
+  - cookieAuth: []
+
+paths:
+  /activities:
+    get:
+      description: Returns the list of activities
+      security: []
+      responses:
+        '200':
+          description: Successfully return a list of activities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+  /activities/{id}/enroll:
+    post:
+      description: Enroll student in an activity (Speed Interview / Workshop)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: 'Successfully enrolled / Already enrolled'
+        '400':
+          description: 'Invalid activity id / Activity is not enrollable'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'No Activity found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /activities/{id}/cancel:
+    post:
+      description: Remove student from an activity (Speed Interview / Workshop)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: 'Successfully removed'
+        '400':
+          description: 'Invalid activity id / Activity is not enrollable / Student not enrolled'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'No Activity found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /activities/manage/{id}:
+    get:
+      description: Returns the activity management details (STAFF route)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully return Activity management
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityManagement'
+        '400':
+          description: 'Invalid activity id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: 'User does not have the required privilege'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'No Activity found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      description: Manage students in an activity (STAFF route)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum: [ENROLL, CONFIRM, DISCARD]
+                userId:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Successfully updated activity management details
+        '400':
+          description: 'Invalid activity id / Invalid request body / Student has to be enrolled to be confirmed'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: 'User does not have the required privilege'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'No Activity found / No StudentDetails found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /user/{id}:
+    get:
+      description: Returns the user with the specified id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully return a user (Student or Company)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/StudentPublic'
+                  - $ref: '#/components/schemas/CompanyPublic'
+        '400':
+          description: 'Invalid user id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'No User found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /profile:
+    get:
+      description: Returns the current user profile
+      responses:
+        '200':
+          description: Successfully return a user private profile (Student or Company)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/StudentPrivate'
+                  - $ref: '#/components/schemas/CompanyPrivate'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      description: Update user profile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CompanyPartialData'
+                - $ref: '#/components/schemas/StudentPartialData'
+      responses:
+        '200':
+          description: User profile updated
+        '400':
+          description: Invalid form data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /scan/{id}:
+    post:
+      description: Scan a company (STUDENT route)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully scanned company
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyPublic'
+        '400':
+          description: 'Invalid id / Company already scanned'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'No CompanyDetails found / No QRCode found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /award:
+    post:
+      description: Request award (STUDENT route)
+      responses:
+        '200':
+          description: Successfully requested award
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  awardId:
+                    type: string
+                    format: uuid
+        '400':
+          description: 'The student does not have enough points to request this award'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
