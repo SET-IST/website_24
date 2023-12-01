@@ -1,12 +1,9 @@
+import { CompanyCategory } from '@prisma/client'
+
 type DeviceType = 'desktop' | 'tablet' | 'mobile'
 
-type Category = {
-  id: number
-  name: string
-}
-
 type Company = {
-  category: Category
+  category: CompanyCategory
   user: User
 }
 
@@ -54,7 +51,6 @@ export type {
   DeviceType,
   StudentDetails,
   Company,
-  Category,
   User,
   Cv,
   ValuesProps,
