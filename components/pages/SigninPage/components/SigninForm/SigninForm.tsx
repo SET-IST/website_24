@@ -6,7 +6,7 @@ import Alert from '@/core/components/Alert/Alert'
 import { Button } from '@/core/components/Button'
 import FormikTextInput from '@/core/components/FormikTextInput/FormikTextInput'
 //  Hooks
-import { useAuth } from '@/lib/hooks/use-auth'
+import { useAuth } from '@/lib/frontend/hooks/use-auth'
 import { useRouter } from 'next/router'
 //  Services
 import { links } from '@/data/links'

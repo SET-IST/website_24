@@ -1,7 +1,7 @@
 import { FaTimes } from 'react-icons/fa'
 //  Hooks
 import { useModal } from '@/core/components/modal-context'
-import { useUpload } from '@/lib/hooks/use-upload'
+import { useUpload } from '@/lib/frontend/hooks/use-upload'
 import { useState } from 'react'
 //  Components
 import FileUploadForm from '@/components/FileUploadForm'

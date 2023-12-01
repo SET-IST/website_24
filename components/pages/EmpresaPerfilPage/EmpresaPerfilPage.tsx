@@ -4,7 +4,7 @@ import Card from '@/core/components/Card/Card'
 import TeamMember from '@/components/TeamMember/TeamMember'
 
 import { useModal } from '@/core/components/modal-context'
-import { useUserData } from '@/lib/hooks/use-user-data'
+import { useUserData } from '@/lib/frontend/hooks/use-user-data'
 
 import Unkonwn from '@/assets/team/unknown.webp'
 
