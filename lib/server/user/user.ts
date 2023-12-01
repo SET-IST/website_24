@@ -1,6 +1,6 @@
 import { PrismaService, WebsocketService } from '@/core/services/server'
 import { databaseQueryWrapper, handleMulterException } from '@/core/utils'
-import { getCategoryName, hashPass, signupCompany } from '@/core/utils/auth'
+import { hashPass, signupCompany } from '@/core/utils/auth'
 import type { Request, Response } from 'express'
 import {
   BadRequestException,
@@ -338,7 +338,7 @@ export async function getAllStudentCVs(
       },
     })
 
-    if (company.category.name !== 'Platina') {
+    if (company.category !== CompanyCategory.Platinum) {
       throw new BadRequestException('Do not have permission to access CV')
     }
 
@@ -470,7 +470,6 @@ export async function scan(
         },
         include: {
           user: true,
-          category: true,
         },
       }),
       PrismaService.studentDetails.update({
