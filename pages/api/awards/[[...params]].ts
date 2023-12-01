@@ -17,14 +17,14 @@ import * as Server from '../../../lib/server/awards'
 class AwardsRoutes {
   @Post('/request')
   @RequiresSession()
-  @Role(UserType.STUDENT, UserType.STAFF)
+  @Role(UserType.Student, UserType.Staff)
   public async requestAward(@UserData() user: User) {
     return await Server.requestAward(user.id)
   }
 
   @Delete('/redeem/:token')
   @RequiresSession()
-  @Role(UserType.STAFF)
+  @Role(UserType.Staff)
   public async redeemAward(@Param('token') awardToken: string) {
     if (!isUUID(awardToken, 4)) {
       throw new BadRequestException('Invalid or missing token parameter')

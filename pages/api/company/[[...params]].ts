@@ -20,7 +20,7 @@ import { GenerateQRRequest } from '../../../lib/server/user'
 @RequiresSession()
 class CompanyRoutes {
   @Get('/me')
-  @Role(UserType.COMPANY)
+  @Role(UserType.Company)
   async getMe(@UserData() user: User) {
     return await Server.getCompanyById(user.id)
   }
@@ -35,19 +35,19 @@ class CompanyRoutes {
   }
 
   @Get('/students/cv')
-  @Role(UserType.COMPANY, UserType.STAFF)
+  @Role(UserType.Company, UserType.Staff)
   async getAllStudentsCV(@UserData() user: User) {
     return await Server.getAllStudentCVs(user.id)
   }
 
   @Get('/students')
-  @Role(UserType.COMPANY, UserType.STAFF)
+  @Role(UserType.Company, UserType.Staff)
   public async getCompanyStudents(@UserData() user: User) {
     return await Server.getCompanyStudents(user.id)
   }
 
   @Post('/qr')
-  @Role(UserType.COMPANY, UserType.STAFF)
+  @Role(UserType.Company, UserType.Staff)
   public async generateQR(@Body(ValidationPipe) qrReq: GenerateQRRequest) {
     return await Server.generateQR(qrReq)
   }
