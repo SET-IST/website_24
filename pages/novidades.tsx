@@ -15,7 +15,7 @@ Novidades.getLayout = (page: ReactElement) => {
   return (
     <NavbarLayout>
       <FooterLayout>
-        <AuthGuard roles={[UserType.STUDENT, UserType.STAFF, UserType.COMPANY]}>
+        <AuthGuard roles={[UserType.Student, UserType.Staff, UserType.Company]}>
           {page}
         </AuthGuard>
       </FooterLayout>
