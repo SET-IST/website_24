@@ -1,41 +1,41 @@
-import cn from "classnames";
+import cn from 'classnames'
 //  Components
-import AccountCard from "./components/AccountCard";
-import CompanyInfo from "./components/CompanyInfo";
-import StatisticsCard from "./components/StatisticsCard";
+import AccountCard from './components/AccountCard'
+import CompanyInfo from './components/CompanyInfo'
+import StatisticsCard from './components/StatisticsCard'
 //  Utils
-import institutions from "@/json/cursos.json";
+import institutions from '@/json/cursos.json'
 //  Types
-import { useUserData } from "@/lib/hooks/use-user-data";
+import { useUserData } from '@/lib/frontend/hooks/use-user-data'
 
 const PerfilPage = () => {
-  const { studentData } = useUserData({ fetchStudent: true });
+  const { studentData } = useUserData({ fetchStudent: true })
 
-  if (!studentData || !institutions) return null;
+  if (!studentData || !institutions) return null
 
   const values = {
     age: studentData.age,
     name: studentData.name,
     course: studentData.course,
     university: studentData.university,
-  };
+  }
 
   return (
     <main className="w-full h-full flex flex-col items-start">
       <h1 className="font-medium text-4xl border-t-4 border-primary-500 my-10 text-tertiary-500">
         O meu <span className="text-primary-500">Perfil</span>
       </h1>
-      <div className={cn("grid grid-cols-12 gap-5 w-full")}>
+      <div className={cn('grid grid-cols-12 gap-5 w-full')}>
         <div
           className={cn(
-            "col-span-12 w-full",
-            "md:col-span-12",
-            "lg:col-span-3",
-            "xl:col-span-3"
+            'col-span-12 w-full',
+            'md:col-span-12',
+            'lg:col-span-3',
+            'xl:col-span-3'
           )}
         >
           <StatisticsCard
-            name={studentData.name || "undefined"}
+            name={studentData.name || 'undefined'}
             points={studentData.points || 0}
             scans={studentData.scans || 0}
             image={studentData.image}
@@ -43,10 +43,10 @@ const PerfilPage = () => {
         </div>
         <div
           className={cn(
-            "col-span-12",
-            "md:col-span-12",
-            "lg:col-span-9",
-            "xl:col-span-9"
+            'col-span-12',
+            'md:col-span-12',
+            'lg:col-span-9',
+            'xl:col-span-9'
           )}
         >
           <AccountCard
@@ -76,7 +76,7 @@ const PerfilPage = () => {
         <p>Ainda não visitaste nenhuma banca.</p>
       )}
     </main>
-  );
-};
+  )
+}
 
-export default PerfilPage;
+export default PerfilPage

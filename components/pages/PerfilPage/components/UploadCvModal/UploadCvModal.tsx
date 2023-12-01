@@ -4,7 +4,7 @@ import { useModal } from '../../../../../core/components/modal-context'
 //  Components
 import FileUploadForm from '../../../../FileUploadForm'
 //  Types
-import { useUpload } from '@/lib/hooks/use-upload'
+import { useUpload } from '@/lib/frontend/hooks/use-upload'
 import type { Dispatch, SetStateAction } from 'react'
 
 const UploadCvModal = () => {

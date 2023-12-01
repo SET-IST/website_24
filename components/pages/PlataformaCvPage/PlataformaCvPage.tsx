@@ -1,7 +1,7 @@
 import CVButton from '@/components/CVButton/CVButton'
 import TextInput from '@/core/components/TextInput/TextInput'
 import { links } from '@/data/links'
-import { useUserData } from '@/lib/hooks/use-user-data'
+import { useUserData } from '@/lib/frontend/hooks/use-user-data'
 import { CompanyCategory } from '@prisma/client'
 import cn from 'classnames'
 import Image from 'next/image'

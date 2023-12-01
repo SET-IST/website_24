@@ -1,5 +1,5 @@
 import { useModal } from '@/core/components/modal-context'
-import { useRedeemAward } from '@/lib/hooks/use-award'
+import { useRedeemAward } from '@/lib/frontend/hooks/use-award'
 import { QrScanner, QrScannerProps } from '@yudiel/react-qr-scanner'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
