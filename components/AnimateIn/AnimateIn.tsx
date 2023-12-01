@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 //  Hooks
-import { useElementOnScreen } from '@/lib/hooks/use-element-on-screen'
+import { useElementOnScreen } from '@/lib/frontend/hooks/use-element-on-screen'
 //  Types
 import type { CSSProperties, PropsWithChildren } from 'react'
 
