@@ -62,7 +62,7 @@ const ProfilePage = ({ isCompany }: ProfilePageProps) => {
       )}
 
       {currentView !== ProfileView.SETTINGS && (
-        <UserTabs selectCallback={selectCallback} />
+        <UserTabs isCompany={isCompany} selectCallback={selectCallback} />
       )}
 
       {currentView === ProfileView.SETTINGS &&

@@ -3,6 +3,7 @@ import { ReactNode, useState } from 'react'
 import { useMediaQuery, useWindowScroll } from '@mantine/hooks'
 import { VisitedStands } from './VisitedStands'
 import { UserActivities } from './UserActivities'
+import { Students } from './Students'
 
 interface Tab {
   title: string
@@ -12,11 +13,14 @@ interface Tab {
 
 interface UserTabsProps {
   selectCallback: (context: string, objectId: string) => void
+  isCompany: boolean
 }
 
-const UserTabs = ({ selectCallback }: UserTabsProps) => {
+const UserTabs = ({ selectCallback, isCompany }: UserTabsProps) => {
   const iconStyle = { width: rem(12), height: rem(12) }
-  const [activeTab, setActiveTab] = useState<string | null>('visited')
+  const [activeTab, setActiveTab] = useState<string | null>(
+    isCompany ? 'scans' : 'visited'
+  )
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
   const [scroll, scrollTo] = useWindowScroll()
 
@@ -24,14 +28,26 @@ const UserTabs = ({ selectCallback }: UserTabsProps) => {
     activeTab && selectCallback(activeTab, objectId)
   }
 
-  const tabs: Tab[] = [
-    {
-      title: 'Bancas visitadas',
-      ref: 'visited',
-      component: <VisitedStands selectCallback={selectObject} />,
-    },
-    { title: 'Inscrições', ref: 'activities', component: <UserActivities /> },
-  ]
+  const tabs: Tab[] = isCompany
+    ? [
+        {
+          title: 'Scans',
+          ref: 'scans',
+          component: <Students />,
+        },
+      ]
+    : [
+        {
+          title: 'Bancas visitadas',
+          ref: 'visited',
+          component: <VisitedStands selectCallback={selectObject} />,
+        },
+        {
+          title: 'Inscrições',
+          ref: 'activities',
+          component: <UserActivities />,
+        },
+      ]
 
   return (
     <Paper
