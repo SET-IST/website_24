@@ -5,19 +5,14 @@ import AtividadesPage from '@/components/pages/AtividadesPage/AtividadesPage'
 import { FooterLayout, NavbarLayout } from '@/_pages/layouts'
 //  Types
 import type { ReactElement } from 'react'
+import ActivitiesPage from '@/_pages/ActivitiesPage'
 
 const Atividades = () => {
-  return <AtividadesPage />
+  return <ActivitiesPage />
 }
 
 Atividades.getLayout = (page: ReactElement) => {
-  return (
-    <NavbarLayout>
-      <FooterLayout>
-        <ModalProvider>{page}</ModalProvider>
-      </FooterLayout>
-    </NavbarLayout>
-  )
+  return <NavbarLayout>{page}</NavbarLayout>
 }
 
 export default Atividades
