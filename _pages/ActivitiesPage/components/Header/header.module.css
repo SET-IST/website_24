@@ -1,0 +1,14 @@
+.title {
+    font-family: Greycliff CF, var(--mantine-font-family);
+    font-weight: 800;
+    text-align: center;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+        font-size: rem(28px);
+        text-align: left;
+    }
+}
+
+.description {
+    font-weight: 500;
+}
