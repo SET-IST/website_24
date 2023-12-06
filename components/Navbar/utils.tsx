@@ -42,7 +42,7 @@ function handleAccountRouterPush(
   } else {
     if (isRecordOfUserType(link.link)) {
       const linkRecords = link.link as Record<UserType, string>
-      router.push(linkRecords[role ?? 'STUDENT']) // Use student route as a default value
+      router.push(linkRecords[role ?? 'Student']) // Use student route as a default value
     } else {
       router.push(link.link)
     }
