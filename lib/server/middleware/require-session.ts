@@ -17,7 +17,7 @@ export const RequiresSession = createMiddlewareDecorator(
     if (!session) {
       throw new UnauthorizedException('User not logged in')
     }
-    req.headers.user = JSON.stringify(session.user)
+    //req.headers.user = JSON.stringify(session.user)
     next()
   }
 )
