@@ -20,7 +20,7 @@ function isRecordOfUserType(obj: any): obj is Record<UserType, string> {
     return false
   }
 
-  const allowedUserTypes: UserType[] = ['STUDENT', 'COMPANY', 'STAFF']
+  const allowedUserTypes: UserType[] = ['Student', 'Company', 'Staff']
 
   for (const userType of allowedUserTypes) {
     if (!(userType in obj) || typeof obj[userType] !== 'string') {
