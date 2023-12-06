@@ -4,11 +4,10 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { SessionProvider } from 'next-auth/react'
 import { useState } from 'react'
-//  Components
-import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary'
 //  Types
 import type { NextPage } from 'next'
 import type { Session } from 'next-auth'
@@ -20,7 +19,7 @@ import '../styles/globals.css'
 import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css'
 import '@mantine/dropzone/styles.css'
-import { MantineProvider, createTheme, rem } from '@mantine/core'
+import { MantineProvider } from '@mantine/core'
 
 type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (_page: ReactElement) => ReactNode
@@ -31,14 +30,6 @@ type AppPropsWithLayout<
 > = AppProps<P> & {
   Component: NextPageWithLayout<P>
 }
-
-const theme = createTheme({
-  headings: {
-    // properties for all headings
-    fontWeight: '900',
-    fontFamily: 'Poppins',
-  },
-})
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const [queryClient] = useState(
@@ -58,17 +49,15 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page)
 
   return (
-    <ErrorBoundary>
-      <MantineProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <SessionProvider session={pageProps.session}>
-              {getLayout(<Component {...pageProps} />)}
-            </SessionProvider>
-          </Hydrate>
-        </QueryClientProvider>
-      </MantineProvider>
-    </ErrorBoundary>
+    <MantineProvider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <SessionProvider session={pageProps.session}>
+            {getLayout(<Component {...pageProps} />)}
+          </SessionProvider>
+        </Hydrate>
+      </QueryClientProvider>
+    </MantineProvider>
   )
 }
 
