@@ -7,7 +7,7 @@ type StudentLayoutProps = PropsWithChildren
 
 export const StudentLayout = ({ children }: StudentLayoutProps) => {
   return (
-    <AuthGuard roles={[UserType.STUDENT, UserType.STAFF]}>
+    <AuthGuard roles={[UserType.Student, UserType.Staff]}>
       <NavbarLayout startTransparent={false}>
         <div className="sm:h-screen pt-14 sm:pt-20 sm:pb-3 md:px-4 bg-[color:var(--mantine-color-gray-1)]">
           {children}
