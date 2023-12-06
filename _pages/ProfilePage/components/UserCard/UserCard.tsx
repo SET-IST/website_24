@@ -1,5 +1,4 @@
 import { displayName } from '@/lib/frontend/utils'
-import { useUserData } from '@/lib/frontend/hooks/use-user-data'
 import {
   Avatar,
   Text,
