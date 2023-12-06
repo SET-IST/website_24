@@ -5,11 +5,11 @@ import {
   createMiddlewareDecorator,
 } from 'next-api-decorators'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../auth'
 
 export const RequiresSession = createMiddlewareDecorator(
   async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
-    const session = await getServerSession(req, res, authOptions)
+    //const session = await getServerSession(req, res, authOptions)
+    const session = false
 
     if (!session) {
       throw new UnauthorizedException('User not logged in')
