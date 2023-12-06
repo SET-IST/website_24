@@ -45,7 +45,7 @@ export function AccountMenu({
         <UnstyledButton
           onClick={() => {
             router.push(
-              user.role === UserType.COMPANY
+              user.role === UserType.Company
                 ? links.company.profile
                 : links.student.profile
             )
