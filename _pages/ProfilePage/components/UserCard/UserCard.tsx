@@ -32,17 +32,21 @@ const UserCard = ({
   userId,
 }: UserCardProps) => {
   // TODO: UserCard should receive the id of the company to work as a preview
-  const {
-    studentData,
-    companyData,
-    isLoadingStudentData,
-    isLoadingCompanyData,
-  } = useUserData({
-    fetchStudent: !isCompany,
-  })
+  const companyData = {
+    name: 'Example company',
+    image: '',
+  }
+
+  const studentData = {
+    name: 'Example user',
+    image: '',
+    points: 40,
+    scans: 10,
+    course: 'LEIC-T',
+  }
 
   const isLoadingData = () => {
-    return isCompany ? isLoadingCompanyData : isLoadingStudentData
+    return false
   }
 
   const data = () => {
