@@ -5,10 +5,9 @@ import {
   createMiddlewareDecorator,
 } from 'next-api-decorators'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../auth'
 
 export async function getSession(req: NextApiRequest, res: NextApiResponse) {
-  return await getServerSession(req,res,authOptions);
+  return await getServerSession(req, res, authOptions)
 }
 
 export const RequiresSession = createMiddlewareDecorator(
