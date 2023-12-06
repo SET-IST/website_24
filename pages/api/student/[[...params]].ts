@@ -22,7 +22,7 @@ import { UserType } from '@prisma/client'
 @RequiresSession()
 class UserRoutes {
   @Get('/me')
-  @Role(UserType.STUDENT, UserType.STAFF)
+  @Role(UserType.Student, UserType.Staff)
   public async getMe(@UserData() user: User) {
     if (isEmpty(user.id) || !isUUID(user.id, 4)) {
       throw new BadRequestException('Invalid or missing id parameter')
@@ -39,7 +39,7 @@ class UserRoutes {
   }
 
   @Patch('/:id')
-  @Role(UserType.STAFF)
+  @Role(UserType.Staff)
   async updateStudentById(
     @Param('id') id: string,
     @Body(ValidationPipe) payload: UpdateStudentRequest
@@ -51,7 +51,7 @@ class UserRoutes {
   }
 
   @Post('/external')
-  @Role(UserType.STUDENT, UserType.STAFF)
+  @Role(UserType.Student, UserType.Staff)
   async updateExternalStudent(
     @UserData() user: User,
     @Body(ValidationPipe) extReq: UpdateStudentRequest

@@ -15,7 +15,7 @@ import * as Server from '../../../lib/server/user'
 @RequiresSession()
 class ScanRoutes {
   @Post()
-  @Role(UserType.STUDENT, UserType.STAFF)
+  @Role(UserType.Student, UserType.Staff)
   public async scan(
     @UserData() user: User,
     @Body(ValidationPipe) scanReq: Server.ScanRequest

@@ -124,7 +124,7 @@ const createAccountNavItems = (
 ) => {
   const userRole: UserType = session.data?.user.role
   const items: NavLinkElement[] = [
-    ...(userRole === UserType.STAFF ? staffRoutes : []),
+    ...(userRole === UserType.Staff ? staffRoutes : []),
     ...userDefaultRoutes,
   ]
 

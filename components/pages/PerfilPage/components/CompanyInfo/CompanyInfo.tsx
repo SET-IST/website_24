@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Test from '@/assets/logos/logo_set.svg'
 //  Types
 import type { Company } from '../../types'
+import { CompanyCategory } from '@prisma/client'
 
 const CompanyInfo = ({ user, category }: Company) => {
   return (
@@ -21,8 +22,8 @@ const CompanyInfo = ({ user, category }: Company) => {
 
       <span
         className={cn('pt-5', {
-          'text-orange-500': category.name === 'Gold',
-          'text-gray-500': category.name === 'Silver',
+          'text-orange-500': category === CompanyCategory.Gold,
+          'text-gray-500': category === CompanyCategory.Silver,
         })}
       >
         {user.name}

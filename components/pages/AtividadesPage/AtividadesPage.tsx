@@ -6,7 +6,7 @@ import { Animate } from '@/components/AnimateIn'
 import Tabs from '@/core/components/Tabs'
 import DailySchedule from './components/DailySchedule'
 //  Hooks
-import { useGoogleSchedule } from '@/lib/hooks/use-google-schedule'
+import { useGoogleSchedule } from '@/lib/frontend/hooks/use-google-schedule'
 //  Assets
 import Palestra from '@/assets/img/palestra-palco.webp'
 import SpeedInterview from '@/assets/img/speed-interview.webp'

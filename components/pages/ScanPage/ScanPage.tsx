@@ -1,7 +1,7 @@
 import { Button } from '@/core/components/Button'
 import { useModal } from '@/core/components/modal-context'
 import { links } from '@/data/links'
-import { useScan } from '@/lib/hooks/use-scan'
+import { useScan } from '@/lib/frontend/hooks/use-scan'
 import { QrScanner, QrScannerProps } from '@yudiel/react-qr-scanner'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
@@ -27,7 +27,7 @@ const ScanPage = () => {
       await scanCompany(code)
         .then((res) => {
           setModal(<SuccessModal companyName={res.company.name} />)
-          router.push(links.student.profile)
+          router.push(links.user.profile)
           scanRef.current = code
         })
         .catch((e: AxiosError) => {

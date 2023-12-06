@@ -1,73 +1,73 @@
-import { Form, Formik } from "formik";
-import Link from "next/link";
-import { FaDownload } from "react-icons/fa";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik'
+import Link from 'next/link'
+import { FaDownload } from 'react-icons/fa'
+import * as Yup from 'yup'
 //  Components
-import Alert from "@/core/components/Alert";
-import { Button } from "@/core/components/Button";
-import FormikTextInput from "@/core/components/FormikTextInput";
-import UploadCvModal from "../UploadCvModal";
+import Alert from '@/core/components/Alert'
+import { Button } from '@/core/components/Button'
+import FormikTextInput from '@/core/components/FormikTextInput'
+import UploadCvModal from '../UploadCvModal'
 //  Hooks
-import { useModal } from "@/core/components/modal-context";
-import { useUserData } from "@/lib/hooks/use-user-data";
-import { useEffect, useState } from "react";
+import { useModal } from '@/core/components/modal-context'
+import { useUserData } from '@/lib/frontend/hooks/use-user-data'
+import { useEffect, useState } from 'react'
 //  Utils
 import {
   getCourses,
   transformCvLocationToUrl,
   transformInstitutionsToOptions,
-} from "../../utils";
+} from '../../utils'
 //  Types
-import type { FormikHelpers } from "formik";
-import type { FormValuesProps } from "../../types";
+import type { FormikHelpers } from 'formik'
+import type { FormValuesProps } from '../../types'
 
 type UserDataFormProps = {
-  values: FormValuesProps;
-  id: string;
-  institutions: any[];
-  cv?: string | null;
-};
+  values: FormValuesProps
+  id: string
+  institutions: any[]
+  cv?: string | null
+}
 
 const userDataValidationSchema = Yup.object({
-  age: Yup.number().min(18, "Idade miníma são 18 anos.").required(),
+  age: Yup.number().min(18, 'Idade miníma são 18 anos.').required(),
   course: Yup.string(),
   univesity: Yup.string(),
-});
+})
 
 const UserDataForm = ({ values, id, cv, institutions }: UserDataFormProps) => {
-  const { setModal } = useModal();
+  const { setModal } = useModal()
   const { setStudentData, isUpdateLoading, isUpdateSuccess, isUpdateError } =
-    useUserData({ fetchStudent: true });
+    useUserData({ fetchStudent: true })
   /* const [courses, setCourses] = useState<Option[] | null>(
     getCourses(institutions, values.university)
   ); */
-  const [isAlertVisible, setAlertVisible] = useState(isUpdateSuccess);
+  const [isAlertVisible, setAlertVisible] = useState(isUpdateSuccess)
 
   useEffect(() => {
     if (isUpdateSuccess || isUpdateError) {
-      setAlertVisible(true);
+      setAlertVisible(true)
 
       setTimeout(() => {
-        setAlertVisible(false);
-      }, 3000);
+        setAlertVisible(false)
+      }, 3000)
     }
-  }, [isUpdateSuccess, isUpdateError]);
+  }, [isUpdateSuccess, isUpdateError])
 
   const userDataSubmitHandler = async (
     values: FormValuesProps,
     { setSubmitting }: FormikHelpers<FormValuesProps>
   ) => {
-    const { age, course, university } = values;
+    const { age, course, university } = values
 
     await setStudentData({
       id,
       age,
       course,
       university,
-    });
+    })
 
-    setSubmitting(false);
-  };
+    setSubmitting(false)
+  }
 
   return (
     <Formik
@@ -128,7 +128,7 @@ const UserDataForm = ({ values, id, cv, institutions }: UserDataFormProps) => {
                   htmlFor="cv-location"
                   className="md:text-xl md:font-normal text-white"
                 >
-                  Curriculum Vitae:{" "}
+                  Curriculum Vitae:{' '}
                 </label>
                 {cv ? (
                   <Link
@@ -184,11 +184,11 @@ const UserDataForm = ({ values, id, cv, institutions }: UserDataFormProps) => {
               </>
             ) : null}
           </Form>
-        );
+        )
       }}
     </Formik>
-  );
-};
+  )
+}
 
-export { UserDataForm };
-export type { UserDataFormProps };
+export { UserDataForm }
+export type { UserDataFormProps }

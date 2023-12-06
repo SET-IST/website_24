@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 //  Services
 import { QueryCacheKeys } from '@/core/services/api'
 import { redeemAward, requestAward } from '@/core/services/api/awards'
-import { ReedemResponse } from '../server/awards'
+import { ReedemResponse } from '../../server/awards'
 
 const useRedeemAward = () => {
   const queryClient = useQueryClient()

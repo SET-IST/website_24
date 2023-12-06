@@ -1,6 +1,6 @@
 import { PrismaService } from '@/core/services/server'
 import { databaseQueryWrapper } from '@/core/utils'
-import { User, UserType } from '@prisma/client'
+import { CompanyCategory, User, UserType } from '@prisma/client'
 import { NextApiResponse } from 'next'
 import { DownloadFileResult, ForbiddenException } from 'next-api-decorators'
 import { checkKey, createFileBuffer, getS3Object } from './utils'
@@ -12,19 +12,16 @@ export async function retrieveCV(
   return await databaseQueryWrapper(async () => {
     // Check permissions
 
-    if (user.role === UserType.COMPANY) {
+    if (user.role === UserType.Company) {
       // Check company rank
 
       const company = await PrismaService.companyDetails.findUnique({
         where: {
           userId: user.id,
         },
-        include: {
-          category: true,
-        },
       })
 
-      if (company?.category.name !== 'Platina') {
+      if (company?.category !== CompanyCategory.Platinum) {
         throw new ForbiddenException(
           'Company does not have the required privilege'
         )

@@ -1,5 +1,5 @@
 import { useModal } from '@/core/components/modal-context'
-import { useAward } from '@/lib/hooks/use-award'
+import { useAward } from '@/lib/frontend/hooks/use-award'
 import { FaTimes } from 'react-icons/fa'
 import QRCode from 'react-qr-code'
 

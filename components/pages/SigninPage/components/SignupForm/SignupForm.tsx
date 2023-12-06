@@ -6,7 +6,7 @@ import Alert from '@/core/components/Alert'
 import { Button } from '@/core/components/Button'
 import FormikTextInput from '@/core/components/FormikTextInput/FormikTextInput'
 //  Hooks
-import { useAuth } from '@/lib/hooks/use-auth'
+import { useAuth } from '@/lib/frontend/hooks/use-auth'
 import { useRouter } from 'next/router'
 //  Services
 import { links } from '@/data/links'
@@ -72,7 +72,7 @@ const SignupForm = ({ csrfToken }: SignupFormProps) => {
     { setSubmitting }: FormikHelpers<SignupFormValuesProps>
   ) => {
     await signupWithCredentials(values)
-      .then(() => router.push(links.company.profile))
+      .then(() => router.push(links.user.profile))
       .finally(() => setSubmitting(false))
   }
 

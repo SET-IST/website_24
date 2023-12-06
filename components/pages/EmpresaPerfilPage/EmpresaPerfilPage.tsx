@@ -4,7 +4,7 @@ import Card from '@/core/components/Card/Card'
 import TeamMember from '@/core/components/TeamMember/TeamMember'
 
 import { useModal } from '@/core/components/modal-context'
-import { useUserData } from '@/lib/hooks/use-user-data'
+import { useUserData } from '@/lib/frontend/hooks/use-user-data'
 
 import Unkonwn from '@/assets/team/unknown.webp'
 
@@ -49,7 +49,7 @@ const EmpresaPerfilPage = () => {
           <p className="text-primary-500 text-lg md:text-xl lg:text-2xl font-medium mb-5">
             Categoria:{' '}
             <span className="text-white !font-light">
-              {companyData.category.name}
+              {companyData.category}
             </span>
           </p>
           <p className="text-primary-500 text-lg md:text-xl lg:text-2xl font-medium mb-5">
