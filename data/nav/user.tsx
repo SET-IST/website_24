@@ -5,7 +5,6 @@ import { NavLink, NavLinkType, NavLinkVisibility } from './types'
 import { rem } from '@mantine/core'
 import { signOut } from 'next-auth/react'
 import { links } from '../links'
-import { UserType } from '@prisma/client'
 
 export const staffRoutes: NavLink[] = [
   {
@@ -45,9 +44,9 @@ export const userDefaultRoutes: NavLink[] = [
     label: 'Ver perfil',
     slug: 'profile',
     link: {
-      STUDENT: links.student.profile,
-      STAFF: links.student.profile,
-      COMPANY: links.company.profile,
+      Student: links.student.profile,
+      Staff: links.student.profile,
+      Company: links.company.profile,
     },
     icon: <IconUser style={{ width: rem(16), height: rem(16) }} stroke={1.5} />,
   },
