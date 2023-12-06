@@ -22,7 +22,6 @@ import { MainLinks, NavLinkType, NavLinkVisibility } from '@/data/nav'
 import { useRouter } from 'next/router'
 import { IconArrowLeft } from '@tabler/icons-react'
 import { links } from '@/data/links'
-import { useUserData } from '@/lib/hooks/use-user-data'
 
 type NavbarProps = PropsWithChildren & {
   startTransparent?: boolean
