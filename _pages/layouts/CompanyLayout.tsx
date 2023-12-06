@@ -7,7 +7,7 @@ type CompanyLayoutProps = PropsWithChildren
 
 export const CompanyLayout = ({ children }: CompanyLayoutProps) => {
   return (
-    <AuthGuard roles={[UserType.COMPANY]}>
+    <AuthGuard roles={[UserType.Company]}>
       <NavbarLayout startTransparent={false}>
         <div className="sm:h-screen pt-14 sm:pt-20 sm:pb-3 md:px-4 bg-[color:var(--mantine-color-gray-1)]">
           {children}
