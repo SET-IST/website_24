@@ -13,14 +13,13 @@ const links = {
     redeem: '/staff/redeem',
     managePoints: '/staff/manage-points',
   },
-  user: {
-    profile: '/profile',
-  },
   student: {
     scan: '/student/scan',
+    profile: '/student/profile',
   },
   company: {
     cvPlatform: '/company/cvs-explorer',
+    profile: '/company/profile',
   },
   help: '/help',
   bugReport: 'bug-report',
