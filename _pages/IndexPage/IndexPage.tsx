@@ -1,5 +1,4 @@
 //  Components
-import { Animate } from '@/components/AnimateIn'
 import Hero from './components/Hero'
 import Welcome from './components/Welcome'
 import OurMission from './components/OurMission'
