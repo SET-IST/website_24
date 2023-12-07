@@ -49,6 +49,7 @@ enum CompanyCategory {
   Silver
 }
 
+
 // Add activities to students
 model StudentDetails {
   id            Int              @id @default(autoincrement())
@@ -64,7 +65,7 @@ model StudentDetails {
   userId        String           @unique
   awardToken    AwardToken?
   reedems       Int              @default(0)
-  activities    Activity[]
+  enrolledActivities   ActivityEnrollment[]
 }
 
 // add activities to companies
@@ -119,6 +120,14 @@ enum ActivityType {
   SpeedInterview
 }
 
+model ActivityEnrollment {
+  studentId  Int             @unique
+  student    StudentDetails  @relation(fields: [studentId], references: [id])
+  activityId  Int            @unique
+  activity    Activity       @relation(fields: [activityId], references: [id])
+  confirmed   Boolean
+}
+
 model Activity {
   id          Int          @id @default(autoincrement())
   title       String       @db.VarChar(60)
@@ -130,7 +139,7 @@ model Activity {
 
   companies CompanyDetails[]
 
-  enrolledStudents StudentDetails[]
+  enrollments ActivityEnrollment[]
 }
 
 // create the QRCode model
