@@ -123,6 +123,19 @@ CREATE TABLE public."Activity" (
 ALTER TABLE public."Activity" OWNER TO postgres;
 
 --
+-- Name: ActivityEnrollment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."ActivityEnrollment" (
+    "studentId" integer NOT NULL,
+    "activityId" integer NOT NULL,
+    confirmed boolean NOT NULL
+);
+
+
+ALTER TABLE public."ActivityEnrollment" OWNER TO postgres;
+
+--
 -- Name: Activity_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -343,18 +356,6 @@ CREATE TABLE public."_ActivityToCompanyDetails" (
 ALTER TABLE public."_ActivityToCompanyDetails" OWNER TO postgres;
 
 --
--- Name: _ActivityToStudentDetails; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."_ActivityToStudentDetails" (
-    "A" integer NOT NULL,
-    "B" integer NOT NULL
-);
-
-
-ALTER TABLE public."_ActivityToStudentDetails" OWNER TO postgres;
-
---
 -- Name: _CompanyDetailsToStudentDetails; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -409,6 +410,14 @@ clplplrkr00010ls7dhpgufv0	97e4e38e-60a4-4e68-8839-d50d1cc891ef	credentials	crede
 
 COPY public."Activity" (id, title, description, date, duration, location, type) FROM stdin;
 1	Example activity	Example activity description	2023-12-04 15:30:00	120	0-75	Workshop
+\.
+
+
+--
+-- Data for Name: ActivityEnrollment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."ActivityEnrollment" ("studentId", "activityId", confirmed) FROM stdin;
 \.
 
 
@@ -485,14 +494,6 @@ COPY public."VerificationToken" (identifier, token, expires) FROM stdin;
 
 COPY public."_ActivityToCompanyDetails" ("A", "B") FROM stdin;
 1	1
-\.
-
-
---
--- Data for Name: _ActivityToStudentDetails; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."_ActivityToStudentDetails" ("A", "B") FROM stdin;
 \.
 
 
@@ -612,6 +613,20 @@ CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON public."Account"
 
 
 --
+-- Name: ActivityEnrollment_activityId_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX "ActivityEnrollment_activityId_key" ON public."ActivityEnrollment" USING btree ("activityId");
+
+
+--
+-- Name: ActivityEnrollment_studentId_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX "ActivityEnrollment_studentId_key" ON public."ActivityEnrollment" USING btree ("studentId");
+
+
+--
 -- Name: AwardToken_studentId_key; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -689,20 +704,6 @@ CREATE INDEX "_ActivityToCompanyDetails_B_index" ON public."_ActivityToCompanyDe
 
 
 --
--- Name: _ActivityToStudentDetails_AB_unique; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX "_ActivityToStudentDetails_AB_unique" ON public."_ActivityToStudentDetails" USING btree ("A", "B");
-
-
---
--- Name: _ActivityToStudentDetails_B_index; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX "_ActivityToStudentDetails_B_index" ON public."_ActivityToStudentDetails" USING btree ("B");
-
-
---
 -- Name: _CompanyDetailsToStudentDetails_AB_unique; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -722,6 +723,22 @@ CREATE INDEX "_CompanyDetailsToStudentDetails_B_index" ON public."_CompanyDetail
 
 ALTER TABLE ONLY public."Account"
     ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES public."User"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: ActivityEnrollment ActivityEnrollment_activityId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."ActivityEnrollment"
+    ADD CONSTRAINT "ActivityEnrollment_activityId_fkey" FOREIGN KEY ("activityId") REFERENCES public."Activity"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: ActivityEnrollment ActivityEnrollment_studentId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."ActivityEnrollment"
+    ADD CONSTRAINT "ActivityEnrollment_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES public."StudentDetails"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -778,22 +795,6 @@ ALTER TABLE ONLY public."_ActivityToCompanyDetails"
 
 ALTER TABLE ONLY public."_ActivityToCompanyDetails"
     ADD CONSTRAINT "_ActivityToCompanyDetails_B_fkey" FOREIGN KEY ("B") REFERENCES public."CompanyDetails"(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: _ActivityToStudentDetails _ActivityToStudentDetails_A_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."_ActivityToStudentDetails"
-    ADD CONSTRAINT "_ActivityToStudentDetails_A_fkey" FOREIGN KEY ("A") REFERENCES public."Activity"(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: _ActivityToStudentDetails _ActivityToStudentDetails_B_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."_ActivityToStudentDetails"
-    ADD CONSTRAINT "_ActivityToStudentDetails_B_fkey" FOREIGN KEY ("B") REFERENCES public."StudentDetails"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
