@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth'
+import NextAuth, { AuthOptions } from 'next-auth'
 
 // Providers
 import GoogleProvider from 'next-auth/providers/google'
@@ -21,8 +21,11 @@ import { Adapter } from 'next-auth/adapters'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { links } from '@/data/links'
 
-export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  return await NextAuth(req, res, {
+export function AuthOptions(
+  req: NextApiRequest,
+  res: NextApiResponse
+): AuthOptions {
+  return {
     adapter: PrismaAdapter(PrismaService) as Adapter,
     providers: [
       {
@@ -72,5 +75,9 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       error: '/',
       signIn: '/',
     },
-  })
+  }
+}
+
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  return await NextAuth(req, res, AuthOptions(req, res))
 }
