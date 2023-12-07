@@ -7,9 +7,13 @@ import {
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../../auth'
 
+export async function getSession(req: NextApiRequest, res: NextApiResponse) {
+  return await getServerSession(req,res,authOptions);
+}
+
 export const RequiresSession = createMiddlewareDecorator(
   async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
-    const session = await getServerSession(req, res, authOptions)
+    const session = await getSession(req, res)
 
     if (!session) {
       throw new UnauthorizedException('User not logged in')
