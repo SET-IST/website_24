@@ -1,3 +1,4 @@
+import { AuthOptions } from '@/pages/api/auth/[...nextauth]'
 import { NextApiRequest, NextApiResponse } from 'next'
 import {
   NextFunction,
@@ -7,7 +8,7 @@ import {
 import { getServerSession } from 'next-auth'
 
 export async function getSession(req: NextApiRequest, res: NextApiResponse) {
-  return await getServerSession(req, res, authOptions)
+  return await getServerSession(req, res, AuthOptions(req, res))
 }
 
 export const RequiresSession = createMiddlewareDecorator(
@@ -17,7 +18,8 @@ export const RequiresSession = createMiddlewareDecorator(
     if (!session) {
       throw new UnauthorizedException('User not logged in')
     }
-    //req.headers.user = JSON.stringify(session.user)
+
+    req.headers.user = JSON.stringify(session.user)
     next()
   }
 )
