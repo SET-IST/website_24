@@ -51,20 +51,20 @@ enum CompanyCategory {
 
 // Add activities to students
 model StudentDetails {
-  id            Int              @id @default(autoincrement())
-  cv            CV?
-  age           Int
-  scans         Int              @default(0)
-  points        Int              @default(0)
-  course        String           @db.VarChar(128)
-  university    String           @db.VarChar(128)
-  companies_ids String[]
-  companies     CompanyDetails[]
-  user          User             @relation(fields: [userId], references: [id])
-  userId        String           @unique
-  awardToken    AwardToken?
-  reedems       Int              @default(0)
-  activities    Activity[]
+  id                 Int                  @id @default(autoincrement())
+  cv                 CV?
+  age                Int
+  scans              Int                  @default(0)
+  points             Int                  @default(0)
+  course             String               @db.VarChar(128)
+  university         String               @db.VarChar(128)
+  companies_ids      String[]
+  companies          CompanyDetails[]
+  user               User                 @relation(fields: [userId], references: [id])
+  userId             String               @unique
+  awardToken         AwardToken?
+  reedems            Int                  @default(0)
+  enrolledActivities ActivityEnrollment[]
 }
 
 // add activities to companies
@@ -119,6 +119,14 @@ enum ActivityType {
   SpeedInterview
 }
 
+model ActivityEnrollment {
+  studentId  Int            @unique
+  student    StudentDetails @relation(fields: [studentId], references: [id])
+  activityId Int            @unique
+  activity   Activity       @relation(fields: [activityId], references: [id])
+  confirmed  Boolean
+}
+
 model Activity {
   id          Int          @id @default(autoincrement())
   title       String       @db.VarChar(60)
@@ -130,7 +138,7 @@ model Activity {
 
   companies CompanyDetails[]
 
-  enrolledStudents StudentDetails[]
+  enrollments ActivityEnrollment[]
 }
 
 // create the QRCode model
