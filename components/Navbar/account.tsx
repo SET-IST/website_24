@@ -23,6 +23,7 @@ import { displayName } from '@/lib/frontend/utils'
 import { useRouter } from 'next/router'
 import { links } from '@/data/links'
 import { UserType } from '@prisma/client'
+import { useBoundStore } from '@/lib/frontend/store'
 
 interface AccountMenuProps {
   inverted: boolean
@@ -37,6 +38,7 @@ export function AccountMenu({
 }: AccountMenuProps) {
   const router = useRouter()
   const [userMenuOpened, setUserMenuOpened] = useState(false)
+  const showLoginDialog = useBoundStore((state) => state.showLoginDialog)
   const user = session.data?.user
 
   return renderForMobile ? (
@@ -74,7 +76,9 @@ export function AccountMenu({
           </Group>
         </UnstyledButton>
       ) : (
-        <Button variant="outline">Iniciar sessão</Button>
+        <Button onClick={() => showLoginDialog(true)} variant="outline">
+          Iniciar sessão
+        </Button>
       )}
     </Stack>
   ) : (
@@ -113,6 +117,7 @@ export function AccountMenu({
           </UnstyledButton>
         ) : (
           <UnstyledButton
+            onClick={() => showLoginDialog(true)}
             className={classNames(
               classes.user,
               inverted && classes.inverted,

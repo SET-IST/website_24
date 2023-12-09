@@ -22,6 +22,7 @@ import { MainLinks, NavLinkType, NavLinkVisibility } from '@/data/nav'
 import { useRouter } from 'next/router'
 import { IconArrowLeft } from '@tabler/icons-react'
 import { links } from '@/data/links'
+import { LoginDialog } from '../LoginDialog'
 
 type NavbarProps = PropsWithChildren & {
   startTransparent?: boolean
@@ -211,7 +212,10 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
 
       {/* End Mobile menu */}
 
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main>
+        <LoginDialog />
+        {children}
+      </AppShell.Main>
     </AppShell>
   )
 }
