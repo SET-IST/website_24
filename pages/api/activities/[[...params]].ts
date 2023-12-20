@@ -41,6 +41,22 @@ class ActivitiesRoutes {
         if (!isNumberString(activityId)) throw new BadRequestException('Invalid activity id')
         return await Server.removeStudent(user, Number(activityId));
     }
+
+    @Get("/manage/:id")
+    @RequiresSession()
+    @Role("Staff")
+    public async activityManagement(@Param("id") activityId: string) {
+        if (!isNumberString(activityId)) throw new BadRequestException('Invalid activity id')
+        return await Server.activityManagement(Number(activityId));
+    }
+
+    @Patch("/manage/:id")
+    @RequiresSession()
+    @Role("Staff")
+    public async patchEnrollment(@Param("id") activityId: string, @Body(ValidationPipe) body: Server.PatchActivityDto) {
+        if (!isNumberString(activityId)) throw new BadRequestException('Invalid activity id')
+        return await Server.patchEnrollment(Number(activityId), body);
+    }
 }
 
 export default createHandler(ActivitiesRoutes);
