@@ -5,6 +5,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from '@/core/middlewares/server/require-session'
 import { User } from '@/components/pages/PerfilPage/types'
 import { BadRequestException, ConflictException } from 'next-api-decorators'
+import { PatchActivityDto } from './dtos'
 
 export async function getActivities(
   req: NextApiRequest,
@@ -113,15 +114,143 @@ export async function removeStudent(user: User, id: number) {
       (enrolledActivity) => enrolledActivity.activityId == activity.id
     )
 
-    if (student.id == enrolledActivity?.studentId) {
-      await PrismaService.activityEnrollment.delete({
+    if (!enrolledActivity) throw new BadRequestException('Student not enrolled')
+
+    if (enrolledActivity?.confirmed == true) throw new BadRequestException('Cannot remove a confirmed student');
+    
+    await PrismaService.activityEnrollment.delete({
         where: {
-          studentId: enrolledActivity.studentId,
-          activityId: enrolledActivity.activityId,
+            studentId_activityId: {
+                studentId: enrolledActivity.studentId,
+                activityId: enrolledActivity.activityId,
+            },
+        },
+    });
+    
+    return { message: 'Successfully removed' };
+  
+  })
+}
+
+export async function activityManagement(id: number){
+    return await databaseQueryWrapper(async () => {
+
+      const activityToManagement = await PrismaService.activity.findUniqueOrThrow({
+        where: {
+          id: id,
+        },
+        include: {
+          enrollments: {
+            include: {
+              student: {
+                select: {
+                  id: true,
+                  userId: true,
+                  user: {
+                    select: {
+                      name: true,
+                      image: true,
+                    }
+                  }
+                },
+              }
+            }
+          },
         },
       })
-      return {message: 'Successfully removed'}
+      
+      return activityToManagement;
+  })
+}
+
+export async function patchEnrollment(id: number, patchActivity: PatchActivityDto) {
+  return await databaseQueryWrapper(async () => {
+
+    const studentsEnrolled = await PrismaService.activity.findMany({
+      where: {
+        id: id,
+      },
+      include: {
+        enrollments: {
+          include: {
+            student: {
+              select: {
+                id: true,
+                userId: true,
+              },
+            },
+          }
+        },
+      },
+    })
+
+    const selectedStudent = studentsEnrolled[0].enrollments.find(
+      (enrollment) => enrollment.student.userId == patchActivity.userId
+    )
+    
+    if (patchActivity.action == 'DISCARD' && selectedStudent) {
+      await PrismaService.activityEnrollment.delete({
+        where: {
+          studentId_activityId: {
+            studentId: selectedStudent.studentId,
+            activityId: selectedStudent.activityId,
+          },
+        },
+      })
+      return { message: 'Successfully updated activity management details' };
     }
-    else throw new BadRequestException('Student not enrolled')
+
+    if(patchActivity.action == 'ENROLL' && selectedStudent && selectedStudent.confirmed == true) {
+      await PrismaService.activityEnrollment.update({
+        where: {
+          studentId_activityId: {
+            studentId: selectedStudent.studentId,
+            activityId: selectedStudent.activityId,
+          },
+        },
+        data: {
+          confirmed: false,
+        },
+      })
+      return { message: 'Successfully updated activity management details' };
+    }
+
+    if(patchActivity.action == 'ENROLL' && !selectedStudent) {
+      await PrismaService.activityEnrollment.create({
+        data: {
+          student: {
+            connect: {
+              userId: patchActivity.userId,
+            },
+          },
+          activity: {
+            connect: {
+              id: id,
+            },
+          },
+          confirmed: false,
+        },
+      })
+      return { message: 'Successfully updated activity management details' };
+    }
+
+    if (patchActivity.action == 'CONFIRM' && selectedStudent) {
+      if (selectedStudent?.confirmed == true) throw new ConflictException('Student already confirmed')
+      await PrismaService.activityEnrollment.update({
+        where: {
+          studentId_activityId: {
+            studentId: selectedStudent.studentId,
+            activityId: selectedStudent.activityId,
+          },
+        },
+        data: {
+          confirmed: true,
+        },
+      })
+      return { message: 'Successfully updated activity management details' };
+    }
+
+    if (patchActivity.action == 'CONFIRM' && !selectedStudent) throw new BadRequestException('Student has to be enrolled to be confirmed')
+
   })
 }
