@@ -55,7 +55,17 @@ class ActivitiesRoutes {
     @Role("Staff")
     public async patchEnrollment(@Param("id") activityId: string, @Body(ValidationPipe) body: Server.PatchActivityDto) {
         if (!isNumberString(activityId)) throw new BadRequestException('Invalid activity id')
+        if (!body || !this.hasRequiredFields(body, ['action', 'userId'])) throw new BadRequestException('Invalid request body')
+        if (!this.isValidAction(body.action)) throw new BadRequestException('Invalid action')
         return await Server.patchEnrollment(Number(activityId), body);
+    }
+
+    private hasRequiredFields(body: any, fields: string[]): boolean {
+        return fields.every(field => body.hasOwnProperty(field));
+    }
+
+    private isValidAction(action: string): boolean {
+        return ['CONFIRM', 'DISCARD', 'ENROLL'].includes(action)
     }
 }
 
