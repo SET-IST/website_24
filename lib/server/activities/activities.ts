@@ -4,7 +4,7 @@ import { Activity, ActivityType, UserType } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from '@/core/middlewares/server/require-session'
 import { User } from '@/components/pages/PerfilPage/types'
-import { BadRequestException, ConflictException } from 'next-api-decorators'
+import { BadRequestException, ConflictException, NotFoundException } from 'next-api-decorators'
 import { PatchActivityDto } from './dtos'
 
 export async function getActivities(
@@ -165,7 +165,14 @@ export async function activityManagement(id: number){
 
 export async function patchEnrollment(id: number, patchActivity: PatchActivityDto) {
   return await databaseQueryWrapper(async () => {
+    const user = await PrismaService.user.findUnique({
+      where: {
+        id: patchActivity.userId,
+      },
+    })
 
+    if (!user) throw new NotFoundException('No StudentDetails found')
+    
     const studentsEnrolled = await PrismaService.activity.findMany({
       where: {
         id: id,
@@ -183,10 +190,13 @@ export async function patchEnrollment(id: number, patchActivity: PatchActivityDt
         },
       },
     })
+    
+    if (studentsEnrolled.length == 0) throw new NotFoundException('No Activity found')
 
     const selectedStudent = studentsEnrolled[0].enrollments.find(
       (enrollment) => enrollment.student.userId == patchActivity.userId
     )
+    
     
     if (patchActivity.action == 'DISCARD' && selectedStudent) {
       await PrismaService.activityEnrollment.delete({
@@ -252,5 +262,6 @@ export async function patchEnrollment(id: number, patchActivity: PatchActivityDt
 
     if (patchActivity.action == 'CONFIRM' && !selectedStudent) throw new BadRequestException('Student has to be enrolled to be confirmed')
 
+    if (!selectedStudent) throw new NotFoundException('No StudentDetails found')
   })
 }
