@@ -15,7 +15,7 @@
     "dev:db:start": "cd database && docker compose up -d",
     "dev:db:stop": "cd database && docker compose rm -s -f -v",
     "dev:db:push": "yarn prisma db push",
-    "dev:db:seed": "command -v psql >/dev/null && psql -h localhost -p 5432 -U postgres -c 'create database setdb' && psql -h localhost -p 5432 -U postgres setdb < ./database/seeds/db_seed-07-12-2023.sql || echo 'Error: You need to have postgresql 15.1 installed'",
+    "dev:db:seed": "command -v psql >/dev/null && psql -h localhost -p 5432 -U postgres -c 'create database setdb' && psql -h localhost -p 5432 -U postgres setdb < ./database/seeds/db_seed-21-12-2023.sql || echo 'Error: You need to have postgresql 15.1 installed'",
     "dev:db:dump": "command -v psql >/dev/null && pg_dump -h localhost -p 5432 -U postgres setdb -f ./database/seeds/db_seed-$(date +'%d-%m-%Y').sql && echo \"Dump saved to ./database/seeds/db_seed-$(date +'%d-%m-%Y').sql\" || echo 'Error: You need to have postgresql 15.1 installed'"
   },
   "dependencies": {
