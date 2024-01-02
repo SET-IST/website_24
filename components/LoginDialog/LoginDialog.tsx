@@ -1,5 +1,4 @@
-import { useToggle, upperFirst, randomId } from '@mantine/hooks'
-import { useForm, yupResolver } from '@mantine/form'
+import { useForm } from '@mantine/form'
 import {
   TextInput,
   PasswordInput,
@@ -13,9 +12,34 @@ import {
 import { GoogleButton } from './GoogleButton'
 import { useBoundStore } from '@/lib/frontend/store'
 import { FenixButton } from './FenixButton'
-import { companyLoginSchema } from './validation'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { showErrorNotification } from '@/components/Notifications'
+import { SignInPageErrorParam } from '@auth/core/types'
+import { useEffect, useState } from 'react'
 
 export function LoginDialog() {
+  const router = useRouter()
+  const [fenixIsLoading, setFenixIsLoading] = useState(false)
+  const [googleIsLoading, setGoogleIsLoading] = useState(false)
+
+  useEffect(() => {
+    const authError = router.query.error as undefined | string
+
+    if (authError) {
+      let authErrorFiltered: SignInPageErrorParam = 'Signin'
+      try {
+        authErrorFiltered = authError as SignInPageErrorParam
+      } catch (e) {}
+      showErrorNotification({
+        title: `Ocorreu um erro, por favor tenta outra vez`,
+        message: authErrorFiltered,
+      })
+
+      window.history.replaceState('', '', '/')
+    }
+  }, [router])
+
   // Getters
   const opened = useBoundStore((state) => state.loginDialogIsVisible)
   const loginType = useBoundStore((state) => state.loginDialogType)
@@ -64,8 +88,28 @@ export function LoginDialog() {
         {loginType === 'student' ? (
           <>
             <Stack mb="md" mt="md">
-              <FenixButton>Entrar com Técnico ID</FenixButton>
-              <GoogleButton>Entrar com o Google</GoogleButton>
+              <FenixButton
+                loading={fenixIsLoading}
+                loaderProps={{
+                  color: 'blue',
+                  type: 'dots',
+                }}
+                onClick={() => {
+                  setFenixIsLoading(true)
+                  signIn('fenix', { redirect: false })
+                }}
+              >
+                Entrar com Técnico ID
+              </FenixButton>
+              <GoogleButton
+                onClick={() => {
+                  setGoogleIsLoading(true)
+                  signIn('google', { redirect: false })
+                }}
+                loading={googleIsLoading}
+              >
+                Entrar com o Google
+              </GoogleButton>
             </Stack>
             <Text c="dimmed" ta="center" size="sm">
               Nota: Estudantes do técnico devem entrar com o seu TécnicoID
