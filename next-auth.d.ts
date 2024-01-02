@@ -1,13 +1,5 @@
 import { UserType } from '@prisma/client'
 import { DefaultSession } from 'next-auth'
-import 'next-auth/jwt'
-
-declare module 'next-auth/jwt' {
-  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
-  interface JWT {
-    role?: UserType
-  }
-}
 
 declare module 'next-auth' {
   /**
@@ -21,11 +13,8 @@ declare module 'next-auth' {
     } & DefaultSession['student']
   }
 
-  /** Passed as a parameter to the `jwt` callback */
   interface User {
     role?: UserType
     readChangelog?: boolean
-    studentDetails?: {}
-    companyDetails?: {}
   }
 }
