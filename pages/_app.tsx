@@ -19,7 +19,10 @@ import '../styles/globals.css'
 import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css'
 import '@mantine/dropzone/styles.css'
+import '@mantine/notifications/styles.css'
+
 import { MantineProvider } from '@mantine/core'
+import { Notifications } from '@mantine/notifications'
 
 type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (_page: ReactElement) => ReactNode
@@ -53,6 +56,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <SessionProvider session={pageProps.session}>
+            <Notifications position="top-center" />
             {getLayout(<Component {...pageProps} />)}
           </SessionProvider>
         </Hydrate>
