@@ -5,7 +5,7 @@ const links = {
   team: '/equipa',
   changelog: '/novidades',
   auth: {
-    signIn: '/auth/signin',
+    signIn: '/',
   },
   staff: {
     redeem: '/staff/redeem',
