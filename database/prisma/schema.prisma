@@ -54,7 +54,6 @@ model StudentDetails {
   <<<<<<< HEAD
   id                 Int                  @id @default(autoincrement())
   cv                 CV?
-  age                Int
   scans              Int                  @default(0)
   points             Int                  @default(0)
   course             String               @db.VarChar(128)
