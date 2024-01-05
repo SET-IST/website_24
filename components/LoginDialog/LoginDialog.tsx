@@ -17,11 +17,13 @@ import { useRouter } from 'next/router'
 import { showErrorNotification } from '@/components/Notifications'
 import { SignInPageErrorParam } from '@auth/core/types'
 import { useEffect, useState } from 'react'
+import { links } from '@/data/links'
 
 export function LoginDialog() {
   const router = useRouter()
   const [fenixIsLoading, setFenixIsLoading] = useState(false)
   const [googleIsLoading, setGoogleIsLoading] = useState(false)
+  const [credentialsIsLoading, setCredentialsIsLoading] = useState(false)
 
   useEffect(() => {
     const authError = router.query.error as undefined | string
@@ -55,6 +57,35 @@ export function LoginDialog() {
       password: '',
     },
   })
+
+  const handleCredentialsLogin = async (credentials: any) => {
+    setCredentialsIsLoading(true)
+    signIn('credentials', {
+      ...credentials,
+      redirect: false,
+    })
+      .then((data) => {
+        console.log(data)
+        switch (data?.status) {
+          case 200:
+            router.push(links.company.profile)
+            showDialog(false)
+            break
+          case 401:
+            form.setFieldError('password', 'Credenciais inválidas')
+            break
+          default:
+            showErrorNotification({
+              title: `Ocorreu um erro, por favor tenta outra vez`,
+              message: data?.error ?? 'Unexpected auth error',
+            })
+            break
+        }
+      })
+      .finally(() => {
+        setCredentialsIsLoading(false)
+      })
+  }
 
   return (
     <Modal
@@ -96,7 +127,10 @@ export function LoginDialog() {
                 }}
                 onClick={() => {
                   setFenixIsLoading(true)
-                  signIn('fenix', { redirect: false })
+                  signIn('fenix', {
+                    redirect: false,
+                    callbackUrl: links.student.profile,
+                  })
                 }}
               >
                 Entrar com Técnico ID
@@ -104,9 +138,16 @@ export function LoginDialog() {
               <GoogleButton
                 onClick={() => {
                   setGoogleIsLoading(true)
-                  signIn('google', { redirect: false })
+                  signIn('google', {
+                    redirect: false,
+                    callbackUrl: links.student.profile,
+                  })
                 }}
                 loading={googleIsLoading}
+                loaderProps={{
+                  color: 'blue',
+                  type: 'dots',
+                }}
               >
                 Entrar com o Google
               </GoogleButton>
@@ -116,29 +157,30 @@ export function LoginDialog() {
             </Text>
           </>
         ) : (
-          <form onSubmit={form.onSubmit(() => {})}>
+          <form onSubmit={form.onSubmit(handleCredentialsLogin)}>
             <Stack>
               <TextInput
                 label="Utilizador"
                 required
-                value={form.values.username}
-                onChange={(event) =>
-                  form.setFieldValue('username', event.currentTarget.value)
-                }
+                {...form.getInputProps('username')}
               />
 
               <PasswordInput
                 required
                 label="Password"
-                value={form.values.password}
-                onChange={(event) =>
-                  form.setFieldValue('password', event.currentTarget.value)
-                }
+                {...form.getInputProps('password')}
               />
             </Stack>
 
             <Group justify="space-between" mt="lg">
-              <Button fullWidth type="submit">
+              <Button
+                fullWidth
+                loaderProps={{
+                  type: 'dots',
+                }}
+                loading={credentialsIsLoading}
+                type="submit"
+              >
                 Entrar
               </Button>
             </Group>
