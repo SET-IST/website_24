@@ -119,13 +119,14 @@ export async function removeStudent(user: User, id: number) {
     if (enrolledActivity?.confirmed == true) throw new BadRequestException('Cannot remove a confirmed student');
     
     await PrismaService.activityEnrollment.delete({
-        where: {
-            studentId_activityId: {
-                studentId: enrolledActivity.studentId,
-                activityId: enrolledActivity.activityId,
-            },
+      where: {
+        studentId_activityId: {
+          studentId: enrolledActivity.studentId,
+          activityId: enrolledActivity.activityId,
         },
+      },
     });
+    
     
     return { message: 'Successfully removed' };
   
@@ -173,7 +174,7 @@ export async function patchEnrollment(id: number, patchActivity: PatchActivityDt
 
     if (!user) throw new NotFoundException('No StudentDetails found')
     
-    const studentsEnrolled = await PrismaService.activity.findMany({
+    const studentsEnrolled = await PrismaService.activity.findUniqueOrThrow({
       where: {
         id: id,
       },
@@ -191,9 +192,8 @@ export async function patchEnrollment(id: number, patchActivity: PatchActivityDt
       },
     })
     
-    if (studentsEnrolled.length == 0) throw new NotFoundException('No Activity found')
-
-    const selectedStudent = studentsEnrolled[0].enrollments.find(
+    
+    const selectedStudent = studentsEnrolled.enrollments.find(
       (enrollment) => enrollment.student.userId == patchActivity.userId
     )
     
@@ -261,6 +261,8 @@ export async function patchEnrollment(id: number, patchActivity: PatchActivityDt
     }
 
     if (patchActivity.action == 'CONFIRM' && !selectedStudent) throw new BadRequestException('Student has to be enrolled to be confirmed')
+
+    if (patchActivity.action == 'DISCARD' && !selectedStudent) throw new BadRequestException('Student has to be enrolled or confirmed to be discarded')
 
     if (!selectedStudent) throw new NotFoundException('No StudentDetails found')
   })
