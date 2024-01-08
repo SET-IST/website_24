@@ -1,6 +1,17 @@
-export type Action = 'ENROLL' | 'CONFIRM' | 'DISCARD';
+import {
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+} from "class-validator";
 
-export interface PatchActivityDto {
-  action: Action;
-  userId: string; 
+
+export class PatchActivityDto {
+  @IsNotEmpty()
+  @IsString()
+  action!: 'ENROLL' | 'CONFIRM' | 'DISCARD';
+  
+  @IsNotEmpty()
+  @IsUUID()
+  userId!: string;
+
 }
