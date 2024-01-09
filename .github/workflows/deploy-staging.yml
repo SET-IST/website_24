@@ -19,24 +19,24 @@ jobs:
       - name: set environment variables
         run: |
           # DATABASE 
-          echo DATABASE_URL="postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME_MAIN }}?schema=public" >> env
+          echo DATABASE_URL="postgresql://${{ vars.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}/${{ vars.DB_NAME }}?schema=public" >> env
 
           # S3 (MinIO instance)
-          echo S3_HOST="${{ secrets.S3_HOST }}" >> env
-          echo S3_BUCKET="${{ secrets.S3_BUCKET_MAIN }}" >> env
-          echo S3_ACS_KEY="${{ secrets.S3_ACS_KEY }}" >> env
+          echo S3_HOST="${{ vars.S3_HOST }}" >> env
+          echo S3_BUCKET="${{ vars.S3_BUCKET }}" >> env
+          echo S3_ACS_KEY="${{ vars.S3_ACS_KEY }}" >> env
           echo S3_ACS_SCRT="${{ secrets.S3_ACS_SCRT }}" >> env
 
           # AUTHENTICATION
-          echo NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL_STAGING }}" >> env
+          echo NEXTAUTH_URL="${{ vars.NEXTAUTH_URL_STAG }}" >> env
           echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> env
           
-          echo GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" >> env
+          echo GOOGLE_CLIENT_ID="${{ vars.GOOGLE_CLIENT_ID }}" >> env
           echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
 
-          echo FENIX_ID="${{ secrets.FENIX_ID }}" >> env
-          echo FENIX_SECRET="${{ secrets.FENIX_SECRET }}" >> env
-          echo FENIX_URL="${{ secrets.FENIX_URL }}" >> env
+          echo FENIX_ID="${{ vars.FENIX_CLIENT_ID }}" >> env
+          echo FENIX_SECRET="${{ secrets.FENIX_CLIENT_SECRET }}" >> env
+          echo FENIX_URL="${{ vars.FENIX_CLIENT_URL_STAG }}" >> env
 
           # Activities
           echo CALENDAR_ID="${{ secrets.CALENDAR_ID }}" >> env
