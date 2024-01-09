@@ -1,4 +1,3 @@
-import { AuthOptions } from '@/pages/api/auth/[...nextauth]'
 import { NextApiRequest, NextApiResponse } from 'next'
 import {
   NextFunction,
@@ -6,6 +5,7 @@ import {
   createMiddlewareDecorator,
 } from 'next-api-decorators'
 import { getServerSession } from 'next-auth'
+import { AuthOptions } from '@/lib/server/auth'
 
 export async function getSession(req: NextApiRequest, res: NextApiResponse) {
   return await getServerSession(req, res, AuthOptions(req, res))
