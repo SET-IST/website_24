@@ -30,7 +30,6 @@ jobs:
           # AUTHENTICATION
           echo NEXTAUTH_URL="${{ vars.NEXTAUTH_URL_STAG }}" >> env
           echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> env
-
           echo GOOGLE_CLIENT_ID="${{ vars.GOOGLE_CLIENT_ID }}" >> env
           echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
 
