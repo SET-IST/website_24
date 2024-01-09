@@ -100,7 +100,7 @@ export async function removeStudent(user: User, id: number) {
     })
 
     if (activity.type === ActivityType.Lecture)
-      throw new BadRequestException('Cannot enroll in a lecture')
+      throw new BadRequestException('Activity is not enrollable')
 
     const confirmed = await PrismaService.activityEnrollment.findUnique({
       where: {
@@ -130,7 +130,7 @@ export async function removeStudent(user: User, id: number) {
     
         switch (error.code) {
           case 'P2025':
-            throw new NotFoundException('No Activity found') 
+            throw new BadRequestException('Student not enrolled') 
           default:
             throw new InternalServerErrorException(error.message)
         }
