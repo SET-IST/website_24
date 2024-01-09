@@ -16,58 +16,33 @@ jobs:
       (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged)
     runs-on: ubuntu-latest
     steps:
-      - name: set environment DB_USER
-        run: echo DB_USER="${{ secrets.DB_USER }}" > env
-      - name: set environment POSTGRES_USER
-        run: echo POSTGRES_USER="${{ secrets.DB_USER }}" >> env
-      - name: set environment DB_PASSWORD
-        run: echo DB_PASSWORD="${{ secrets.DB_PASSWORD }}" >> env
-      - name: set environment POSTGRES_PASSWORD
-        run: echo POSTGRES_PASSWORD="${{ secrets.DB_PASSWORD }}" >> env
-      - name: set environment DB_NAME
-        run: echo DB_NAME="${{ secrets.DB_NAME_MAIN }}" >> env
-      - name: set environment POSTGRES_DB
-        run: echo POSTGRES_DB="" >> env
-      - name: set environment DB_HOST
-        run: echo DB_HOST="${{ secrets.DB_HOST }}" >> env
-      - name: set environment DB_PORT
-        run: echo DB_PORT="${{ secrets.DB_PORT }}" >> env
-      - name: set database url env
-        run: echo DATABASE_URL="postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME_MAIN }}?schema=public" >> env
-      - name: set environment S3_ROOT_USER
-        run: echo MINIO_ROOT_USER="${{ secrets.S3_ROOT_USER }}" >> env
-      - name: set environment S3_ROOT_PASSWORD
-        run: echo MINIO_ROOT_PASSWORD="${{ secrets.S3_ROOT_PASSWORD }}" >> env
-      - name: set environment GOOGLE_CLIENT_ID
-        run: echo GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" >> env
-      - name: set environment GOOGLE_CLIENT_SECRET
-        run: echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
-      - name: set environment NEXTAUTH_URL
-        run: echo NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL }}" >> env
-      - name: set environment NEXTAUTH_SECRET
-        run: echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> env
-      - name: set environment FENIX_ID
-        run: echo FENIX_ID="${{ secrets.FENIX_ID_MAIN }}" >> env
-      - name: set environment FENIX_SECRET
-        run: echo FENIX_SECRET="${{ secrets.FENIX_SECRET_MAIN }}" >> env
-      - name: set environment FENIX_URL
-        run: echo FENIX_URL="${{ secrets.FENIX_URL_MAIN }}" >> env
-      - name: set environment CALENDAR_ID
-        run: echo CALENDAR_ID="${{ secrets.CALENDAR_ID }}" >> env
-      - name: set environment API_KEY
-        run: echo API_KEY="${{ secrets.API_KEY }}" >> env
-      - name: set environment SCHEDULE_URL
-        run: echo SCHEDULE_URL="${{ secrets.SCHEDULE_URL }}" >> env
-      - name: set environment S3_HOST
-        run: echo S3_HOST="${{ secrets.S3_HOST }}" >> env
-      - name: set environment S3_BUCKET
-        run: echo S3_BUCKET="${{ secrets.S3_BUCKET_MAIN }}" >> env
-      - name: set environment S3_ACS_KEY
-        run: echo S3_ACS_KEY="${{ secrets.S3_ACS_KEY }}" >> env
-      - name: set environment S3_ACS_SCRT
-        run: echo S3_ACS_SCRT="${{ secrets.S3_ACS_SCRT }}" >> env
-      - name: set environment AUTH_COMPANY_SECRET_CODE
-        run: echo AUTH_COMPANY_SECRET_CODE="${{ secrets.AUTH_COMPANY_SECRET_CODE }}" >> env
+      - name: set environment variables
+        run: |
+          # DATABASE 
+          echo DATABASE_URL="postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME_MAIN }}?schema=public" >> env
+
+          # S3 (MinIO instance)
+          echo S3_HOST="${{ secrets.S3_HOST }}" >> env
+          echo S3_BUCKET="${{ secrets.S3_BUCKET_MAIN }}" >> env
+          echo S3_ACS_KEY="${{ secrets.S3_ACS_KEY }}" >> env
+          echo S3_ACS_SCRT="${{ secrets.S3_ACS_SCRT }}" >> env
+
+          # AUTHENTICATION
+          echo NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL_STAGING }}" >> env
+          echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> env
+          
+          echo GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" >> env
+          echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
+
+          echo FENIX_ID="${{ secrets.FENIX_ID_MAIN }}" >> env
+          echo FENIX_SECRET="${{ secrets.FENIX_SECRET_MAIN }}" >> env
+          echo FENIX_URL="${{ secrets.FENIX_URL_MAIN }}" >> env
+          
+
+          # Activities
+          echo CALENDAR_ID="${{ secrets.CALENDAR_ID }}" >> env
+          echo SCHEDULE_URL="${{ secrets.SCHEDULE_URL }}" >> env
+
       - name: upload env artifact
         uses: actions/upload-artifact@v3
         with:
