@@ -1,10 +1,10 @@
 import { databaseQueryWrapper } from '@/core/utils'
 import { PrismaService } from '../../../core/services/server'
-import { Activity, ActivityType, UserType } from '@prisma/client'
+import { Activity, ActivityType, Prisma, UserType } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from '@/core/middlewares/server/require-session'
 import { User } from '@/components/pages/PerfilPage/types'
-import { BadRequestException, ConflictException, NotFoundException } from 'next-api-decorators'
+import { BadRequestException, ConflictException, InternalServerErrorException, NotFoundException } from 'next-api-decorators'
 import { PatchActivityDto } from './dtos'
 
 export async function getActivities(
@@ -54,25 +54,14 @@ export async function enrollStudent(user: User, id: number) {
     if (activity.type === ActivityType.Lecture)
       throw new BadRequestException('Cannot enroll in a lecture')
 
-    const student = await PrismaService.studentDetails.findUniqueOrThrow({
-      where: {
-        userId: user.id,
-      },
-      include: {
-        enrolledActivities: true,
-      },
-    })
+    try {
 
-    const enrolledActivity = student.enrolledActivities.find(
-      (enrolledActivity) => enrolledActivity.activityId == activity.id
-    )
-
-    if (!enrolledActivity){
+      
       await PrismaService.activityEnrollment.create({
         data: {
           student: {
             connect: {
-              id: student.id,
+              userId: user.id,
             },
           },
           activity: {
@@ -85,7 +74,19 @@ export async function enrollStudent(user: User, id: number) {
       })
       return {message: 'Successfully enrolled'}
     }
-    else return {message: 'Already enrolled'}
+    catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    
+        switch (error.code) {
+          case 'P2002':
+            return {message: 'Already enrolled'} 
+          default:
+            throw new InternalServerErrorException(error.message)
+        }
+      }
+      else throw error
+    }    
+
   })
 }
 
@@ -101,34 +102,41 @@ export async function removeStudent(user: User, id: number) {
     if (activity.type === ActivityType.Lecture)
       throw new BadRequestException('Cannot enroll in a lecture')
 
-    const student = await PrismaService.studentDetails.findUniqueOrThrow({
+    const confirmed = await PrismaService.activityEnrollment.findUnique({
       where: {
-        userId: user.id,
-      },
-      include: {
-        enrolledActivities: true,
+        enrollmentId: {
+          userId: user.id,
+          activityId: activity.id,
+        },
       },
     })
 
-    const enrolledActivity = student.enrolledActivities.find(
-      (enrolledActivity) => enrolledActivity.activityId == activity.id
-    )
-
-    if (!enrolledActivity) throw new BadRequestException('Student not enrolled')
-
-    if (enrolledActivity?.confirmed == true) throw new BadRequestException('Cannot remove a confirmed student');
-    
-    await PrismaService.activityEnrollment.delete({
-      where: {
-        studentId_activityId: {
-          studentId: enrolledActivity.studentId,
-          activityId: enrolledActivity.activityId,
+    try {
+      
+      if (confirmed?.confirmed)
+        throw new ConflictException('Cannot remove confirmed enrollment')
+      await PrismaService.activityEnrollment.delete({
+        where: {
+          enrollmentId: {
+            userId: user.id,
+            activityId: activity.id,
+          },
         },
-      },
-    });
+      })
+      return {message: 'Successfully removed'}
+    }
+    catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
     
-    
-    return { message: 'Successfully removed' };
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException('No Activity found') 
+          default:
+            throw new InternalServerErrorException(error.message)
+        }
+      }
+      else throw error
+    }    
   
   })
 }
@@ -166,104 +174,57 @@ export async function activityManagement(id: number){
 
 export async function patchEnrollment(id: number, patchActivity: PatchActivityDto) {
   return await databaseQueryWrapper(async () => {
-    const user = await PrismaService.user.findUnique({
-      where: {
-        id: patchActivity.userId,
-      },
-    })
+    if (patchActivity.action != "DISCARD"){
+      const confirmed = (patchActivity.action == "CONFIRM");
 
-    if (!user) throw new NotFoundException('No StudentDetails found')
-    
-    const studentsEnrolled = await PrismaService.activity.findUniqueOrThrow({
-      where: {
-        id: id,
-      },
-      include: {
-        enrollments: {
-          include: {
+      try {
+        await prisma.activityEnrollment.upsert({
+          where: {
+            enrollmentId: {
+              userId: patchActivity.userId,
+              activityId: id,
+            },
+          },
+          update: {
+            confirmed: confirmed,
+          },
+          create: {
             student: {
-              select: {
-                id: true,
-                userId: true,
+              connect: {
+                userId: patchActivity.userId,
               },
             },
+            activity: {
+              connect: {
+                id: id,
+              },
+            },
+            confirmed: confirmed,
+          },
+        })
+      }
+      catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if(error.code == 'P2025'){
+            throw new NotFoundException(String(error.meta?.cause))
           }
-        },
-      },
-    })
-    
-    
-    const selectedStudent = studentsEnrolled.enrollments.find(
-      (enrollment) => enrollment.student.userId == patchActivity.userId
-    )
-    
-    
-    if (patchActivity.action == 'DISCARD' && selectedStudent) {
+            
+        }
+        else throw error
+      }
+    }
+    else {
       await PrismaService.activityEnrollment.delete({
         where: {
-          studentId_activityId: {
-            studentId: selectedStudent.studentId,
-            activityId: selectedStudent.activityId,
+          enrollmentId: {
+            userId: patchActivity.userId,
+            activityId: id,
           },
         },
       })
-      return { message: 'Successfully updated activity management details' };
     }
 
-    if(patchActivity.action == 'ENROLL' && selectedStudent && selectedStudent.confirmed == true) {
-      await PrismaService.activityEnrollment.update({
-        where: {
-          studentId_activityId: {
-            studentId: selectedStudent.studentId,
-            activityId: selectedStudent.activityId,
-          },
-        },
-        data: {
-          confirmed: false,
-        },
-      })
-      return { message: 'Successfully updated activity management details' };
-    }
+    return {message: 'Successfully updated activity management details'}
 
-    if(patchActivity.action == 'ENROLL' && !selectedStudent) {
-      await PrismaService.activityEnrollment.create({
-        data: {
-          student: {
-            connect: {
-              userId: patchActivity.userId,
-            },
-          },
-          activity: {
-            connect: {
-              id: id,
-            },
-          },
-          confirmed: false,
-        },
-      })
-      return { message: 'Successfully updated activity management details' };
-    }
-
-    if (patchActivity.action == 'CONFIRM' && selectedStudent) {
-      if (selectedStudent?.confirmed == true) throw new ConflictException('Student already confirmed')
-      await PrismaService.activityEnrollment.update({
-        where: {
-          studentId_activityId: {
-            studentId: selectedStudent.studentId,
-            activityId: selectedStudent.activityId,
-          },
-        },
-        data: {
-          confirmed: true,
-        },
-      })
-      return { message: 'Successfully updated activity management details' };
-    }
-
-    if (patchActivity.action == 'CONFIRM' && !selectedStudent) throw new BadRequestException('Student has to be enrolled to be confirmed')
-
-    if (patchActivity.action == 'DISCARD' && !selectedStudent) throw new BadRequestException('Student has to be enrolled or confirmed to be discarded')
-
-    if (!selectedStudent) throw new NotFoundException('No StudentDetails found')
   })
 }

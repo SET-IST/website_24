@@ -137,13 +137,13 @@ enum ActivityType {
 }
 
 model ActivityEnrollment {
-  studentId  Int            
-  student    StudentDetails @relation(fields: [studentId], references: [id])
+  userId     String            
+  student    StudentDetails @relation(fields: [userId], references: [userId])
   activityId Int            
   activity   Activity       @relation(fields: [activityId], references: [id])
   confirmed  Boolean
 
-  @@unique([studentId, activityId])
+  @@unique(name: "enrollmentId",[userId, activityId])
 }
 
 model Activity {
