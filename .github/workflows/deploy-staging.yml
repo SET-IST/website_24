@@ -34,9 +34,9 @@ jobs:
           echo GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" >> env
           echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
 
-          echo FENIX_ID="${{ secrets.FENIX_ID_MAIN }}" >> env
-          echo FENIX_SECRET="${{ secrets.FENIX_SECRET_MAIN }}" >> env
-          echo FENIX_URL="${{ secrets.FENIX_URL_MAIN }}" >> env
+          echo FENIX_ID="${{ secrets.FENIX_ID }}" >> env
+          echo FENIX_SECRET="${{ secrets.FENIX_SECRET }}" >> env
+          echo FENIX_URL="${{ secrets.FENIX_URL }}" >> env
 
           # Activities
           echo CALENDAR_ID="${{ secrets.CALENDAR_ID }}" >> env
