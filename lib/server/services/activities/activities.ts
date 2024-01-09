@@ -2,8 +2,8 @@ import { databaseQueryWrapper } from '@/core/utils'
 import { PrismaService } from '../../../../core/services/server'
 import { Activity, ActivityType, Prisma, UserType } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from '@/core/middlewares/server/require-session'
-import { User } from '@/components/pages/PerfilPage/types'
+import { getSession } from '@/lib/server/middleware'
+import type { User } from '@prisma/client'
 import {
   BadRequestException,
   ConflictException,
