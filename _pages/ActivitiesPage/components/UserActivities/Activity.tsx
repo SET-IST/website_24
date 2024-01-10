@@ -58,7 +58,7 @@ const ActivityButton = ({ data, isMobile }: ActivityButtonProps) => {
 
 const Activity = ({ data, isMobile }: ActivityComponentProps) => {
   return (
-    <div className="w-full h-fit py-4 px-1 flex flex-col gap-4 sm:flex-row sm:gap-0 items-center">
+    <div className="w-full h-fit bg-[color:var(--mantine-color-white)] hover:bg-gray-50 p-4 flex flex-col gap-4 sm:flex-row sm:gap-0 items-center sm:rounded-md">
       <div className="w-full h-fit flex flex-col gap-2">
         <div>
           <Text c="#00415a" fw={600}>

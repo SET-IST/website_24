@@ -21,6 +21,7 @@ const activities: ActivityData[] = [
     desc: 'Worten e Caixa Geral',
     date: DateTime.now().plus({ days: 3, hours: 2, minutes: 11 }),
     location: 'Salas 0-67 e 0-69',
+    studentEnrolled: StudentActivityStatus.NotEnrolled,
   },
   {
     name: 'Workshop',
@@ -28,6 +29,7 @@ const activities: ActivityData[] = [
     desc: 'Magma Studios',
     date: DateTime.now().plus({ days: 3, hours: 2, minutes: 11 }),
     location: 'Salas 0-67 e 0-69',
+    studentEnrolled: StudentActivityStatus.NotEnrolled,
   },
   {
     name: 'Speed Interview',
@@ -35,6 +37,7 @@ const activities: ActivityData[] = [
     desc: 'Worten e Caixa Geral',
     date: DateTime.now().plus({ days: 3, hours: 2, minutes: 11 }),
     location: 'Salas 0-67 e 0-69',
+    studentEnrolled: StudentActivityStatus.NotEnrolled,
   },
 ]
 
@@ -42,7 +45,7 @@ const UserActivities = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
 
   return (
-    <div className="flex flex-col sm:h-96 sm:overflow-scroll bg-white rounded-lg px-2">
+    <div className="flex bg-[#ffffff] sm:bg-[color:var(--mantine-color-white)] flex-col sm:gap-4 sm:h-[26rem] sm:overflow-scroll sm:rounded-lg sm:p-2 sm:py-4">
       {activities.map((activityData, index) => (
         <Activity
           key={`activity_${index}`}

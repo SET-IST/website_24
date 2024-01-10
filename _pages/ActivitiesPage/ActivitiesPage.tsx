@@ -22,7 +22,7 @@ const ActivitiesPage = () => {
       <div className="w-full h-full flex flex-col">
         <FooterLayout>
           <Header />
-          <Paper className="h-fit w-screen p-2 px-0 sm:p-6 flex flex-col justify-stretch">
+          <Paper className="h-fit w-screen px-0 sm:p-6 flex flex-col justify-stretch">
             <div className="sticky sm:relative top-15 z-10 sm:top-0 px-2 sm:px-0 py-3 bg-[color:var(--mantine-color-white)]">
               <SegmentedControl
                 fullWidth

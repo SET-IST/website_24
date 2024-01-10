@@ -1,6 +1,6 @@
 const links = {
   home: '/',
-  activities: '/atividades',
+  activities: '/activities',
   awards: '/premios',
   team: '/equipa',
   changelog: '/novidades',
