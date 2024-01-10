@@ -63,7 +63,7 @@ model StudentDetails {
   userId             String               @unique
   awardToken         AwardToken?
   reedems            Int                  @default(0)
-  ActivityEnrollment ActivityEnrollment[]
+  enrolledActivities ActivityEnrollment[]
 }
 
 // add activities to companies
