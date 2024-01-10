@@ -10,7 +10,7 @@ interface TeamMemberProps {
 
 const TeamMember = ({ data }: TeamMemberProps) => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center min-w-fit">
       <Image
         src={data.image}
         alt={data.name}

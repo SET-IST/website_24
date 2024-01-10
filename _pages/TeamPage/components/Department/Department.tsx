@@ -1,18 +1,16 @@
 import { Title } from '@mantine/core'
 import classes from './department.module.css'
 
-import { TeamMember as TeamMemberData, coordenacao } from '@/data/team'
-import { Animate } from '@/components/AnimateIn'
+import { IDepartment, TeamMember as TeamMemberData } from '@/data/team'
 import TeamMember from '@/components/TeamMember'
 import classNames from 'classnames'
 
-interface DepartmentProps {
-  title: string
-  slug: string
-  data: TeamMemberData[]
-}
-
-export default function Department({ title, slug, data }: DepartmentProps) {
+export default function Department({
+  name,
+  slug,
+  coordinators,
+  members,
+}: IDepartment) {
   return (
     <div className="w-full flex flex-col items-center gap-4">
       <Title
@@ -22,13 +20,16 @@ export default function Department({ title, slug, data }: DepartmentProps) {
           'sticky sm:relative top-15 sm:top-0 bg-[color:var(--mantine-color-white)] z-10 border-b w-full'
         )}
       >
-        {title}
+        {name}
       </Title>
-      <div className="w-full grid grid-cols-1 sm:grid-cols-4">
-        {data.map((member, index) => (
-          <Animate.FadeUp key={`${slug}-${index}`}>
-            <TeamMember data={member} />
-          </Animate.FadeUp>
+      <div className="w-full flex flex-wrap justify-center gap-x-24 gap-y-4">
+        {coordinators.map((member, index) => (
+          <TeamMember key={`${slug}-coordinator-${index}`} data={member} />
+        ))}
+      </div>
+      <div className="w-full flex flex-wrap justify-center gap-x-28 gap-y-4">
+        {members.map((member, index) => (
+          <TeamMember key={`${slug}-member-${index}`} data={member} />
         ))}
       </div>
     </div>

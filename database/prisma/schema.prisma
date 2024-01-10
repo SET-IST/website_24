@@ -51,7 +51,6 @@ enum CompanyCategory {
 
 // Add activities to students
 model StudentDetails {
-  <<<<<<< HEAD
   id                 Int                  @id @default(autoincrement())
   cv                 CV?
   scans              Int                  @default(0)
@@ -64,22 +63,7 @@ model StudentDetails {
   userId             String               @unique
   awardToken         AwardToken?
   reedems            Int                  @default(0)
-  enrolledActivities ActivityEnrollment[]
-  =======
-  id                 Int                  @id @default(autoincrement())
-  cv                 CV?
-  scans              Int                  @default(0)
-  points             Int                  @default(0)
-  course             String               @db.VarChar(128)
-  university         String               @db.VarChar(128)
-  companies_ids      String[]
-  companies          CompanyDetails[]
-  user               User                 @relation(fields: [userId], references: [id])
-  userId             String               @unique
-  awardToken         AwardToken?
-  reedems            Int                  @default(0)
-  enrolledActivities ActivityEnrollment[]
-  >>>>>>> f355b8f (feat(database/schema): add ActivityEnrollment model)
+  ActivityEnrollment ActivityEnrollment[]
 }
 
 // add activities to companies
@@ -135,13 +119,13 @@ enum ActivityType {
 }
 
 model ActivityEnrollment {
-  userId     String            
+  userId     String
   student    StudentDetails @relation(fields: [userId], references: [userId])
-  activityId Int            
+  activityId Int
   activity   Activity       @relation(fields: [activityId], references: [id])
   confirmed  Boolean
 
-  @@unique(name: "enrollmentId",[userId, activityId])
+  @@unique(name: "enrollmentId", [userId, activityId])
 }
 
 model Activity {

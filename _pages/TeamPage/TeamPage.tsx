@@ -1,10 +1,9 @@
 import {
   coordenacao,
-  design,
   logistica,
-  marketing,
+  marketingDesign,
   relacoesExternas,
-  suporteInformático,
+  suporteInformatico,
 } from '@/data/team'
 import cn from 'classnames'
 import Header from './components/Header'
@@ -19,32 +18,11 @@ const TeamPage = () => {
     >
       <Header />
       <div className=" w-full flex flex-col gap-12">
-        <Department
-          data={coordenacao}
-          title="Comité Executivo"
-          slug="coordenacao"
-        />
-        <Department
-          data={logistica}
-          title="Equipa de Logística"
-          slug="logistica"
-        />
-        <Department
-          data={suporteInformático}
-          title="Equipa de Suporte Informático"
-          slug="suporte_informatico"
-        />
-        <Department
-          data={marketing}
-          title="Equipa de Marketing"
-          slug="marketing"
-        />
-        <Department
-          data={relacoesExternas}
-          title="Equipa de Relações Externas"
-          slug="relacoes_externas"
-        />
-        <Department data={design} title="Equipa de Design" slug="design" />
+        <Department {...coordenacao} />
+        <Department {...marketingDesign} />
+        <Department {...suporteInformatico} />
+        <Department {...relacoesExternas} />
+        <Department {...logistica} />
       </div>
     </div>
   )
