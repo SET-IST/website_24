@@ -431,7 +431,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /student/enrollments:
+  /student/enrolments:
     get:
       description: Returns the activities where the student is enrolled
       responses:
