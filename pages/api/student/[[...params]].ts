@@ -21,7 +21,14 @@ class StudentRoutes {
         return await Server.getStudentProfile(user)
     }
 
-    
+    @Patch('/profile')
+    @Role('Student', 'Staff')
+    public async patchStudentProfile(
+        @UserData() user: User,
+        @Body(ValidationPipe) data: Server.PatchStudentProfileDto
+    ) {
+        return await Server.patchStudentProfile(user, data)
+    }
 }
 
 export default createHandler(StudentRoutes)
