@@ -1,27 +1,19 @@
-import {
-    IsEmail,
-    IsOptional,
-    IsString,
-  } from "class-validator";
-  
-  
-  export class PatchStudentProfileDto {
-    
-    @IsOptional()
-    @IsString()
-    name: string | undefined;
-    
-    @IsOptional()
-    @IsEmail()
-    email: string | undefined;
+import { IsEmail, IsOptional, IsString } from 'class-validator'
 
-    @IsOptional()
-    @IsString()
-    university: string | undefined;
+export class PatchStudentProfileDto {
+  @IsOptional()
+  @IsString()
+  name?: string
 
-    @IsOptional()
-    @IsString()
-    course: string | undefined;
-  
-  }
-  
+  @IsOptional()
+  @IsEmail()
+  email?: string
+
+  @IsOptional()
+  @IsString()
+  university?: string
+
+  @IsOptional()
+  @IsString()
+  course?: string
+}
