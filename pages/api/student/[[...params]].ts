@@ -6,7 +6,7 @@ import {
     ValidationPipe,
   } from 'next-api-decorators'
 import * as Server from '../../../lib/server/services/student'
-import { RequiresSession, Role } from '@/lib/server/middleware'
+import { RequiresSession, RestrictedValidationPipe, Role } from '@/lib/server/middleware'
 import { UserData } from '@/core/utils'
 import type { User } from '@prisma/client'
 
@@ -25,7 +25,7 @@ class StudentRoutes {
     @Role('Student', 'Staff')
     public async patchStudentProfile(
         @UserData() user: User,
-        @Body(ValidationPipe) data: Server.PatchStudentProfileDto
+        @Body(RestrictedValidationPipe) data: Server.PatchStudentProfileDto
     ) {
         return await Server.patchStudentProfile(user, data)
     }
