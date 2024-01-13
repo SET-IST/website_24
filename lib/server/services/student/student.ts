@@ -34,4 +34,24 @@ export async function getStudentProfile(user: User) {
   })
 }
 
+export async function patchStudentProfile(user: User, data: PatchStudentProfileDto) {
+    return await databaseQueryWrapper(async () => {
+      await PrismaService.studentDetails.update({
+          where: {
+              userId: user.id
+          },
+          data: {
+              user:{
+                  update: {
+                      name: data.name,
+                      email: data.email
+                  }
+              },
+              university: data.university,
+              course: data.course
+          }
+      })
+      return {message: "User profile updated"}
+    })
+}
 
