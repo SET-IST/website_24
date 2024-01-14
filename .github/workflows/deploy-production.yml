@@ -19,7 +19,7 @@ jobs:
       - name: set environment variables
         run: |
           # DATABASE 
-          echo DATABASE_URL="postgresql://${{ vars.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}/${{ vars.DB_NAME }}?schema=public" >> env
+          echo DATABASE_URL="postgresql://${{ vars.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}/${{ vars.DB_NAME_PROD }}?schema=public" >> env
 
           # S3 (MinIO instance)
           echo S3_HOST="${{ vars.S3_HOST }}" >> env
