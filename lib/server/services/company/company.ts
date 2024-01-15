@@ -1,5 +1,5 @@
 import { databaseQueryWrapper } from '@/core/utils'
-import { CompanyLoginRequest } from './dtos'
+import { CompanyLoginRequest, PatchCompanyProfileDto } from './dtos'
 import { PrismaService } from '@/core/services/server'
 import { isSamePass } from '@/core/utils/auth'
 import { UnauthorizedException } from 'next-api-decorators'
@@ -42,16 +42,38 @@ export async function getCompanyProfile(user: User) {
       },
       include: {
           companyDetails: {
-          select: {
-            id: true,
-            description: true,
-            linkHref: true,
-            linkText: true,
-            category: true,
-            username: true,
-          },
+            select: {
+              id: true,
+              description: true,
+              linkHref: true,
+              linkText: true,
+              category: true,
+              username: true,
+            },
         },
       },
     })
+  })
+}
+
+export async function patchCompanyProfile(user: User, req: PatchCompanyProfileDto) {
+  return await databaseQueryWrapper(async () => {
+    console.log(req)
+    await PrismaService.companyDetails.update({
+        where: {
+            userId: user.id
+        },
+        data: {
+            user:{
+                update: {
+                    name: req.name,
+                }
+            },
+            description: req.description,
+            linkHref: req.linkHref,
+            linkText: req.linkText
+        }
+    })
+    return {message: "Company profile updated"}
   })
 }

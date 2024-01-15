@@ -1,12 +1,12 @@
 import { handleApiException } from '@/core/utils'
-import { CompanyLoginRequest } from '@/lib/server/services/company/dtos'
+import { CompanyLoginRequest, PatchCompanyProfileDto } from '@/lib/server/services/company/dtos'
 import {
   Body,
   Catch,
   Post,
-  ValidationPipe,
   Get,
   createHandler,
+  Patch,
 } from 'next-api-decorators'
 import * as CompanyService from '@/lib/server/services/company'
 import {
@@ -16,7 +16,6 @@ import {
 } from '@/lib/server/middleware'
 import type { User } from '@prisma/client'
 import { UserData } from '@/core/utils'
-import * as Server from '../../../lib/server/services/company'
 
 @Catch(handleApiException)
 class CompanyRoutes {
@@ -29,8 +28,18 @@ class CompanyRoutes {
   @RequiresSession()
   @Role('Company')
   public async getCompanyProfile(@UserData() user: User) {
-    return await Server.getCompanyProfile(user)
+    return await CompanyService.getCompanyProfile(user)
   }
+
+  @Patch('/profile')
+  @RequiresSession()
+  @Role('Company')
+  public async updateCompanyProfile(
+    @UserData() user: User, 
+    @Body(RestrictedValidationPipe) req: PatchCompanyProfileDto) {
+      return await CompanyService.patchCompanyProfile(user,req)
+  }
+
 }
 
 export default createHandler(CompanyRoutes)
