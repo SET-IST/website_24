@@ -1,80 +1,75 @@
-//  Components
+// Components
 // People
-// Comité Executivo
-import AfonsoLeitao from '@/assets/team/Comite_Executivo/Afonso Leitao.webp'
-import JoaoDomingos from '@/assets/team/Comite_Executivo/João Domingos.webp'
-import MariaMadeira from '@/assets/team/Comite_Executivo/Maria Madeira.webp'
-import MatildePinheiro from '@/assets/team/Comite_Executivo/Matilde Pinheiro.webp'
+// Coordenação
+import BeatrizVenceslau from '@/assets/team/Coordenacao/Beatriz Venceslau.webp'
+import BeatrizAlves from '@/assets/team/Coordenacao/Beatriz Alves.webp'
+import ManuelCandeias from '@/assets/team/Coordenacao/Manuel Candeias.webp'
 
-// Logistica
-import AfonsoBatalha from '@/assets/team/Logistica/Afonso Batalha.webp'
-import AfonsoSantos from '@/assets/team/Logistica/Afonso Santos.webp'
-import AntonioPereira from '@/assets/team/Logistica/Antonio Pereira.webp'
-import BeatrizAlves from '@/assets/team/Logistica/Beatriz Alves.webp'
-import BeatrizVenceslau from '@/assets/team/Logistica/Beatriz Venceslau.webp'
-import ConstancaFlorindo from '@/assets/team/Logistica/Constanca Florindo.webp'
-import DuartePonce from '@/assets/team/Logistica/Duarte Ponce.webp'
-import FabioSoares from '@/assets/team/Logistica/Fabio Soares.webp'
-import FranciscoGoncalves from '@/assets/team/Logistica/Francisco Goncalves.webp'
-import GuilhermeSilva from '@/assets/team/Logistica/Guilherme Silva.webp'
+// Logística
+import FabioSoares from '@/assets/team/Logistica/Fábio Soares.webp'
+import AfonsoFaleiro from '@/assets/team/Logistica/Afonso Faleiro.webp'
+import AfonsoVirtuoso from '@/assets/team/Logistica/Afonso Virtuoso.webp'
+import BrunoSilva from '@/assets/team/Logistica/Bruno Silva.webp'
+import DiogoMarques from '@/assets/team/Logistica/Diogo Marques.webp'
+import GustavoRosa from '@/assets/team/Logistica/Gustavo Rosa.webp'
 import InesCoelho from '@/assets/team/Logistica/Inês Coelho.webp'
-import MadalenaBarbeitos from '@/assets/team/Logistica/Madalena Barbeitos.webp'
-import MartaMoutinho from '@/assets/team/Logistica/Marta Moutinho.webp'
-import MatildeSantos from '@/assets/team/Logistica/Matilde Santos.webp'
-import PauloLopes from '@/assets/team/Logistica/Paulo Lopes.webp'
-import RicardoCarvalho from '@/assets/team/Logistica/Ricardo Carvalho.webp'
-
-// Design
-import AfonsoVirtuoso from '@/assets/team/Design/Afonso Virtuoso.webp'
-import BrunoSilva from '@/assets/team/Design/Bruno Silva.webp'
-import InesSimoes from '@/assets/team/Design/Inês Simões.webp'
+import JoaoLobato from '@/assets/team/Logistica/João Lobato.webp'
+import JoaoOliveira from '@/assets/team/Logistica/João Oliveira.webp'
+import MariaJoaoLeite from '@/assets/team/Logistica/Maria João Leite.webp'
+import MartaAbreu from '@/assets/team/Logistica/Marta Abreu.webp'
+import MatildeLuis from '@/assets/team/Logistica/Matilde Luís.webp'
+import PedroBarao from '@/assets/team/Logistica/Pedro Barão.webp'
+import SamuelSousa from '@/assets/team/Logistica/Samuel Sousa.webp'
+import SofiaCosta from '@/assets/team/Logistica/Sofia Costa.webp'
 
 // Marketing
 import AndreiaAzevedo from '@/assets/team/Marketing/Andreia Azevedo.webp'
-import BernardoOrmonde from '@/assets/team/Marketing/Bernardo Ormonde.webp'
-import EvanetteEvaristo from '@/assets/team/Marketing/Evanette Evaristo.webp'
-import FranciscaMartins from '@/assets/team/Marketing/Francisca Martins.webp'
-import GabrielGabriel from '@/assets/team/Marketing/Gabriel Gabriel.webp'
-import JoanaBasto from '@/assets/team/Marketing/Joana Basto.webp'
-import JoaoBayeux from '@/assets/team/Marketing/João Bayeux.webp'
-import LiaNeves from '@/assets/team/Marketing/Lia Neves.webp'
-import LuisDias from '@/assets/team/Marketing/Luis Dias.webp'
-import MargaridaSilva from '@/assets/team/Marketing/Margarida Silva.webp'
-import MariaMoura from '@/assets/team/Marketing/Maria Moura.webp'
 import PedroGomes from '@/assets/team/Marketing/Pedro Gomes.webp'
-import RaulAlves from '@/assets/team/Marketing/Raul Alves.webp'
+import CarolinaSerpa from '@/assets/team/Marketing/Carolina Serpa.webp'
+import DenysTsiple from '@/assets/team/Marketing/Denys Tsiple.webp'
+import EvanetteEvaristo from '@/assets/team/Marketing/Evanette Evaristo.webp'
+import GabrielGabriel from '@/assets/team/Marketing/Gabriel Gabriel.webp'
+import MariaCosta from '@/assets/team/Marketing/Maria Costa.webp'
+import MatildeCapelo from '@/assets/team/Marketing/Matilde Capelo.webp'
+import NicoleFernandes from '@/assets/team/Marketing/Nicole Fernandes.webp'
+
+// People
+import AnaOliveira from '@/assets/team/People/Ana Oliveira.webp'
+import AntonioToste from '@/assets/team/People/António Toste.webp'
+import EmaPinheiro from '@/assets/team/People/Ema Pinheiro.webp'
+import LiaNeves from '@/assets/team/People/Lia Neves.webp'
+import ManuelDias from '@/assets/team/People/Manuel Dias.webp'
 
 // Relações Externas
-import AnaOliveira from '@/assets/team/Relacoes_Externas/Ana Oliveira.webp'
-import BeatrizPinto from '@/assets/team/Relacoes_Externas/Beatriz Pinto.webp'
-import BernardoCastico from '@/assets/team/Relacoes_Externas/Bernardo Castiço.webp'
-import CarlotaPinto from '@/assets/team/Relacoes_Externas/Carlota Pinto.webp'
-import CarolinaCruz from '@/assets/team/Relacoes_Externas/Carolina Cruz.webp'
-import CatarinaMachado from '@/assets/team/Relacoes_Externas/Catarina Machado.webp'
-import ConstancaPrimor from '@/assets/team/Relacoes_Externas/Constança Primor.webp'
-import HugoRita from '@/assets/team/Relacoes_Externas/Hugo Rita.webp'
-import ManuelCandeias from '@/assets/team/Relacoes_Externas/Manuel Candeias.webp'
-import MargaridaSousa from '@/assets/team/Relacoes_Externas/Margarida Sousa.webp'
-import MariaAibeo from '@/assets/team/Relacoes_Externas/Maria Aibéo.webp'
-import MariaPessoa from '@/assets/team/Relacoes_Externas/Maria Carolina Pessoa.webp'
-import MartaAugusto from '@/assets/team/Relacoes_Externas/Marta Augusto.webp'
 import MartimAbreu from '@/assets/team/Relacoes_Externas/Martim Abreu.webp'
-import NunoMarques from '@/assets/team/Relacoes_Externas/Nuno Marques.webp'
-import PedroClaro from '@/assets/team/Relacoes_Externas/Pedro Claro.webp'
-import PedroCurvo from '@/assets/team/Relacoes_Externas/Pedro Curvo.webp'
-import SalvadorTorpes from '@/assets/team/Relacoes_Externas/Salvador Torpes.webp'
+import BeatrizPinto from '@/assets/team/Relacoes_Externas/Beatriz Pinto.webp'
+import MargaridaSousa from '@/assets/team/Relacoes_Externas/Margarida Sousa.webp'
+import BeatrizMarques from '@/assets/team/Relacoes_Externas/Beatriz Marques.webp'
+import BernardoGalante from '@/assets/team/Relacoes_Externas/Bernardo Galante.webp'
+import CarlotaBarros from '@/assets/team/Relacoes_Externas/Carlota Barros.webp'
+import CarolinaCruz from '@/assets/team/Relacoes_Externas/Carolina Cruz.webp'
+import DorisaSilva from '@/assets/team/Relacoes_Externas/Dorisa Silva.webp'
+import FranciscoSilva from '@/assets/team/Relacoes_Externas/Francisco Silva.webp'
+import GuadalupeParamos from '@/assets/team/Relacoes_Externas/Guadalupe Paramos.webp'
+import JoaoMorais from '@/assets/team/Relacoes_Externas/João Morais.webp'
+import LuisDias from '@/assets/team/Relacoes_Externas/Luís Dias.webp'
+import ManuelOliveira from '@/assets/team/Relacoes_Externas/Manuel Oliveira.webp'
+import NunoMonteiro from '@/assets/team/Relacoes_Externas/Nuno Monteiro.webp'
+import SaraMarques from '@/assets/team/Relacoes_Externas/Sara Marques.webp'
+import TomasCarvalho from '@/assets/team/Relacoes_Externas/Tomás Carvalho.webp'
+import TomasMorais from '@/assets/team/Relacoes_Externas/Tomás Morais.webp'
 
-// SI
-import DiogoCatarino from '@/assets/team/Suporte_Informatico/Diogo Catarino.webp'
-import FranciscoSilva from '@/assets/team/Suporte_Informatico/Francisco Silva.webp'
-import GoncaloSilva from '@/assets/team/Suporte_Informatico/Gonçalo Silva.webp'
-import HelenaTeixeira from '@/assets/team/Suporte_Informatico/Helena Teixeira.webp'
-import JoaoLobato from '@/assets/team/Suporte_Informatico/João Lobato.webp'
-import MarianaCarvalho from '@/assets/team/Suporte_Informatico/Mariana Carvalho.webp'
+// Suporte Informático
+import GoncaloSilva from '@/assets/team/Suporte_Informatico/Gonçalo Silva.webp'
+import AfonsoPires from '@/assets/team/Suporte_Informatico/Afonso Pires.webp'
+import CarlosSilva from '@/assets/team/Suporte_Informatico/Carlos Silva.webp'
+import MiguelTeixeira from '@/assets/team/Suporte_Informatico/Miguel Teixeira.webp'
+import MiguelVale from '@/assets/team/Suporte_Informatico/Miguel Vale.webp'
+import RenatoMarques from '@/assets/team/Suporte_Informatico/Renato Marques.webp'
 import RicardoHorta from '@/assets/team/Suporte_Informatico/Ricardo Horta.webp'
 import RodrigoAlves from '@/assets/team/Suporte_Informatico/Rodrigo Alves.webp'
 import SamuelBarata from '@/assets/team/Suporte_Informatico/Samuel Barata.webp'
-import JoaoAlves from '@/assets/team/unknown.webp'
+import TiagoCaldas from '@/assets/team/Suporte_Informatico/Tiago Caldas.webp'
 import { StaticImageData } from 'next/image'
 
 export interface TeamMember {
@@ -96,28 +91,22 @@ const coordenacao: IDepartment = {
   slug: 'coordenacao',
   coordinators: [
     {
-      name: 'João Domingos',
-      image: JoaoDomingos,
-      role: 'Co-Coordenador',
-      linkedin: 'https://www.linkedin.com/in/joaogdomingos/',
+      name: 'Beatriz Venceslau',
+      image: BeatrizVenceslau,
+      role: 'Coordenadora Financeira',
+      linkedin: 'https://www.linkedin.com/in/beatriz-venceslau/',
     },
     {
-      name: 'Maria Madeira',
-      image: MariaMadeira,
-      role: 'Co-Coordenadora',
-      linkedin: 'https://www.linkedin.com/in/maria-teresa-madeira-',
-    },
-    {
-      name: 'Matilde Pinheiro',
-      image: MatildePinheiro,
-      role: 'Co-Coordenadora',
-      linkedin: 'https://www.linkedin.com/in/matildepinheiro/',
-    },
-    {
-      name: 'Afonso Leitão',
-      image: AfonsoLeitao,
-      role: 'Coordenador Financeiro',
+      name: 'Beatriz Alves',
+      image: BeatrizAlves,
+      role: 'Coordenadora',
       linkedin: '',
+    },
+    {
+      name: 'Manuel Candeias',
+      image: ManuelCandeias,
+      role: 'Coordenador',
+      linkedin: 'https://www.linkedin.com/in/manuel-candeias',
     },
   ],
   members: [],
@@ -128,103 +117,97 @@ const logistica: IDepartment = {
   slug: 'logistica',
   coordinators: [
     {
-      name: 'Beatriz Alves',
-      image: BeatrizAlves,
-      role: 'Coordenadora',
-      linkedin: '',
-    },
+      name: 'Fábio Soares',
+      image: FabioSoares,
+      role: 'Coordenador',
+      linkedin: 'https://www.linkedin.com/in/fábio-alexandre-oliveira-soares-57545126a',
+    }
   ],
   members: [
     {
-      name: 'Afonso Batalha',
-      image: AfonsoBatalha,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/afonso-batalha/',
-    },
-    {
-      name: 'Afonso Santos',
-      image: AfonsoSantos,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/afonso-vaz-dos-santos-967964227',
-    },
-    {
-      name: 'António Pereira',
-      image: AntonioPereira,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/ap179/',
-    },
-    {
-      name: 'Beatriz Venceslau',
-      image: BeatrizVenceslau,
-      role: 'Colaboradora',
-      linkedin: 'http://linkedin.com/in/beatriz-venceslau',
-    },
-    {
-      name: 'Constança Florindo',
-      image: ConstancaFlorindo,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/constan%C3%A7a-florindo-08039523a',
-    },
-    {
-      name: 'Duarte Ponce',
-      image: DuartePonce,
-      role: 'Colaborador',
-      linkedin: 'https://pt.linkedin.com/in/duarte-ponce-77b666266',
-    },
-    {
-      name: 'Fábio Soares',
-      image: FabioSoares,
+      name: 'Afonso Faleiro',
+      image: AfonsoFaleiro,
       role: 'Colaborador',
       linkedin: '',
     },
     {
-      name: 'Francisco Gonçalves',
-      image: FranciscoGoncalves,
+      name: 'Afonso Virtuoso',
+      image: AfonsoVirtuoso,
       role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/franciscotgg/',
+      linkedin: 'https://www.linkedin.com/in/afonso-virtuoso-327042257?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
     },
     {
-      name: 'Guilherme Silva',
-      image: GuilhermeSilva,
+      name: 'Bruno Silva',
+      image: BrunoSilva,
       role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/guilherme-braz-silva/',
+      linkedin: 'https://www.linkedin.com/in/bruno-silva-278907253',
+    },
+    {
+      name: 'Diogo Marques',
+      image: DiogoMarques,
+      role: 'Colaborador',
+      linkedin: '',
+    },
+    {
+      name: 'Gustavo Rosa',
+      image: GustavoRosa,
+      role: 'Colaborador',
+      linkedin: '',
     },
     {
       name: 'Inês Coelho',
       image: InesCoelho,
       role: 'Colaboradora',
-      linkedin: 'http://www.linkedin.com/in/in%C3%AAs-coelho-998808254',
+      linkedin: 'http://linkedin.com/in/inescoelho03',
     },
     {
-      name: 'Madalena Barbeitos',
-      image: MadalenaBarbeitos,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/madalena-barbeitos-a17b28116/',
+      name: 'João Lobato',
+      image: JoaoLobato,
+      role: 'Colaborador',
+      linkedin: 'https://www.linkedin.com/in/joao-rafael-lobato',
     },
     {
-      name: 'Marta Moutinho',
-      image: MartaMoutinho,
+      name: 'João Oliveira',
+      image: JoaoOliveira,
+      role: 'Colaborador',
+      linkedin: '',
+    },
+    {
+      name: 'Maria João Leite',
+      image: MariaJoaoLeite,
       role: 'Colaboradora',
       linkedin: '',
     },
     {
-      name: 'Matilde Santos',
-      image: MatildeSantos,
+      name: 'Marta Abreu',
+      image: MartaAbreu,
       role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/matilde-santos-85a090227/',
+      linkedin: 'https://www.linkedin.com/in/marta-alexandra-abreu',
     },
     {
-      name: 'Paulo Lopes',
-      image: PauloLopes,
-      role: 'Colaborador',
-      linkedin: 'http://www.linkedin.com/in/paulo-lopes-693056227',
+      name: 'Matilde Luís',
+      image: MatildeLuis,
+      role: 'Colaboradora',
+      linkedin: '',
     },
     {
-      name: 'Ricardo Carvalho',
-      image: RicardoCarvalho,
+      name: 'Pedro Barão',
+      image: PedroBarao,
       role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/ricardo-carvalho1',
+      linkedin: 'https://www.linkedin.com/in/pedro-bar%C3%A3o-96a2b422a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
     },
+    {
+      name: 'Samuel Sousa',
+      image: SamuelSousa,
+      role: 'Colaborador',
+      linkedin: 'https://www.linkedin.com/in/samuelsousa99037/',
+    },
+    {
+      name: 'Sofia Costa',
+      image: SofiaCosta,
+      role: 'Colaboradora',
+      linkedin: 'https://www.linkedin.com/in/sofia-t-costa/',
+    }
   ],
 }
 
@@ -233,43 +216,30 @@ const marketingDesign: IDepartment = {
   slug: 'design',
   coordinators: [
     {
-      name: 'Francisca Martins',
-      image: FranciscaMartins,
+      name: 'Andreia Azevedo',
+      image: AndreiaAzevedo,
       role: 'Coordenadora',
-      linkedin:
-        'https://www.linkedin.com/in/francisca-ferreira-martins-5254a1221',
+      linkedin: 'https://www.linkedin.com/in/andreiasilvaazevedo',
+    },
+    {
+      name: 'Pedro Gomes',
+      image: PedroGomes,
+      role: 'Coordenador',
+      linkedin: 'https://www.linkedin.com/in/pedro-gomes-25727516b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
     },
   ],
   members: [
     {
-      name: 'Afonso Virtuoso',
-      image: AfonsoVirtuoso,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/afonso-virtuoso-327042257',
-    },
-    {
-      name: 'Bruno Silva',
-      image: BrunoSilva,
-      role: 'Colaborador',
-      linkedin: 'linkedin.com/in/bruno-silva-278907253',
-    },
-    {
-      name: 'Inês Simões',
-      image: InesSimoes,
+      name: 'Carolina Serpa',
+      image: CarolinaSerpa,
       role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/in%C3%AAs-sim%C3%B5es-732b75227/',
+      linkedin: '',
     },
     {
-      name: 'Andreia Azevedo',
-      image: AndreiaAzevedo,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/andreiasilvaazevedo/',
-    },
-    {
-      name: 'Bernardo Ormonde',
-      image: BernardoOrmonde,
+      name: 'Denys Tsiple',
+      image: DenysTsiple,
       role: 'Colaborador',
-      linkedin: 'http://www.linkedin.com/in/bernardo-ormonde-3973171b8',
+      linkedin: 'https://www.linkedin.com/in/denys-undefined-aa5b26275',
     },
     {
       name: 'Evanette Evaristo',
@@ -281,126 +251,62 @@ const marketingDesign: IDepartment = {
       name: 'Gabriel Gabriel',
       image: GabrielGabriel,
       role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/gabriel-gabriel-bb261a25a',
+      linkedin: 'https://www.linkedin.com/in/gabriel-gabriel-bb261a25a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
     },
     {
-      name: 'Joana Basto',
-      image: JoanaBasto,
+      name: 'Maria Costa',
+      image: MariaCosta,
       role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/joana-basto-916665255',
+      linkedin: '',
     },
     {
-      name: 'João Bayeux',
-      image: JoaoBayeux,
+      name: 'Matilde Capelo',
+      image: MatildeCapelo,
+      role: 'Colaboradora',
+      linkedin: 'https://www.linkedin.com/in/matilde-lopes-633207241/',
+    },
+    {
+      name: 'Nicole Fernandes',
+      image: NicoleFernandes,
+      role: 'Colaboradora',
+      linkedin: 'https://www.linkedin.com/in/nicole-fernandes-figueiredo-869abb234?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
+    },
+  ],
+}
+
+const people: IDepartment = {
+  name: 'People',
+  slug: 'people',
+  coordinators: [{
+    name: 'Ana Oliveira',
+    image: AnaOliveira,
+    role: 'Coordenadora',
+    linkedin: '',
+  },],
+  members: [
+    {
+      name: 'António Toste',
+      image: AntonioToste,
       role: 'Colaborador',
-      linkedin: '',
+      linkedin: 'https://www.linkedin.com/in/antonio-toste/',
+    },
+    {
+      name: 'Ema Pinheiro',
+      image: EmaPinheiro,
+      role: 'Colaboradora',
+      linkedin: 'http://linkedin.com/in/ema-pinheiro-77879a256',
     },
     {
       name: 'Lia Neves',
       image: LiaNeves,
       role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/lia-neves-7015b6254',
+      linkedin: 'https://www.linkedin.com/in/lia-neves1123',
     },
     {
-      name: 'Luís Dias',
-      image: LuisDias,
+      name: 'Manuel Dias',
+      image: ManuelDias,
       role: 'Colaborador',
-      linkedin: '',
-    },
-    {
-      name: 'Margarida Silva',
-      image: MargaridaSilva,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/margarida-silva-847936254/',
-    },
-    {
-      name: 'Maria Moura',
-      image: MariaMoura,
-      role: 'Colaboradora',
-      linkedin: 'http://linkedin.com/in/maria-mmoura-40b887254',
-    },
-    {
-      name: 'Pedro Gomes',
-      image: PedroGomes,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/pedro-gomes-25727516b',
-    },
-    {
-      name: 'Raúl Alves',
-      image: RaulAlves,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/raul-alves-174a54254/',
-    },
-  ],
-}
-
-const suporteInformatico: IDepartment = {
-  name: 'Suporte Informático',
-  slug: 'suporte_informatico',
-  coordinators: [
-    {
-      name: 'Francisco Silva',
-      image: FranciscoSilva,
-      role: 'Coordenador',
-      linkedin:
-        'https://www.linkedin.com/in/francisco-ribeiro-e-silva-144b511a9/',
-    },
-  ],
-  members: [
-    {
-      name: 'Gonçalo Silva',
-      image: GoncaloSilva,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/goncaloacbs',
-    },
-    {
-      name: 'Helena Teixeira',
-      image: HelenaTeixeira,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/helenateixeira-info/',
-    },
-    {
-      name: 'Samuel Barata',
-      image: SamuelBarata,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/samuel-barata/',
-    },
-    {
-      name: 'Diogo Catarino',
-      image: DiogoCatarino,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/diogo-catarino/',
-    },
-    {
-      name: 'Mariana Carvalho',
-      image: MarianaCarvalho,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/mariana-leite-carvalho',
-    },
-    {
-      name: 'Ricardo Horta',
-      image: RicardoHorta,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/ricardo-horta-9b2825254',
-    },
-    {
-      name: 'João Alves',
-      image: JoaoAlves,
-      role: 'Colaborador',
-      linkedin:
-        'https://www.linkedin.com/in/jo%C3%A3o-maria-morgado-alves-28a865262',
-    },
-    {
-      name: 'João Lobato',
-      image: JoaoLobato,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/joao-rafael-lobato',
-    },
-    {
-      name: 'Rodrigo Alves',
-      image: RodrigoAlves,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/rodrigo-lucas-975562223/',
+      linkedin: 'http://www.linkedin.com/in/manuelmldias',
     },
   ],
 }
@@ -410,123 +316,186 @@ const relacoesExternas: IDepartment = {
   slug: 'relacoes_externas',
   coordinators: [
     {
-      name: 'Ana Oliveira',
-      image: AnaOliveira,
-      role: 'Co-Coordenadora',
-      linkedin: 'https://www.linkedin.com/in/anaclloliveira/',
-    },
+    name: 'Martim Abreu',
+    image: MartimAbreu,
+    role: 'Coordenador',
+    linkedin: 'https://www.linkedin.com/in/martim-abreu-4b8a29225/',
+  },
+  {
+    name: 'Beatriz Pinto',
+    image: BeatrizPinto,
+    role: 'Coordenadora - Oradores',
+    linkedin: 'https://www.linkedin.com/in/beatriz-ra-pinto/',
+  },
+  {
+    name: 'Margarida Sousa',
+    image: MargaridaSousa,
+    role: 'Coordenadora - Empresas',
+    linkedin: 'https://www.linkedin.com/in/margaridagoulaodesousa/',
+  },
+    
+  ],
+  members: [{
+    name: 'Beatriz Marques',
+    image: BeatrizMarques,
+    role: 'Colaboradora',
+    linkedin: 'https://www.linkedin.com/in/beatriz-marques-35a016234?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BGTLDfxTHR8appMSAiYkeeQ%3D%3D',
+  },
+  {
+    name: 'Bernardo Galante',
+    image: BernardoGalante,
+    role: 'Colaborador',
+    linkedin: 'https://www.linkedin.com/in/bernardo-galante-502aa4112/',
+  },
+  {
+    name: 'Carlota Barros',
+    image: CarlotaBarros,
+    role: 'Colaboradora',
+    linkedin: 'https://www.linkedin.com/in/carlota-barros',
+  },
+  {
+    name: 'Carolina Cruz',
+    image: CarolinaCruz,
+    role: 'Colaboradora',
+    linkedin: 'https://www.linkedin.com/in/carolina-pinto-da-cruz-1b690b250/',
+  },
+  {
+    name: 'Dorisa Silva',
+    image: DorisaSilva,
+    role: 'Colaboradora',
+    linkedin: 'https://pt.linkedin.com/in/dorisa-silva-026574213',
+  },
+  {
+    name: 'Francisco Silva',
+    image: FranciscoSilva,
+    role: 'Colaborador',
+    linkedin: 'https://www.linkedin.com/in/francisco-nogueira-da-silva?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
+  },
+  {
+    name: 'Guadalupe Paramos',
+    image: GuadalupeParamos,
+    role: 'Colaboradora',
+    linkedin: 'https://www.linkedin.com/in/guadalupeparamos',
+  },
+  {
+    name: 'João Morais',
+    image: JoaoMorais,
+    role: 'Colaborador',
+    linkedin: '',
+  },
+  {
+    name: 'Luís Dias',
+    image: LuisDias,
+    role: 'Colaborador',
+    linkedin: '',
+  },
+  {
+    name: 'Manuel Oliveira',
+    image: ManuelOliveira,
+    role: 'Colaborador',
+    linkedin: 'https://www.linkedin.com/in/manuel-oliveira-18859126b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
+  },
+  {
+    name: 'Nuno Monteiro',
+    image: NunoMonteiro,
+    role: 'Colaborador',
+    linkedin: '',
+  },
+  {
+    name: 'Sara Marques',
+    image: SaraMarques,
+    role: 'Colaboradora',
+    linkedin: '',
+  },
+  {
+    name: 'Tomás Carvalho',
+    image: TomasCarvalho,
+    role: 'Colaborador',
+    linkedin: 'https://www.linkedin.com/in/tomasrvcarvalho?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
+  },
+  {
+    name: 'Tomás Morais',
+    image: TomasMorais,
+    role: 'Colaborador',
+    linkedin: 'https://www.linkedin.com/in/tomasamorais/',
+  },]
+}
+
+const suporteInformatico: IDepartment = {
+name: 'Suporte Informático',
+slug: 'suporte_informatico',
+coordinators: [
     {
-      name: 'Manuel Candeias',
-      image: ManuelCandeias,
-      role: 'Co-Coordenador',
-      linkedin: 'https://www.linkedin.com/in/manuel-candeias',
-    },
-    {
-      name: 'Maria Carolina Pessoa',
-      image: MariaPessoa,
-      role: 'Co-Coordenadora',
-      linkedin: 'https://www.linkedin.com/in/mariacarolinapessoa/',
+    name: 'Gonçalo Silva',
+    image: GoncaloSilva,
+    role: 'Coordenador',
+    linkedin: 'https://www.linkedin.com/in/goncaloacbs/',
     },
   ],
-  members: [
-    {
-      name: 'Beatriz Pinto',
-      image: BeatrizPinto,
-      role: 'Colaboradora',
-      linkedin:
-        'https://www.linkedin.com/in/beatriz-pinto-35a016234?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BGTLDfxTHR8appMSAiYkeeQ%3D%3D',
+  
+members: [
+  {
+    name: 'Afonso Pires',
+    image: AfonsoPires,
+    role: 'Colaborador',
+    linkedin: 'https://www.linkedin.com/in/afonso-pires-b155a2222?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
     },
-    {
-      name: 'Bernardo Castiço',
-      image: BernardoCastico,
-      role: 'Colaborador',
-      linkedin: 'http://www.linkedin.com/in/bernardo-casti%C3%A7o',
-    },
-    {
-      name: 'Catarina Machado',
-      image: CatarinaMachado,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/catarinatrgmachado',
-    },
-    {
-      name: 'Carlota Pinto',
-      image: CarlotaPinto,
-      role: 'Colaboradora',
-      linkedin: 'http://linkedin.com/in/carlota-pinto-023401251',
-    },
-    {
-      name: 'Constança Primor',
-      image: ConstancaPrimor,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/constan%C3%A7a-primor-9a19a0234',
-    },
-    {
-      name: 'Carolina Cruz',
-      image: CarolinaCruz,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/carolina-pinto-da-cruz-1b690b250/',
-    },
-    {
-      name: 'Hugo Rita',
-      image: HugoRita,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/hugorita288/',
-    },
-    {
-      name: 'Margarida Sousa',
-      image: MargaridaSousa,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/margarida-de-sousa-260007b3/',
-    },
-    {
-      name: 'Maria Aibéo',
-      image: MariaAibeo,
-      role: 'Colaboradora',
-      linkedin: 'https://www.linkedin.com/in/maria-aib%C3%A9o-9643b4256',
-    },
-    {
-      name: 'Marta Augusto',
-      image: MartaAugusto,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/martaclaugusto/',
-    },
-    {
-      name: 'Martim Abreu',
-      image: MartimAbreu,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/martim-abreu-4b8a29225/',
-    },
-    {
-      name: 'Nuno Marques',
-      image: NunoMarques,
-      role: 'Colaborador',
-      linkedin: '',
-    },
-    {
-      name: 'Pedro Claro',
-      image: PedroClaro,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/pedro-claro-a38398230/',
-    },
-    {
-      name: 'Pedro Curvo',
-      image: PedroCurvo,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/pedro-curvo',
-    },
-    {
-      name: 'Salvador Torpes',
-      image: SalvadorTorpes,
-      role: 'Colaborador',
-      linkedin: 'https://www.linkedin.com/in/salvador-torpes-175263179',
-    },
-  ],
+{
+name: 'Carlos Silva',
+image: CarlosSilva,
+role: 'Colaborador',
+linkedin: 'https://www.linkedin.com/in/carlos-henrique-hermanny-moreira-da-silva-782a45165/',
+},
+{
+name: 'Miguel Teixeira',
+image: MiguelTeixeira,
+role: 'Colaborador',
+linkedin: 'https://www.linkedin.com/in/miguel-teixeira-1a4b01276/',
+},
+{
+name: 'Miguel Vale',
+image: MiguelVale,
+role: 'Colaborador',
+linkedin: 'https://www.linkedin.com/in/miguel-vale-71090824b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
+},
+{
+name: 'Renato Marques',
+image: RenatoMarques,
+role: 'Colaborador',
+linkedin: '',
+},
+{
+name: 'Ricardo Horta',
+image: RicardoHorta,
+role: 'Colaborador',
+linkedin: 'https://www.linkedin.com/in/ricardo-horta-9b2825254',
+},
+{
+name: 'Rodrigo Alves',
+image: RodrigoAlves,
+role: 'Colaborador',
+linkedin: 'https://www.linkedin.com/in/rodrigo-alves-975562223/',
+},
+{
+name: 'Samuel Barata',
+image: SamuelBarata,
+role: 'Colaborador',
+linkedin: 'https://www.linkedin.com/in/samuel-barata/',
+},
+{
+name: 'Tiago Caldas',
+image: TiagoCaldas,
+role: 'Colaborador',
+linkedin: 'http://www.linkedin.com/in/tiago-caldas-26a387268',
+},
+],
 }
 
 export {
-  coordenacao,
-  marketingDesign,
-  logistica,
-  relacoesExternas,
-  suporteInformatico,
+coordenacao,
+marketingDesign,
+logistica,
+people,
+relacoesExternas,
+suporteInformatico,
 }

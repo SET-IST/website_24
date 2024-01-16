@@ -1,7 +1,8 @@
 import {
   coordenacao,
-  logistica,
   marketingDesign,
+  logistica,
+  people,
   relacoesExternas,
   suporteInformatico,
 } from '@/data/team'
@@ -17,12 +18,13 @@ const TeamPage = () => {
       )}
     >
       <Header />
-      <div className=" w-full flex flex-col gap-12">
+      <div className="w-full flex flex-col gap-12">
         <Department {...coordenacao} />
         <Department {...marketingDesign} />
         <Department {...suporteInformatico} />
         <Department {...relacoesExternas} />
         <Department {...logistica} />
+        <Department {...people} />
       </div>
     </div>
   )
