@@ -55,3 +55,57 @@ export async function patchStudentProfile(user: User, data: PatchStudentProfileD
     })
 }
 
+export async function getStudentCompanies(user:User) {
+    return await databaseQueryWrapper(async () => {
+        return await PrismaService.studentDetails.findUniqueOrThrow(
+            {
+                where: {
+                    userId: user.id
+                },
+                
+                select: {
+                    companies: {
+                        select: {
+                            category: true,
+                            username: true,
+                            description: true
+                        }
+                    }
+                }
+            }
+        )
+    })    
+}
+
+export async function getStudentEnrollments(user:User) {
+    return await databaseQueryWrapper(async () => {
+        return await PrismaService.studentDetails.findUniqueOrThrow(
+            {
+                where: {
+                    userId: user.id
+                },
+                
+                select: {
+                    enrolledActivities: {
+                        select: {
+                            activityId: true,
+                            confirmed: true,
+                            activity: {
+                                select: {
+                                    title: true,
+                                    description: true,
+                                    date: true,
+                                    duration: true,
+                                    location: true,
+                                    type: true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        )
+    })    
+}
+
+

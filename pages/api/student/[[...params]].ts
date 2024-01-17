@@ -29,6 +29,22 @@ class StudentRoutes {
     ) {
         return await Server.patchStudentProfile(user, data)
     }
+
+    @Get('/companies')
+    @Role('Student', 'Staff')
+    public async getStudentCompanies(
+        @UserData() user: User,
+    ) {
+        return await Server.getStudentCompanies(user)
+    }
+
+    @Get('/enrollments')
+    @Role('Student', 'Staff')
+    public async getStudentEnrollments(
+        @UserData() user: User,
+    ) {
+        return await Server.getStudentEnrollments(user)
+    }
 }
 
 export default createHandler(StudentRoutes)
