@@ -36,21 +36,18 @@ export async function login(
 
 export async function getCompanyProfile(user: User) {
   return await databaseQueryWrapper(async () => {
-    return await PrismaService.user.findUniqueOrThrow({
+    return await PrismaService.companyDetails.findUniqueOrThrow({
       where: {
-        id: user.id,
+        userId: user.id,
       },
-      include: {
-          companyDetails: {
-            select: {
-              id: true,
-              description: true,
-              linkHref: true,
-              linkText: true,
-              category: true,
-              username: true,
-            },
-        },
+      
+      select: {
+        id: true,
+        description: true,
+        linkHref: true,
+        linkText: true,
+        category: true,
+        username: true,
       },
     })
   })
@@ -76,4 +73,25 @@ export async function patchCompanyProfile(user: User, req: PatchCompanyProfileDt
     })
     return {message: "Company profile updated"}
   })
+}
+
+export async function getCompanyStudents(user: User){
+  return await databaseQueryWrapper(async () => {
+    return await PrismaService.companyDetails.findUniqueOrThrow({
+      where: {
+        userId: user.id
+      },
+      select:
+        {
+          students: {
+            select: {
+              id: true,
+              course: true,
+              university: true
+            }
+          }
+        }
+      })
+    }
+  )
 }

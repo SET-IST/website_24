@@ -40,6 +40,13 @@ class CompanyRoutes {
       return await CompanyService.patchCompanyProfile(user,req)
   }
 
+  @Get('/students')
+  @RequiresSession()
+  @Role('Company')
+  public async getCompanyStudents(@UserData() user: User) {
+    return await CompanyService.getCompanyStudents(user)
+  }
+
 }
 
 export default createHandler(CompanyRoutes)
