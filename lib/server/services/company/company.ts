@@ -34,20 +34,24 @@ export async function login(
   })
 }
 
+
 export async function getCompanyProfile(user: User) {
   return await databaseQueryWrapper(async () => {
-    return await PrismaService.companyDetails.findUniqueOrThrow({
+    return await PrismaService.user.findUniqueOrThrow({
       where: {
-        userId: user.id,
+        id: user.id,
       },
-      
-      select: {
-        id: true,
-        description: true,
-        linkHref: true,
-        linkText: true,
-        category: true,
-        username: true,
+      include: {
+        companyDetails: {
+          select: {
+            id: true,
+            description: true,
+            linkHref: true,
+            linkText: true,
+            category: true,
+            username: true,
+          },
+        },
       },
     })
   })
