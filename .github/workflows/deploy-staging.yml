@@ -18,19 +18,19 @@ jobs:
     steps:
       - name: set environment variables
         run: |
-          # DATABASE 
+          # DATABASE
           echo DATABASE_URL="postgresql://${{ vars.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}/${{ vars.DB_NAME_STAG }}?schema=public" >> env
 
           # S3 (MinIO instance)
           echo S3_HOST="${{ vars.S3_HOST }}" >> env
-          echo S3_BUCKET="${{ vars.S3_BUCKET }}" >> env
+          echo S3_BUCKET="${{ vars.S3_BUCKET_MAIN }}" >> env
           echo S3_ACS_KEY="${{ vars.S3_ACS_KEY }}" >> env
           echo S3_ACS_SCRT="${{ secrets.S3_ACS_SCRT }}" >> env
 
           # AUTHENTICATION
           echo NEXTAUTH_URL="${{ vars.NEXTAUTH_URL_STAG }}" >> env
           echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> env
-          
+
           echo GOOGLE_CLIENT_ID="${{ vars.GOOGLE_CLIENT_ID }}" >> env
           echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
 
