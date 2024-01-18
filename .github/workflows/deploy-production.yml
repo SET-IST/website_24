@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: set environment variables
         run: |
-          # DATABASE 
+          # DATABASE
           echo DATABASE_URL="postgresql://${{ vars.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}/${{ vars.DB_NAME_PROD }}?schema=public" >> env
 
           # S3 (MinIO instance)
@@ -30,7 +30,7 @@ jobs:
           # AUTHENTICATION
           echo NEXTAUTH_URL="${{ vars.NEXTAUTH_URL_PROD }}" >> env
           echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> env
-          
+
           echo GOOGLE_CLIENT_ID="${{ vars.GOOGLE_CLIENT_ID }}" >> env
           echo GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" >> env
 
@@ -41,7 +41,7 @@ jobs:
           # Activities
           echo CALENDAR_ID="${{ secrets.CALENDAR_ID }}" >> env
           echo SCHEDULE_URL="${{ secrets.SCHEDULE_URL }}" >> env
-        
+
       - name: upload env artifact
         uses: actions/upload-artifact@v3
         with:
@@ -96,4 +96,4 @@ jobs:
       - name: copy env to destination
         run: scp -o StrictHostKeyChecking=no -i ./id_rsa ./env ubuntu@set.vps.tecnico.ulisboa.pt:~/env-prod
       - name: Reload Deployment
-        run: ssh -o StrictHostKeyChecking=no -i ./id_rsa ubuntu@set.vps.tecnico.ulisboa.pt sudo /home/ubuntu/deploy-main.sh ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest-prod
+        run: ssh -o StrictHostKeyChecking=no -i ./id_rsa ubuntu@set.vps.tecnico.ulisboa.pt sudo /home/ubuntu/deploy-prod.sh ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest-prod
