@@ -80,6 +80,13 @@ jobs:
           tags: |
             "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest-main"
             "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:${{ steps.tag.outputs.tag }}"
+      - name: upload prisma schema artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: PrismaSchema
+          path: database/prisma/schema.prisma
+          retention-days: 1
+
 
   deploy:
     needs: build
@@ -93,7 +100,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Environment
+      - name: Download Prisma Schema
+        uses: actions/download-artifact@v3
+        with:
+          name: PrismaSchema
       - name: copy env to destination
         run: scp -o StrictHostKeyChecking=no -i ./id_rsa ./env ubuntu@set.vps.tecnico.ulisboa.pt:~/env-main
+      - name: copy prisma schema to destination
+        run: scp -o StrictHostKeyChecking=no -i ./id_rsa ./database/prisma/schema.prisma ubuntu@set.vps.tecnico.ulisboa.pt:~/schema.prisma-main
       - name: Reload Deployment
         run: ssh -o StrictHostKeyChecking=no -i ./id_rsa ubuntu@set.vps.tecnico.ulisboa.pt sudo /home/ubuntu/deploy-main.sh ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest-main
