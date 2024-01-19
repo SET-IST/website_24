@@ -106,6 +106,6 @@ jobs:
       - name: copy env to destination
         run: scp -o StrictHostKeyChecking=no -i ./id_rsa ./env ubuntu@set.vps.tecnico.ulisboa.pt:~/env-prod
       - name: copy prisma schema to destination
-        run: scp -o StrictHostKeyChecking=no -i ./id_rsa ./database/prisma/schema.prisma ubuntu@set.vps.tecnico.ulisboa.pt:~/schema.prisma-prod
+        run: scp -o StrictHostKeyChecking=no -i ./id_rsa ./schema.prisma ubuntu@set.vps.tecnico.ulisboa.pt:~/schema.prisma-prod
       - name: Reload Deployment
         run: ssh -o StrictHostKeyChecking=no -i ./id_rsa ubuntu@set.vps.tecnico.ulisboa.pt sudo /home/ubuntu/deploy-prod.sh ${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest-prod
