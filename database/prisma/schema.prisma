@@ -105,7 +105,7 @@ model VerificationToken {
 }
 
 model CV {
-  id         Int            @id @default(autoincrement())
+  id         String            @id @default(uuid())
   cvLocation String         @db.VarChar(128)
   studentId  Int            @unique
   student    StudentDetails @relation(fields: [studentId], references: [id])
