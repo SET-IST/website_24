@@ -1,6 +1,6 @@
 'use client';
 
-import { EdgeStoreRouter } from '@/pages/api/blob/[...edgestore]';
+import { EdgeStoreRouter } from '@/pages/api/edgestore/[...edgestore]';
 import { createEdgeStoreProvider } from '@edgestore/react';
 
 
