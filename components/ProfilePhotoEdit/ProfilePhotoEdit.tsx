@@ -1,14 +1,21 @@
 import { Avatar, Group, Input, Text, rem } from '@mantine/core'
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react'
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone'
+import { useEdgeStore } from '@/lib/frontend/edgestore'
 
 const ProfilePhotoEdit = (props: Partial<DropzoneProps>) => {
+  const { edgestore } = useEdgeStore()
+
   return (
     <Input.Wrapper label="Fotografia de perfil">
       <div className="flex flex-row items-center gap-2">
         <Dropzone
           className="max-w-sm"
-          onDrop={(files) => console.log('accepted files', files)}
+          onDrop={async (files) => {
+            console.log('accepted files', files)
+            const res = await edgestore.profileImages.upload({file: files[0]})
+            console.log(res)
+          }}
           onReject={(files) => console.log('rejected files', files)}
           maxSize={3 * 1024 ** 2}
           accept={IMAGE_MIME_TYPE}

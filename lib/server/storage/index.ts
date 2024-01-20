@@ -1,0 +1,1 @@
+export { AWSProvider as SETAWSProvider } from './customAWS'
