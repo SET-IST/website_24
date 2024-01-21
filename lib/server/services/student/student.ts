@@ -18,11 +18,7 @@ export async function getStudentProfile(user: User) {
             course: true,
             scans: true,
             points: true,
-            cv: {
-              select: {
-                id: true,
-              },
-            },
+            cvLocation: true,
           },
         },
       },
