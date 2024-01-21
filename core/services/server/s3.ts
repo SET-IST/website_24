@@ -1,17 +1,15 @@
 import { S3Client } from '@aws-sdk/client-s3'
 
-
-
 let s3Client: S3Client
 
 function createNewClient(): S3Client {
   return new S3Client({
     credentials: {
-      accessKeyId: process.env.S3_ACS_KEY!,
-      secretAccessKey: process.env.S3_ACS_SCRT!,
+      accessKeyId: process.env.ES_AWS_ACCESS_KEY_ID!,
+      secretAccessKey: process.env.ES_AWS_SECRET_ACCESS_KEY!,
     },
     region: 'pt',
-    endpoint: `http://${process.env.S3_HOST}:9000`,
+    endpoint: process.env.EDGE_STORE_BASE_URL,
     forcePathStyle: true,
   })
 }
