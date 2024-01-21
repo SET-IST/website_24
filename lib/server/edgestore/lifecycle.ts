@@ -10,19 +10,19 @@ const enum Buckets {
 
 export async function afterUploadRequest(
   esBucketName: string,
-  url: string,
+  path: string,
   metadata: Metadata
 ) {
   switch (esBucketName) {
     case Buckets.ProfileImages:
       await updateProfileImage({
-        url: url,
+        path,
         userId: metadata.userId!,
       })
       break
     case Buckets.Cvs:
       await updateCV({
-        url: url,
+        path,
         userId: metadata.userId!,
       })
       break

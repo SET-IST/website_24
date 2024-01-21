@@ -112,7 +112,7 @@ export function SETAWSProvider(
 
       const url = `${baseUrl}/${bucketName}/${accessPath}`
 
-      afterUploadRequestCallback(esBucketName, url, fileInfo.metadata)
+      afterUploadRequestCallback(esBucketName, accessPath, fileInfo.metadata)
 
       return {
         uploadUrl: signedUrl,

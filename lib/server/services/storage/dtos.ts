@@ -1,4 +1,4 @@
 export interface UpdateAWSEntry {
-  url: string
+  path: string
   userId: string
 }

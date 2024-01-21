@@ -5,12 +5,7 @@ import { DeleteObjectCommand } from '@aws-sdk/client-s3'
 
 // Currently EdgeStore doesn't support backend clients, therefore we need to duplicate methods
 
-async function deleteFile(url: string) {
-  const path = url.replace(
-    `${process.env.EDGE_STORE_BASE_URL}/${process.env.ES_AWS_BUCKET_NAME}/`,
-    ''
-  )
-
+async function deleteFile(path: string) {
   await S3ClientService.send(
     new DeleteObjectCommand({
       Bucket: process.env.ES_AWS_BUCKET_NAME,
@@ -39,7 +34,7 @@ export async function updateProfileImage(data: UpdateAWSEntry) {
         id: data.userId,
       },
       data: {
-        image: data.url,
+        image: data.path,
       },
     })
   })
@@ -52,7 +47,7 @@ export async function updateCV(data: UpdateAWSEntry) {
         userId: data.userId,
       },
       data: {
-        cvLocation: data.url,
+        cvLocation: data.path,
       },
     })
   })
