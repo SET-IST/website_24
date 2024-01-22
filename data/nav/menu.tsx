@@ -102,7 +102,7 @@ export const StaffNavLinks: NavLinkExtendedProps[] = [
       {
         visibility: NavLinkVisibility.ALL,
         label: 'Gerir pontos',
-        navId: 'manga_points',
+        navId: 'manage_points',
         link: '',
         leftSection: (
           <IconSort09
