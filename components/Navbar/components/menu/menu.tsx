@@ -13,6 +13,33 @@ import { User } from 'next-auth'
 import { UserType } from '@prisma/client'
 import { NextRouter, useRouter } from 'next/router'
 
+function isActive(
+  link: NavLinkExtendedProps,
+  router: NextRouter,
+  level: number
+) {
+  if (link.nestedNav) {
+    const subPath = router.pathname.split('/')[level + 1]
+    return subPath !== '' && subPath === (link.link as string)
+  } else {
+    if (typeof link.link == 'object') {
+      const links = link.link as Record<UserType, string>
+      return Object.values(links).includes(router.pathname)
+    } else {
+      return link.link === router.pathname
+    }
+  }
+}
+
+function select(link: NavLinkExtendedProps, router: NextRouter, user: User) {
+  if (user && user.role && typeof link.link === 'object') {
+    const links = link.link as Record<UserType, string>
+    router.push(links[user.role])
+  } else {
+    router.push(link.link as string)
+  }
+}
+
 function NavComposite(
   data: NavLinkExtendedProps[] = [],
   level: number,
@@ -55,8 +82,8 @@ function NavComposite(
         <NavLink
           key={`nav_${level}_${index}`}
           {...navLinkDefault}
-          /* active={index === active}
-      onClick={() => setActive(index)} */
+          active={isActive(item, router, level)}
+          onClick={() => select(item, router, user)}
           variant="subtle"
         >
           {NavComposite(item.nestedNav, level + 1, isMobile, user, router)}
@@ -67,7 +94,8 @@ function NavComposite(
         <NavLink
           key={`nav_${level}_${index}`}
           {...navLinkDefault}
-          active={item.link === router.pathname.split('/')[-1]}
+          active={isActive(item, router, level)}
+          onClick={() => select(item, router, user)}
           variant="subtle"
         />
       )
