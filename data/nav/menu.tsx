@@ -1,32 +1,116 @@
 /* Main Links, available to everyone */
 
-import { IconGift, IconList, IconUser } from '@tabler/icons-react'
-import { NavLink, NavLinkType, NavLinkVisibility } from './types'
-import { links as appLinks } from '@/data/links'
+import {
+  IconCalendarStats,
+  IconGift,
+  IconList,
+  IconSettings,
+  IconSort09,
+  IconUser,
+  IconUserUp,
+} from '@tabler/icons-react'
+import { links as appLinks, links } from '@/data/links'
+import { NavLinkExtendedProps, NavLinkVisibility } from './types'
+import { rem } from '@mantine/core'
+import { LogoutNavItem } from '@/components/Navbar/components'
 
-export const MainLinks: NavLink[] = [
+export const MainNavLinks: NavLinkExtendedProps[] = [
   {
-    type: NavLinkType.ROUTE,
-    visibility: NavLinkVisibility.ALL,
+    visibility: NavLinkVisibility.MOBILE,
     label: 'Atividades',
-    slug: 'atividades',
+    navId: 'activities',
     link: appLinks.activities,
-    icon: <IconList />,
+    leftSection: (
+      <IconList style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
+    ),
   },
   {
-    type: NavLinkType.ROUTE,
-    visibility: NavLinkVisibility.ALL,
+    visibility: NavLinkVisibility.MOBILE,
     label: 'Prémios',
-    slug: 'premios',
+    navId: 'prizes',
     link: appLinks.awards,
-    icon: <IconGift />,
+    leftSection: (
+      <IconGift style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
+    ),
   },
   {
-    type: NavLinkType.ROUTE,
-    visibility: NavLinkVisibility.ALL,
+    visibility: NavLinkVisibility.MOBILE,
     label: 'Equipa',
-    slug: 'equipa',
+    navId: 'team',
     link: appLinks.team,
-    icon: <IconUser />,
+    leftSection: (
+      <IconUser style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
+    ),
+  },
+]
+
+export const SessionNavLinks: NavLinkExtendedProps[] = [
+  {
+    visibility: NavLinkVisibility.DESKTOP,
+    label: 'Ver perfil',
+    navId: 'profile',
+    link: {
+      Student: links.student.profile,
+      Staff: links.student.profile,
+      Company: links.company.profile,
+    },
+    leftSection: (
+      <IconUser style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
+    ),
+  },
+  {
+    visibility: NavLinkVisibility.ALL,
+    label: 'Definições',
+    navId: 'settings',
+    link: '',
+    leftSection: (
+      <IconSettings style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
+    ),
+    nestedNav: [
+      {
+        visibility: NavLinkVisibility.ALL,
+        navId: 'logout',
+        link: '',
+        component: <LogoutNavItem key={`nav_logout`} />,
+      },
+    ],
+  },
+]
+
+export const StaffNavLinks: NavLinkExtendedProps[] = [
+  {
+    visibility: NavLinkVisibility.ALL,
+    label: 'Staff',
+    navId: 'staff',
+    link: '',
+    leftSection: (
+      <IconUserUp style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
+    ),
+    nestedNav: [
+      {
+        visibility: NavLinkVisibility.ALL,
+        label: 'Inscrições',
+        navId: 'enrollments',
+        link: '',
+        leftSection: (
+          <IconCalendarStats
+            style={{ width: rem(18), height: rem(18) }}
+            stroke={1.5}
+          />
+        ),
+      },
+      {
+        visibility: NavLinkVisibility.ALL,
+        label: 'Gerir pontos',
+        navId: 'manga_points',
+        link: '',
+        leftSection: (
+          <IconSort09
+            style={{ width: rem(20), height: rem(20) }}
+            stroke={1.5}
+          />
+        ),
+      },
+    ],
   },
 ]

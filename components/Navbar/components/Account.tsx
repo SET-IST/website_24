@@ -8,15 +8,9 @@ import {
   Stack,
   Button,
 } from '@mantine/core'
-import {
-  IconChevronDown,
-  IconLogout,
-  IconSettings,
-  IconUser,
-} from '@tabler/icons-react'
+import { IconChevronDown } from '@tabler/icons-react'
 import classes from './Navbar.module.css'
 import classNames from 'classnames'
-import { createAccountNavItems } from './utils'
 import { SessionContextValue, signOut } from 'next-auth/react'
 import { useState } from 'react'
 import { displayName } from '@/lib/frontend/utils'
@@ -24,6 +18,7 @@ import { useRouter } from 'next/router'
 import { links } from '@/data/links'
 import { UserType } from '@prisma/client'
 import { useBoundStore } from '@/lib/frontend/store'
+import { NavProfileMenu } from './menu'
 
 interface AccountMenuProps {
   inverted: boolean
@@ -136,8 +131,8 @@ export function AccountMenu({
         )}
       </Menu.Target>
       {session.status === 'authenticated' && (
-        <Menu.Dropdown>
-          {createAccountNavItems(session, router, false)}
+        <Menu.Dropdown py={0} px={0}>
+          <NavProfileMenu />
         </Menu.Dropdown>
       )}
     </Menu>
