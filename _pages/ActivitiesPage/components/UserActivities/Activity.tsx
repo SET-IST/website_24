@@ -1,27 +1,9 @@
+import { ActivityData } from '@/lib/frontend/api/activities'
 import { Badge, Button, Text, rem } from '@mantine/core'
+import { ActivityType } from '@prisma/client'
 import { IconMapPin } from '@tabler/icons-react'
 import { DateTime } from 'luxon'
-
-export enum ActivityType {
-  Lecture,
-  Workshop,
-  SpeedInterview,
-}
-
-export enum StudentActivityStatus {
-  NotEnrolled,
-  Enrolled,
-  Confirmed,
-}
-
-export interface ActivityData {
-  name: string
-  type: ActivityType
-  desc?: string
-  date: DateTime
-  location: string
-  studentEnrolled?: StudentActivityStatus
-}
+import { date } from 'yup'
 
 interface ActivityComponentProps {
   data: ActivityData
@@ -34,22 +16,22 @@ interface ActivityButtonProps {
 }
 
 const ActivityButton = ({ data, isMobile }: ActivityButtonProps) => {
-  if (data.type !== ActivityType.Lecture && data.studentEnrolled != undefined) {
-    switch (data.studentEnrolled) {
-      case StudentActivityStatus.Enrolled:
-        return (
-          <Button variant="default" fullWidth={!!isMobile}>
-            Cancelar inscrição
-          </Button>
-        )
-      case StudentActivityStatus.Confirmed:
-        return (
-          <Button disabled fullWidth={!!isMobile}>
-            Inscrito
-          </Button>
-        )
-      default:
-        return <Button fullWidth={!!isMobile}>Inscrever-me</Button>
+  if (data?.type && data?.type !== ActivityType.Lecture) {
+    if (data.confirmed == undefined) {
+      return <Button fullWidth={!!isMobile}>Inscrever-me</Button>
+    }
+    if (data.confirmed) {
+      return (
+        <Button disabled fullWidth={!!isMobile}>
+          Inscrito
+        </Button>
+      )
+    } else {
+      return (
+        <Button variant="default" fullWidth={!!isMobile}>
+          Cancelar inscrição
+        </Button>
+      )
     }
   } else {
     return <></>
@@ -57,21 +39,22 @@ const ActivityButton = ({ data, isMobile }: ActivityButtonProps) => {
 }
 
 const Activity = ({ data, isMobile }: ActivityComponentProps) => {
+  const date = DateTime.fromJSDate(data?.date ?? new Date)
   return (
     <div className="w-full h-fit bg-[color:var(--mantine-color-white)] hover:bg-gray-50 p-4 flex flex-col gap-4 sm:flex-row sm:gap-0 items-center sm:rounded-md">
       <div className="w-full h-fit flex flex-col gap-2">
         <div>
           <Text c="#00415a" fw={600}>
-            <span className="text-base">{data.name}</span>
+            <span className="text-base">{data?.title}</span>
           </Text>
 
           <Text c="dimmed" lh={1} fw={500}>
-            <span className="text-sm">{data.desc}</span>
+            <span className="text-sm">{data?.description}</span>
           </Text>
         </div>
         <div className="flex flex-row flex-wrap gap-1">
           <Badge radius="sm" variant="dot">
-            {data.date.setLocale('pt').toFormat("d 'de' LLLL 'às' HH:mm")}
+            {date.setLocale('pt').toFormat("d 'de' LLLL 'às' HH:mm")}
           </Badge>
           <Badge
             radius="sm"
@@ -80,7 +63,7 @@ const Activity = ({ data, isMobile }: ActivityComponentProps) => {
               <IconMapPin style={{ width: rem(12), height: rem(12) }} />
             }
           >
-            {data.location}
+            {data?.location}
           </Badge>
         </div>
       </div>

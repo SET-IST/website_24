@@ -15,6 +15,8 @@ import SpeedInterview from '@/assets/img/speed-interview.webp'
 import Workshop from '@/assets/img/workshop.jpeg'
 import Palestra from '@/assets/img/palestra-palco.webp'
 import { FooterLayout } from '../layouts'
+import { useEffect } from 'react'
+import { fetchActivities } from '@/lib/frontend/api/activities'
 
 const ActivitiesPage = () => {
   return (
