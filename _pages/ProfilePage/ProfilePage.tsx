@@ -6,6 +6,7 @@ import {
   StudentSettingsForm,
   CompanySettingsForm,
 } from '@/components/SettingsForms'
+import { PreviewCard } from './components/UserCard/PreviewCard'
 
 interface ProfilePageProps {
   isCompany: boolean
@@ -50,16 +51,7 @@ const ProfilePage = ({ isCompany }: ProfilePageProps) => {
 
   return (
     <div className="w-full h-full flex flex-col sm:flex-row sm:gap-4">
-      {(currentView !== ProfileView.SETTINGS || !isMobile) && (
-        <UserCard
-          isPreview={false}
-          isCompany={isCompany}
-          openSettings={() => {
-            setCurrentView(ProfileView.SETTINGS)
-            window.scrollTo(0, 0)
-          }}
-        />
-      )}
+      {(currentView !== ProfileView.SETTINGS || !isMobile) && <UserCard />}
 
       {currentView !== ProfileView.SETTINGS && (
         <UserTabs isCompany={isCompany} selectCallback={selectCallback} />
@@ -79,24 +71,12 @@ const ProfilePage = ({ isCompany }: ProfilePageProps) => {
         <Modal.Overlay />
         <Modal.Content>
           <Modal.Body p={0}>
-            <UserCard
-              userId={details.objectId}
-              closeCallback={detailsCloseCallback}
-              isPreview={true}
-              isCompany={true}
-            />
+            <PreviewCard />
           </Modal.Body>
         </Modal.Content>
       </Modal.Root>
 
-      {currentView === ProfileView.DETAILS && !isMobile && (
-        <UserCard
-          userId={details.objectId}
-          closeCallback={detailsCloseCallback}
-          isPreview={true}
-          isCompany={true}
-        />
-      )}
+      {currentView === ProfileView.DETAILS && !isMobile && <PreviewCard />}
     </div>
   )
 }
