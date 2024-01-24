@@ -15,11 +15,11 @@ const links = {
   },
   student: {
     scan: '/student/scan',
-    profile: '/student/profile',
+    profile: '/profile',
   },
   company: {
     cvPlatform: '/company/cvs-explorer',
-    profile: '/company/profile',
+    profile: '/profile',
   },
   help: '/help',
   bugReport: 'bug-report',

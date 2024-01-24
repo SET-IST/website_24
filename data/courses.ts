@@ -5,7 +5,7 @@ interface Course {
   name: string
 }
 
-interface Instituition {
+export interface Instituition {
   code: string
   name: string
   courses: { [id: string]: Course }
@@ -15,7 +15,7 @@ type Instituitions = { [id: string]: Instituition }
 
 /* Instituitions */
 
-const instituitions: Instituitions = {
+export const instituitions: Instituitions = {
   '0140': {
     code: '0140',
     name: 'Universidade dos A\u00e7ores - Faculdade de Ci\u00eancias Agr\u00e1rias e do Ambiente',
