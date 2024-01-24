@@ -2,10 +2,11 @@ import { databaseQueryWrapper } from '@/core/utils'
 import { PrismaService } from '../../../../core/services/server'
 import type { User } from '@prisma/client'
 import { PatchStudentProfileDto } from './dtos'
+import { getFullResourcePath } from '../../utils'
 
 export async function getStudentProfile(user: User) {
   return await databaseQueryWrapper(async () => {
-    return await PrismaService.user.findUniqueOrThrow({
+    let student = await PrismaService.user.findUniqueOrThrow({
       where: {
         id: user.id,
       },
@@ -23,6 +24,13 @@ export async function getStudentProfile(user: User) {
         },
       },
     })
+
+    student = {
+      ...student,
+      image: getFullResourcePath(student.image),
+    }
+
+    return student
   })
 }
 
