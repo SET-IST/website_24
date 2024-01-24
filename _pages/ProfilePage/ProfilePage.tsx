@@ -7,66 +7,48 @@ import {
   CompanySettingsForm,
 } from '@/components/SettingsForms'
 import { PreviewCard } from './components/UserCard/PreviewCard'
+import { useBoundStore } from '@/lib/frontend/store'
+import { useSession } from 'next-auth/react'
+import { User } from 'next-auth'
+import { UserType } from '@prisma/client'
 
-interface ProfilePageProps {
-  isCompany: boolean
-}
 
-enum ProfileView {
-  TABS,
-  SETTINGS,
-  DETAILS,
-}
+const ProfilePage = () => {
+  
 
-interface IDetails {
-  context?: string
-  objectId?: string
-}
-
-const ProfilePage = ({ isCompany }: ProfilePageProps) => {
-  const [currentView, setCurrentView] = useState<ProfileView>(ProfileView.TABS)
-  const [details, setDetails] = useSetState<IDetails>({})
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
 
-  const selectCallback = (context: string, objectId: string) => {
-    setDetails({
-      context: context,
-      objectId: objectId,
-    })
-    setCurrentView(ProfileView.DETAILS)
-  }
+  const session = useSession()
+  const user: User = session.data?.user
 
-  const detailsCloseCallback = () => {
-    setCurrentView(ProfileView.TABS)
-    setDetails({
-      context: '',
-      objectId: '',
-    })
-  }
+  //Getters
+  const profileSettingsVisible = useBoundStore((state) => state.profileSettingsVisible)
+
+  //Setters
+  const showSettings = useBoundStore((state) => state.showSettings)
 
   const settingsCloseCallback = () => {
-    setCurrentView(ProfileView.TABS)
+    showSettings(false)
     window.scrollTo(0, 0)
-  }
-
+  } 
   return (
     <div className="w-full h-full flex flex-col sm:flex-row sm:gap-4">
-      {(currentView !== ProfileView.SETTINGS || !isMobile) && <UserCard />}
+      {(!profileSettingsVisible || !isMobile) && <UserCard />}
 
-      {currentView !== ProfileView.SETTINGS && (
-        <UserTabs isCompany={isCompany} selectCallback={selectCallback} />
+      {!profileSettingsVisible && (
+        <UserTabs isCompany={false} selectCallback={(context,objectId)=> {}} />
       )}
 
-      {currentView === ProfileView.SETTINGS &&
-        (isCompany ? (
+      {profileSettingsVisible &&
+        (user.role == UserType.Company ? (
           <CompanySettingsForm onCancel={settingsCloseCallback} />
         ) : (
           <StudentSettingsForm onCancel={settingsCloseCallback} />
         ))}
 
       <Modal.Root
-        opened={currentView === ProfileView.DETAILS && !!isMobile}
-        onClose={detailsCloseCallback}
+        opened={false && !!isMobile}
+        onClose={()=> {}}
       >
         <Modal.Overlay />
         <Modal.Content>
@@ -76,7 +58,7 @@ const ProfilePage = ({ isCompany }: ProfilePageProps) => {
         </Modal.Content>
       </Modal.Root>
 
-      {currentView === ProfileView.DETAILS && !isMobile && <PreviewCard />}
+      {false && !isMobile && <PreviewCard />}
     </div>
   )
 }

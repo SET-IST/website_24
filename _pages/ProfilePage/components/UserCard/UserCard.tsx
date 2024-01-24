@@ -7,6 +7,7 @@ import { AnchorLink } from '@/components/AnchorLink'
 import { UserType } from '@prisma/client'
 import { useProfile } from '@/lib/frontend/hooks'
 import { CompanyProfile, StudentProfile } from '@/lib/frontend/api'
+import { useBoundStore } from '@/lib/frontend/store'
 
 const UserCard = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
@@ -15,6 +16,12 @@ const UserCard = () => {
     isLoading: isUserLoading,
     isError: isUserError,
   } = useProfile()
+
+  //Getters
+  const profileSettingsVisible = useBoundStore((state) => state.profileSettingsVisible)
+
+  //Setters
+  const showSettings = useBoundStore((state) => state.showSettings)
 
   return (
     <Paper
@@ -93,7 +100,7 @@ const UserCard = () => {
           </div>
         )}
 
-        <Button variant="default" fullWidth mt="sm">
+        <Button onClick={() => showSettings(true)} variant="default" fullWidth mt="sm">
           Editar perfil
         </Button>
       </div>
