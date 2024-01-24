@@ -17,6 +17,8 @@ import {
 import { useMediaQuery } from '@mantine/hooks'
 import { IconFileCv, IconLink } from '@tabler/icons-react'
 import { ProfilePhotoEdit } from '../ProfilePhotoEdit'
+import { useProfile } from '@/lib/frontend/hooks'
+import { CompanyProfile } from '@/lib/frontend/api'
 
 const schema = Yup.object().shape({
   name: Yup.string().min(2, 'Name should have at least 2 letters'),
@@ -29,12 +31,20 @@ interface SettingsFormProps {
 }
 
 const CompanySettingsForm = ({ onCancel }: SettingsFormProps) => {
+
+  const {
+    data: user,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useProfile()
+
+  const company = user as CompanyProfile
+
   const form = useForm({
     validate: yupResolver(schema),
     initialValues: {
-      name: '',
-      email: '',
-      age: 18,
+      name: company?.name,
+      description: company?.companyDetails?.description,
     },
   })
 
@@ -71,6 +81,7 @@ const CompanySettingsForm = ({ onCancel }: SettingsFormProps) => {
           className="w-full"
           description="Descrição breve da empresa com um máximo de 150 caracteres"
           placeholder="Inserir descrição"
+          {...form.getInputProps('description')}
         />
 
         <Divider label="Link externo" labelPosition="left" mt={12} />

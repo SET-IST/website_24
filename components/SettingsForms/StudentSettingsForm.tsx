@@ -15,6 +15,10 @@ import {
 import { useMediaQuery } from '@mantine/hooks'
 import { IconFileCv } from '@tabler/icons-react'
 import { ProfilePhotoEdit } from '../ProfilePhotoEdit'
+import { useCourses, useInstitutions, useProfile } from '@/lib/frontend/hooks'
+import { StudentProfile } from '@/lib/frontend/api'
+import { useEffect, useState } from 'react'
+import { getCourseCode, getInstitutionsCode } from '@/lib/frontend/utils'
 
 const schema = Yup.object().shape({
   name: Yup.string().min(2, 'Name should have at least 2 letters'),
@@ -26,15 +30,51 @@ interface SettingsFormProps {
   onCancel: () => void
 }
 
+interface FormValues {
+  name?: string
+  email?: string
+  universityCode?: string
+  courseCode: string | null
+}
+
 const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
-  const form = useForm({
+  const {
+    data: user,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useProfile()
+
+  const student = user as StudentProfile
+
+  const {
+    data: institutions,
+    isLoading: isInstLoading,
+    isError: isInstError,
+  } = useInstitutions()
+
+  const institutionCode = getInstitutionsCode(
+    student?.studentDetails?.university
+  )
+
+
+  const form = useForm<FormValues>({
     validate: yupResolver(schema),
     initialValues: {
-      name: '',
-      email: '',
-      age: 18,
+      name: student?.name,
+      email: student?.email,
+      universityCode: institutionCode,
+      courseCode: getCourseCode(
+        institutionCode,
+        student?.studentDetails?.course
+      ) ?? null,
     },
   })
+
+  const {
+    data: courses,
+    isLoading: isCoursesLoading,
+    isError: isCoursesError,
+  } = useCourses(form.values.universityCode)
 
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
 
@@ -77,7 +117,19 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
             label="Universidade"
             className="w-full"
             placeholder="Procurar universidade"
-            data={['React', 'Angular', 'Vue', 'Svelte']}
+            limit={5}
+            data={institutions?.map((course) => ({
+              value: course.code,
+              label: course.name,
+            }))}
+            defaultValue={form.values.universityCode}
+            defaultSearchValue={student?.studentDetails?.university}
+            onChange={(value) => {
+              form.setValues({
+                universityCode: value ?? undefined,
+                courseCode: null,
+              })
+            }}
             searchable
           />
 
@@ -85,7 +137,14 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
             label="Curso"
             className="w-full"
             placeholder="Escolher curso"
-            data={['React', 'Angular', 'Vue', 'Svelte']}
+            data={courses?.map((course) => ({
+              value: course.code,
+              label: course.name,
+            }))}
+            value={form.values.courseCode}
+            onChange={(value) => {
+              form.setFieldValue('courseCode', value ?? null)
+            }}
           />
         </div>
 
