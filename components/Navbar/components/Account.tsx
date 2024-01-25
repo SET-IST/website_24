@@ -13,7 +13,6 @@ import classes from './Navbar.module.css'
 import classNames from 'classnames'
 import { SessionContextValue, signOut } from 'next-auth/react'
 import { useState } from 'react'
-import { displayName } from '@/lib/frontend/utils'
 import { useRouter } from 'next/router'
 import { links } from '@/data/links'
 import { UserType } from '@prisma/client'
@@ -62,7 +61,7 @@ export function AccountMenu({
                 lh={1}
                 mr={3}
               >
-                {displayName(user.name)}
+                {user.name}
               </Text>
               <span className=" font-medium text-[color:var(--mantine-color-dimmed)] text-[length:var(--mantine-font-size-sm)]">
                 Ver perfil
@@ -101,7 +100,7 @@ export function AccountMenu({
               <Avatar src={user.image} alt={user.name} radius="xl" size={35} />
               <Group gap={7}>
                 <Text fw={600} size="sm" lh={1} mr={3}>
-                  {displayName(user.name)}
+                  {user.name}
                 </Text>
                 <IconChevronDown
                   style={{ width: rem(12), height: rem(12) }}

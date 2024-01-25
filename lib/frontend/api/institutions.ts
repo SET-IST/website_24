@@ -1,7 +1,6 @@
 import { ApiClient } from '@/core/services/client'
 import { getCourses, getInstitutions } from '@/lib/server/services/institutions'
 
-
 // Get types from backend services
 export type InstituitonData = Awaited<ReturnType<typeof getInstitutions>>
 
@@ -12,7 +11,9 @@ export const fetchInstituitonData = async (): Promise<InstituitonData> => {
   return data
 }
 
-export const fetchCourseData = async (instituitionCode?: string ): Promise<CourseData|undefined> => {
+export const fetchCourseData = async (
+  instituitionCode?: string | null
+): Promise<CourseData | undefined> => {
   if (!instituitionCode) return undefined
   const { data } = await ApiClient.get(`instituitions/${instituitionCode}`)
   return data

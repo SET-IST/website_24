@@ -1,4 +1,3 @@
-import { displayName } from '@/lib/frontend/utils'
 import { Avatar, Text, Button, Paper, Skeleton, em } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconQrcode } from '@tabler/icons-react'
@@ -8,6 +7,7 @@ import { UserType } from '@prisma/client'
 import { useProfile } from '@/lib/frontend/hooks'
 import { CompanyProfile, StudentProfile } from '@/lib/frontend/api'
 import { useBoundStore } from '@/lib/frontend/store'
+import { getCourse } from '@/lib/frontend/utils'
 
 const UserCard = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
@@ -18,7 +18,9 @@ const UserCard = () => {
   } = useProfile()
 
   //Getters
-  const profileSettingsVisible = useBoundStore((state) => state.profileSettingsVisible)
+  const profileSettingsVisible = useBoundStore(
+    (state) => state.profileSettingsVisible
+  )
 
   //Setters
   const showSettings = useBoundStore((state) => state.showSettings)
@@ -38,7 +40,7 @@ const UserCard = () => {
         )}
 
         <Text c="#00415a" ta="center" fz="xl" fw={700} mt="md">
-          <Skeleton visible={isUserLoading}>{displayName(user?.name)}</Skeleton>
+          <Skeleton visible={isUserLoading}>{user?.name}</Skeleton>
         </Text>
 
         <Skeleton
@@ -55,7 +57,10 @@ const UserCard = () => {
             {user?.role === UserType.Company
               ? (user as CompanyProfile)?.companyDetails?.description ||
                 'Sem descrição da empresa'
-              : (user as StudentProfile)?.studentDetails?.course}
+              : getCourse(
+                  (user as StudentProfile)?.studentDetails?.university,
+                  (user as StudentProfile)?.studentDetails?.course
+                )?.name ?? ''}
           </Text>
 
           {user?.role === UserType.Company && (
@@ -100,7 +105,12 @@ const UserCard = () => {
           </div>
         )}
 
-        <Button onClick={() => showSettings(true)} variant="default" fullWidth mt="sm">
+        <Button
+          onClick={() => showSettings(true)}
+          variant="default"
+          fullWidth
+          mt="sm"
+        >
           Editar perfil
         </Button>
       </div>

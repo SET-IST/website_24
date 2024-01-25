@@ -1,6 +1,6 @@
 /* For other instituitions than IST */
 
-interface Course {
+export interface Course {
   code: string
   name: string
 }
@@ -5280,27 +5280,4 @@ export const instituitions: Instituitions = {
       },
     },
   },
-}
-
-export function findCourse(
-  instituitionId: string,
-  name: string
-): Course | undefined {
-  if (!Object.keys(instituitions).includes(instituitionId))
-    throw new Error('No such instituition')
-
-  const courses = instituitions[instituitionId].courses
-
-  let course = undefined
-  Object.keys(courses).forEach((courseId) => {
-    if (name.includes(courses[courseId].name)) {
-      course = courses[courseId]
-    }
-  })
-
-  if (!course) {
-    throw new Error('No such course')
-  } else {
-    return course
-  }
 }

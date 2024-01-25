@@ -17,13 +17,14 @@ import { IconFileCv } from '@tabler/icons-react'
 import { ProfilePhotoEdit } from '../ProfilePhotoEdit'
 import { useCourses, useInstitutions, useProfile } from '@/lib/frontend/hooks'
 import { StudentProfile } from '@/lib/frontend/api'
-import { useEffect, useState } from 'react'
-import { getCourseCode, getInstitutionsCode } from '@/lib/frontend/utils'
+import { getInstitution } from '@/lib/frontend/utils'
 
 const schema = Yup.object().shape({
-  name: Yup.string().min(2, 'Name should have at least 2 letters'),
-  email: Yup.string().email('Invalid email'),
-  age: Yup.number().min(18, 'You must be at least 18 to create an account'),
+  name: Yup.string().min(2, 'O nome deve ter pelo menos 2 caracteres'),
+  email: Yup.string()
+    .required('É necessário fornecer um endereço válido')
+    .email('Endereço inválido'),
+  courseCode: Yup.string().required('É necessário selecionar um curso'),
 })
 
 interface SettingsFormProps {
@@ -33,50 +34,28 @@ interface SettingsFormProps {
 interface FormValues {
   name?: string
   email?: string
-  universityCode?: string
-  courseCode: string | null
+  institutionCode?: string | null
+  courseCode?: string | null
 }
 
 const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
-  const {
-    data: user,
-    isLoading: isUserLoading,
-    isError: isUserError,
-  } = useProfile()
+  const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
+  const { data: user } = useProfile()
 
   const student = user as StudentProfile
-
-  const {
-    data: institutions,
-    isLoading: isInstLoading,
-    isError: isInstError,
-  } = useInstitutions()
-
-  const institutionCode = getInstitutionsCode(
-    student?.studentDetails?.university
-  )
-
 
   const form = useForm<FormValues>({
     validate: yupResolver(schema),
     initialValues: {
       name: student?.name,
       email: student?.email,
-      universityCode: institutionCode,
-      courseCode: getCourseCode(
-        institutionCode,
-        student?.studentDetails?.course
-      ) ?? null,
+      institutionCode: student?.studentDetails?.university,
+      courseCode: student?.studentDetails?.course,
     },
   })
 
-  const {
-    data: courses,
-    isLoading: isCoursesLoading,
-    isError: isCoursesError,
-  } = useCourses(form.values.universityCode)
-
-  const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
+  const { data: institutions } = useInstitutions()
+  const { data: courses } = useCourses(form.values.institutionCode)
 
   return (
     <Paper
@@ -97,7 +76,6 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
 
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-10 justify-stretch">
           <TextInput
-            disabled
             withAsterisk
             className="w-full"
             label="Nome"
@@ -114,19 +92,22 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
 
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-10 justify-stretch">
           <Select
+            withAsterisk
             label="Universidade"
             className="w-full"
             placeholder="Procurar universidade"
-            limit={5}
             data={institutions?.map((course) => ({
               value: course.code,
               label: course.name,
             }))}
-            defaultValue={form.values.universityCode}
-            defaultSearchValue={student?.studentDetails?.university}
+            defaultValue={form.values.institutionCode}
+            defaultSearchValue={
+              getInstitution(form.values.institutionCode)?.name
+            }
+            error={form.errors['institutionCode']}
             onChange={(value) => {
               form.setValues({
-                universityCode: value ?? undefined,
+                institutionCode: value,
                 courseCode: null,
               })
             }}
@@ -134,6 +115,7 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
           />
 
           <Select
+            withAsterisk
             label="Curso"
             className="w-full"
             placeholder="Escolher curso"
@@ -141,10 +123,10 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
               value: course.code,
               label: course.name,
             }))}
+            error={form.errors['courseCode']}
             value={form.values.courseCode}
-            onChange={(value) => {
-              form.setFieldValue('courseCode', value ?? null)
-            }}
+            onChange={(value) => form.setFieldValue('courseCode', value)}
+            allowDeselect={false}
           />
         </div>
 
