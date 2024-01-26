@@ -15,9 +15,14 @@ import {
 import { useMediaQuery } from '@mantine/hooks'
 import { IconFileCv } from '@tabler/icons-react'
 import { ProfilePhotoEdit } from '../ProfilePhotoEdit'
-import { useCourses, useInstitutions, useProfile } from '@/lib/frontend/hooks'
+import { useCourses, useInstitutions, useProfile, useUpdateProfile } from '@/lib/frontend/hooks'
 import { StudentProfile } from '@/lib/frontend/api'
 import { getInstitution } from '@/lib/frontend/utils'
+import { useQueryClient } from '@tanstack/react-query'
+import { use, useEffect } from 'react'
+import { showErrorNotification, showSuccessNotification } from '../Notifications'
+import { useBoundStore } from '@/lib/frontend/store'
+
 
 const schema = Yup.object().shape({
   name: Yup.string().min(2, 'O nome deve ter pelo menos 2 caracteres'),
@@ -57,6 +62,35 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
   const { data: institutions } = useInstitutions()
   const { data: courses } = useCourses(form.values.institutionCode)
 
+  const { mutateAsync: updateProfileData, isLoading, isError, error} = useUpdateProfile(useQueryClient())
+
+  useEffect(() => {
+    if (isError){
+      showErrorNotification({
+        title: `Ocorreu um erro, por favor tenta outra vez`,
+        message: error.message,
+      })
+    }
+  },[isError, error])
+
+  const showSettings =  useBoundStore((state) => state.showSettings)
+
+  const updateProfile = (values: FormValues) => {
+    let updatedValues: any = {}
+    Object.keys(values).forEach((key) => {
+      if (form.isDirty(key)) {
+        updatedValues[key] = values[key as keyof FormValues];
+      }
+    })
+    updateProfileData(updatedValues).then(() => {
+      showSettings(false)
+      showSuccessNotification({
+        message: 'Perfil atualizado com sucesso',
+      })
+    })
+  }
+
+
   return (
     <Paper
       className="w-full h-fit !rounded-none sm:!rounded-lg"
@@ -70,7 +104,7 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
       </Text>
       <form
         className="mt-4 flex flex-col gap-2"
-        onSubmit={form.onSubmit((values) => console.log(values))}
+        onSubmit={form.onSubmit(updateProfile)}
       >
         <ProfilePhotoEdit />
 
@@ -158,7 +192,7 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
           <Button onClick={onCancel} variant="default">
             Cancelar
           </Button>
-          <Button type="submit">Guardar</Button>
+          <Button loading={isLoading} type="submit">Guardar</Button>
         </div>
       </form>
     </Paper>
