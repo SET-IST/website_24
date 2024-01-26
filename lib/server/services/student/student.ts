@@ -50,8 +50,8 @@ export async function patchStudentProfile(
             email: data.email,
           },
         },
-        university: data.university,
-        course: data.course,
+        university: data.institutionCode,
+        course: data.courseCode,
       },
     })
     return { message: 'User profile updated' }
