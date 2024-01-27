@@ -100,6 +100,12 @@ export async function getCompanyStudents(user: User) {
             id: true,
             course: true,
             university: true,
+            user: {
+              select: {
+                name: true,
+                email: true,
+              },
+            },
           },
         },
       },
