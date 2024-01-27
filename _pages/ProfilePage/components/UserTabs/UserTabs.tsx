@@ -4,6 +4,8 @@ import { useMediaQuery, useWindowScroll } from '@mantine/hooks'
 import { VisitedStands } from './VisitedStands'
 import { UserActivities } from './UserActivities'
 import { Students } from './Students'
+import { useSession } from 'next-auth/react'
+import { UserType } from '@prisma/client'
 
 interface Tab {
   title: string
@@ -11,22 +13,15 @@ interface Tab {
   component?: ReactNode
 }
 
-interface UserTabsProps {
-  selectCallback: (context: string, objectId: string) => void
-  isCompany: boolean
-}
+const UserTabs = () => {
+  const session = useSession()
+  const user = session.data?.user
+  const isCompany = user?.role === UserType.Company
 
-const UserTabs = ({ selectCallback, isCompany }: UserTabsProps) => {
-  const iconStyle = { width: rem(12), height: rem(12) }
   const [activeTab, setActiveTab] = useState<string | null>(
     isCompany ? 'scans' : 'visited'
   )
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
-  const [scroll, scrollTo] = useWindowScroll()
-
-  const selectObject = (objectId: string) => {
-    activeTab && selectCallback(activeTab, objectId)
-  }
 
   const tabs: Tab[] = isCompany
     ? [
@@ -40,7 +35,7 @@ const UserTabs = ({ selectCallback, isCompany }: UserTabsProps) => {
         {
           title: 'Bancas visitadas',
           ref: 'visited',
-          component: <VisitedStands selectCallback={selectObject} />,
+          component: <VisitedStands selectCallback={()=>{}} />,
         },
         {
           title: 'Inscrições',

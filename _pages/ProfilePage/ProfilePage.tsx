@@ -35,12 +35,7 @@ const ProfilePage = () => {
     <div className="w-full h-full flex flex-col sm:flex-row sm:gap-4">
       {(!profileSettingsVisible || !isMobile) && <UserCard />}
 
-      {!profileSettingsVisible && (
-        <UserTabs
-          isCompany={false}
-          selectCallback={(context, objectId) => {}}
-        />
-      )}
+      {!profileSettingsVisible && <UserTabs />}
 
       {profileSettingsVisible &&
         (user.role == UserType.Company ? (
