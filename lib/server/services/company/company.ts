@@ -90,7 +90,7 @@ export async function patchCompanyProfile(
 
 export async function getCompanyStudents(user: User) {
   return await databaseQueryWrapper(async () => {
-    return await PrismaService.companyDetails.findUniqueOrThrow({
+    const details =  await PrismaService.companyDetails.findUniqueOrThrow({
       where: {
         userId: user.id,
       },
@@ -111,5 +111,12 @@ export async function getCompanyStudents(user: User) {
         },
       },
     })
+    return details.students.map((student) => ({
+      ...student,
+      user: {
+        ...student.user,
+        image: getFullResourcePath(student.user.image),
+      },
+    })) 
   })
 }
