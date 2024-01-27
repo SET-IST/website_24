@@ -11,8 +11,9 @@ import {
 import { UserType } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { User } from 'next-auth'
+import { useEdgeStore } from '@/lib/frontend/edgestore'
 import { IPatchStudentProfile } from '@/lib/server/services/student'
-
+import { FileWithPath } from '@mantine/dropzone'
 
 export const useProfile = () => {
   const session = useSession()
@@ -24,14 +25,45 @@ export const useProfile = () => {
       : fetchStudentProfile()
   })
 }
-export const useUpdateProfile = (queryClient: QueryClient) => {
 
-  return useMutation<StudentProfilePatchResponse, Error, IPatchStudentProfile>({
-    mutationFn: (data: IPatchStudentProfile) => updateStudentProfile(data),
+export type PatchStudentProfileWithFiles = IPatchStudentProfile & {
+  profileImage?: FileWithPath
+  cv?: FileWithPath
+}
+
+export const useUpdateProfile = (queryClient: QueryClient) => {
+  // Blob API
+  const { edgestore } = useEdgeStore()
+
+  return useMutation<
+    StudentProfilePatchResponse,
+    Error,
+    PatchStudentProfileWithFiles
+  >({
+    mutationFn: async (data: PatchStudentProfileWithFiles) => {
+      if (data.profileImage) {
+        await edgestore.profileImages.upload({ file: data.profileImage })
+      }
+
+      if (data.cv) {
+        await edgestore.cvs.upload({
+          file: data.cv,
+          options: {
+            manualFileName: data.cv.name,
+          },
+        })
+      }
+
+      const originalData = {
+        ...data,
+        profileImage: undefined,
+        cv: undefined,
+      }
+
+      return updateStudentProfile(originalData)
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['Profile'] })
     },
   })
 }
-
-
