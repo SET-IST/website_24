@@ -1,6 +1,7 @@
 import { ApiClient } from '@/core/services/client'
 import {
   IPatchStudentProfile,
+  getStudentCompanies,
   getStudentProfile,
   patchStudentProfile,
 } from '@/lib/server/services/student'
@@ -11,6 +12,8 @@ export type StudentProfile = Awaited<ReturnType<typeof getStudentProfile>>
 export type StudentProfilePatchResponse = Awaited<
   ReturnType<typeof patchStudentProfile>
 >
+
+export type StudentCompanyScans = Awaited<ReturnType<typeof getStudentCompanies>>
 
 export const fetchStudentProfile = async (): Promise<StudentProfile> => {
   const { data } = await ApiClient.get('student/profile')
@@ -24,3 +27,10 @@ export const updateStudentProfile = async (
 
   return profile
 }
+
+export const fetchStudentCompaniesScans = async (): Promise<StudentCompanyScans> => {
+  const { data } = await ApiClient.get('student/companies')
+  return data
+}
+
+
