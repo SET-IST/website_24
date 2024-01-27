@@ -79,7 +79,7 @@ model CompanyDetails {
 
   description String  @db.VarChar(150)
   linkHref    String?
-  linkText    String? @db.VarChar(30)
+  linkText    String? @db.VarChar(40)
 }
 
 model User {

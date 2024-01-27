@@ -11,29 +11,32 @@ import {
 import { IconChevronDown } from '@tabler/icons-react'
 import classes from './Navbar.module.css'
 import classNames from 'classnames'
-import { SessionContextValue, signOut } from 'next-auth/react'
+import { SessionContextValue, signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { links } from '@/data/links'
 import { UserType } from '@prisma/client'
 import { useBoundStore } from '@/lib/frontend/store'
 import { NavProfileMenu } from './menu'
+import { useProfile } from '@/lib/frontend/hooks'
 
 interface AccountMenuProps {
   inverted: boolean
   renderForMobile: boolean
-  session: SessionContextValue
 }
 
-export function AccountMenu({
-  inverted,
-  renderForMobile,
-  session,
-}: AccountMenuProps) {
+export function AccountMenu({ inverted, renderForMobile }: AccountMenuProps) {
   const router = useRouter()
   const [userMenuOpened, setUserMenuOpened] = useState(false)
   const showLoginDialog = useBoundStore((state) => state.showLoginDialog)
-  const user = session.data?.user
+
+  const session = useSession()
+
+  const {
+    data: user,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useProfile()
 
   return renderForMobile ? (
     <Stack gap={8}>
@@ -41,7 +44,7 @@ export function AccountMenu({
         <UnstyledButton
           onClick={() => {
             router.push(
-              user.role === UserType.Company
+              user?.role === UserType.Company
                 ? links.company.profile
                 : links.student.profile
             )
@@ -52,7 +55,7 @@ export function AccountMenu({
             p="sm"
             className="rounded-lg hover:bg-gray-50 hover:bg-opacity-80"
           >
-            <Avatar src={user.image} alt={user.name} radius="xl" size={50} />
+            <Avatar src={user?.image} alt={user?.name} radius="xl" size={50} />
             <Stack gap={2}>
               <Text
                 ff="Greycliff CF, var(--mantine-font-family)"
@@ -61,7 +64,7 @@ export function AccountMenu({
                 lh={1}
                 mr={3}
               >
-                {user.name}
+                {user?.name}
               </Text>
               <span className=" font-medium text-[color:var(--mantine-color-dimmed)] text-[length:var(--mantine-font-size-sm)]">
                 Ver perfil
@@ -97,10 +100,15 @@ export function AccountMenu({
             )}
           >
             <Group gap={12}>
-              <Avatar src={user.image} alt={user.name} radius="xl" size={35} />
+              <Avatar
+                src={user?.image}
+                alt={user?.name}
+                radius="xl"
+                size={35}
+              />
               <Group gap={7}>
                 <Text fw={600} size="sm" lh={1} mr={3}>
-                  {user.name}
+                  {user?.name}
                 </Text>
                 <IconChevronDown
                   style={{ width: rem(12), height: rem(12) }}

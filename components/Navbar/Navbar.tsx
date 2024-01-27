@@ -33,8 +33,6 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
   const [scroll, scrollTo] = useWindowScroll()
   const router = useRouter()
 
-  const sessionContext = useSession()
-
   const isInverted = (): boolean => {
     return !!startTransparent ? scroll.y > height / 4 : true
   }
@@ -101,11 +99,7 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
             </Group>
 
             <Group ml="xl" gap={0} visibleFrom="sm">
-              <AccountMenu
-                session={sessionContext}
-                renderForMobile={false}
-                inverted={isInverted()}
-              />
+              <AccountMenu renderForMobile={false} inverted={isInverted()} />
             </Group>
           </Group>
 
@@ -150,11 +144,7 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
           {/* Navigation */}
 
           <Stack gap={8} className="border-none">
-            <AccountMenu
-              session={sessionContext}
-              renderForMobile={true}
-              inverted={isInverted()}
-            />
+            <AccountMenu renderForMobile={true} inverted={isInverted()} />
             <Divider />
             <NavProfileMenu />
           </Stack>
