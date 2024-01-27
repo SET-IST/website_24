@@ -95,7 +95,20 @@ export function SETAWSProvider(
       const extension = fileInfo.extension
         ? `.${fileInfo.extension.replace('.', '')}`
         : ''
-      const fileName = fileInfo.fileName ?? `${nameId}${extension}`
+
+      if (fileInfo.fileName) {
+        fileInfo.metadata['originalFilename'] = fileInfo.fileName
+      }
+
+      // Filter metadata
+
+      let metadata: Record<string, string> = {}
+      Object.keys(fileInfo.metadata).forEach((key) => {
+        const value = fileInfo.metadata[key]
+        if (!!value) metadata[key] = value
+      })
+
+      const fileName = `${nameId}${extension}`
       const filePath = fileInfo.path.reduce((acc, item) => {
         return `${acc}/${item.value}`
       }, '')
@@ -104,6 +117,7 @@ export function SETAWSProvider(
       const command = new PutObjectCommand({
         Bucket: bucketName,
         Key: accessPath,
+        Metadata: metadata,
       })
 
       const signedUrl = await getSignedUrl(s3Client, command, {

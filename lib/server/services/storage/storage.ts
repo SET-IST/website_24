@@ -1,21 +1,7 @@
 import { databaseQueryWrapper } from '@/core/utils'
 import { UpdateAWSEntry } from './dtos'
-import { PrismaService, S3ClientService } from '@/core/services/server'
-import { DeleteObjectCommand } from '@aws-sdk/client-s3'
-
-// Currently EdgeStore doesn't support backend clients, therefore we need to duplicate methods
-
-async function deleteFile(path: string) {
-  await S3ClientService.send(
-    new DeleteObjectCommand({
-      Bucket: process.env.ES_AWS_BUCKET_NAME,
-      Key: path,
-    })
-  )
-  return {
-    success: true,
-  }
-}
+import { PrismaService } from '@/core/services/server'
+import { deleteFile } from '@/lib/server/utils'
 
 export async function updateProfileImage(data: UpdateAWSEntry) {
   return await databaseQueryWrapper(async () => {

@@ -2,7 +2,7 @@ import { databaseQueryWrapper } from '@/core/utils'
 import { PrismaService } from '../../../../core/services/server'
 import type { User } from '@prisma/client'
 import { PatchStudentProfileDto } from './dtos'
-import { getFullResourcePath } from '../../utils'
+import { getFile, getFullResourcePath } from '@/lib/server/utils'
 
 export async function getStudentProfile(user: User) {
   return await databaseQueryWrapper(async () => {
@@ -25,12 +25,15 @@ export async function getStudentProfile(user: User) {
       },
     })
 
-    student = {
+    const response = {
       ...student,
       image: getFullResourcePath(student.image),
+      cv:
+        student.studentDetails?.cvLocation &&
+        (await getFile(student.studentDetails?.cvLocation)),
     }
 
-    return student
+    return response
   })
 }
 

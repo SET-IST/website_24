@@ -8,10 +8,14 @@ import { Context } from './context'
 const es = initEdgeStore.context<Context>().create()
 
 const edgeStoreRouter = es.router({
-  cvs: es.fileBucket({
-    maxSize: 1024 * 1024 * 10,
-    accept: ['application/pdf'],
-  }),
+  cvs: es
+    .fileBucket({
+      maxSize: 1024 * 1024 * 10,
+      accept: ['application/pdf'],
+    })
+    .metadata(({ ctx }) => ({
+      userId: ctx.userId,
+    })),
   profileImages: es.imageBucket().metadata(({ ctx }) => ({
     userId: ctx.userId,
   })),
