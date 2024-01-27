@@ -11,7 +11,6 @@ import { useBoundStore } from '@/lib/frontend/store'
 import { useSession } from 'next-auth/react'
 import { User } from 'next-auth'
 import { UserType } from '@prisma/client'
-import { ScannerModal } from '@/components/Scanner'
 
 const ProfilePage = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
