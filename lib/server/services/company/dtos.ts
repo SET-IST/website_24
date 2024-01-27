@@ -10,11 +10,14 @@ export class CompanyLoginRequest {
   password!: string
 }
 
-export class PatchCompanyProfileDto {
-  @IsOptional()
-  @IsString()
-  image?: string
+export interface IPatchCompanyProfile {
+  name?: string
+  description?: string
+  linkHref?: string
+  linkText?: string
+}
 
+export class PatchCompanyProfileDto implements IPatchCompanyProfile {
   @IsOptional()
   @IsString()
   name?: string
@@ -26,7 +29,7 @@ export class PatchCompanyProfileDto {
   @IsOptional()
   @IsString()
   linkHref?: string
-  
+
   @IsOptional()
   @IsString()
   linkText?: string

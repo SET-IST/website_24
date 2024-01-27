@@ -32,10 +32,6 @@ import {
 import { useBoundStore } from '@/lib/frontend/store'
 import { FileWithPath } from '@mantine/dropzone'
 
-interface SettingsFormProps {
-  onCancel: () => void
-}
-
 interface FormValues {
   name?: string
   email?: string
@@ -46,7 +42,7 @@ interface FormValues {
   termsOfService: boolean
 }
 
-const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
+const StudentSettingsForm = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
 
   // Local state management
@@ -55,7 +51,6 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
   // Queries
 
   const { data: user } = useProfile()
-
   const student = user as StudentProfile
 
   const schema = Yup.object().shape({
@@ -231,7 +226,7 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
         />
 
         <div className="flex flex-col sm:flex-row sm:justify-end gap-3 mt-6 sm:mt-4">
-          <Button onClick={onCancel} variant="default">
+          <Button onClick={() => showSettings(false)} variant="default">
             Cancelar
           </Button>
           <Button loading={isLoading} type="submit">
