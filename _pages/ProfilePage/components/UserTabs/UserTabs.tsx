@@ -35,7 +35,7 @@ const UserTabs = () => {
         {
           title: 'Bancas visitadas',
           ref: 'visited',
-          component: <VisitedStands selectCallback={()=>{}} />,
+          component: <VisitedStands />,
         },
         {
           title: 'Inscrições',
