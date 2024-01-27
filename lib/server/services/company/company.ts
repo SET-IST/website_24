@@ -104,6 +104,7 @@ export async function getCompanyStudents(user: User) {
               select: {
                 name: true,
                 email: true,
+                image: true,
               },
             },
           },
