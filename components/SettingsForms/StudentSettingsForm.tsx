@@ -15,22 +15,22 @@ import {
 import { useMediaQuery } from '@mantine/hooks'
 import { IconFileCv } from '@tabler/icons-react'
 import { ProfilePhotoEdit } from '../ProfilePhotoEdit'
-import { useCourses, useInstitutions, useProfile, useUpdateProfile } from '@/lib/frontend/hooks'
+import {
+  useCourses,
+  useInstitutions,
+  useProfile,
+  useUpdateProfile,
+} from '@/lib/frontend/hooks'
 import { StudentProfile } from '@/lib/frontend/api'
 import { getInstitution } from '@/lib/frontend/utils'
 import { useQueryClient } from '@tanstack/react-query'
-import { use, useEffect } from 'react'
-import { showErrorNotification, showSuccessNotification } from '../Notifications'
+import { use, useEffect, useState } from 'react'
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from '../Notifications'
 import { useBoundStore } from '@/lib/frontend/store'
-
-
-const schema = Yup.object().shape({
-  name: Yup.string().min(2, 'O nome deve ter pelo menos 2 caracteres'),
-  email: Yup.string()
-    .required('É necessário fornecer um endereço válido')
-    .email('Endereço inválido'),
-  courseCode: Yup.string().required('É necessário selecionar um curso'),
-})
+import { FileWithPath } from '@mantine/dropzone'
 
 interface SettingsFormProps {
   onCancel: () => void
@@ -41,13 +41,35 @@ interface FormValues {
   email?: string
   institutionCode?: string | null
   courseCode?: string | null
+  profileImage?: FileWithPath
+  cv?: File | null
+  termsOfService: boolean
 }
 
 const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
+
+  // Local state management
+  const showSettings = useBoundStore((state) => state.showSettings)
+
+  // Queries
+
   const { data: user } = useProfile()
 
   const student = user as StudentProfile
+
+  const schema = Yup.object().shape({
+    name: Yup.string().min(2, 'O nome deve ter pelo menos 2 caracteres'),
+    email: Yup.string()
+      .required('É necessário fornecer um endereço válido')
+      .email('Endereço inválido'),
+    courseCode: Yup.string().required('É necessário selecionar um curso'),
+    termsOfService: Yup.boolean().when([], {
+      is: () => form.isDirty('cv'),
+      then: (schema) =>
+        schema.isTrue('É necessário aceitar os termos e condições'),
+    }),
+  })
 
   const form = useForm<FormValues>({
     validate: yupResolver(schema),
@@ -56,33 +78,35 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
       email: student?.email,
       institutionCode: student?.studentDetails?.university,
       courseCode: student?.studentDetails?.course,
+      profileImage: undefined,
+      cv: undefined,
+      termsOfService: false,
     },
   })
 
   const { data: institutions } = useInstitutions()
   const { data: courses } = useCourses(form.values.institutionCode)
 
-  const { mutateAsync: updateProfileData, isLoading, isError, error} = useUpdateProfile(useQueryClient())
-
-  useEffect(() => {
-    if (isError){
-      showErrorNotification({
-        title: `Ocorreu um erro, por favor tenta outra vez`,
-        message: error.message,
-      })
-    }
-  },[isError, error])
-
-  const showSettings =  useBoundStore((state) => state.showSettings)
+  const {
+    mutateAsync: updateProfileData,
+    isLoading,
+    isError,
+    error,
+  } = useUpdateProfile(useQueryClient())
 
   const updateProfile = (values: FormValues) => {
     let updatedValues: any = {}
+
     Object.keys(values).forEach((key) => {
       if (form.isDirty(key)) {
-        updatedValues[key] = values[key as keyof FormValues];
+        updatedValues[key] = values[key as keyof FormValues]
       }
     })
-    updateProfileData(updatedValues).then(() => {
+
+    updateProfileData({
+      ...updatedValues,
+      termsOfService: undefined,
+    }).then(() => {
       showSettings(false)
       showSuccessNotification({
         message: 'Perfil atualizado com sucesso',
@@ -90,6 +114,14 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
     })
   }
 
+  useEffect(() => {
+    if (isError) {
+      showErrorNotification({
+        title: `Ocorreu um erro, por favor tenta outra vez`,
+        message: error.message,
+      })
+    }
+  }, [isError, error])
 
   return (
     <Paper
@@ -106,7 +138,10 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
         className="mt-4 flex flex-col gap-2"
         onSubmit={form.onSubmit(updateProfile)}
       >
-        <ProfilePhotoEdit />
+        <ProfilePhotoEdit
+          callback={(files) => form.setFieldValue('profileImage', files[0])}
+          currentImage={student?.image}
+        />
 
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-10 justify-stretch">
           <TextInput
@@ -167,6 +202,8 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
         <Divider mt={12} />
 
         <FileInput
+          accept="application/pdf"
+          onChange={(file) => form.setFieldValue('cv', file)}
           leftSection={
             <IconFileCv
               style={{ width: rem(18), height: rem(18) }}
@@ -174,12 +211,17 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
             />
           }
           label="Gerir CV"
-          placeholder="Faz upload do teu CV"
+          placeholder={
+            student?.cv && student.cv.metadata
+              ? student.cv.metadata['originalfilename']
+              : 'Faz upload do teu CV'
+          }
           leftSectionPointerEvents="none"
         />
 
         <Checkbox
           mt="sm"
+          disabled={!form.isDirty('cv')}
           label={
             <span>
               Aceito os <strong>termos e condições</strong> da plataforma de CVs
@@ -192,7 +234,9 @@ const StudentSettingsForm = ({ onCancel }: SettingsFormProps) => {
           <Button onClick={onCancel} variant="default">
             Cancelar
           </Button>
-          <Button loading={isLoading} type="submit">Guardar</Button>
+          <Button loading={isLoading} type="submit">
+            Guardar
+          </Button>
         </div>
       </form>
     </Paper>
