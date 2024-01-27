@@ -44,9 +44,9 @@ const ProfilePage = () => {
 
       {profileSettingsVisible &&
         (user.role == UserType.Company ? (
-          <CompanySettingsForm onCancel={settingsCloseCallback} />
+          <CompanySettingsForm />
         ) : (
-          <StudentSettingsForm onCancel={settingsCloseCallback} />
+          <StudentSettingsForm />
         ))}
 
       <Modal.Root opened={false && !!isMobile} onClose={() => {}}>
