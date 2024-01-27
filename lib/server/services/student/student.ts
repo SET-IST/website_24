@@ -76,7 +76,12 @@ export async function getStudentCompanies(user: User) {
             linkHref: true,
             linkText: true,
             category: true,
-            username: true,
+            user:{
+              select:{
+                name:true,
+                image:true,
+              }
+            }
           },
         },
       },
