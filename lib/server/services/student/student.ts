@@ -3,6 +3,8 @@ import { PrismaService } from '../../../../core/services/server'
 import type { User } from '@prisma/client'
 import { PatchStudentProfileDto } from './dtos'
 import { getFile, getFullResourcePath } from '@/lib/server/utils'
+import { ConflictException } from 'next-api-decorators'
+import { visitedAllDayStands } from '../../utils/event'
 
 export async function getStudentProfile(user: User) {
   return await databaseQueryWrapper(async () => {
@@ -122,5 +124,84 @@ export async function getStudentEnrollments(user: User) {
         },
       },
     })
+  })
+}
+
+export async function scanCompany(user: User, companyId: string) {
+  return await databaseQueryWrapper(async () => {
+    const company = await PrismaService.companyDetails.findUniqueOrThrow({
+      where: {
+        userId: companyId,
+      },
+      select: {
+        userId: true,
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+        description: true,
+        linkHref: true,
+        linkText: true,
+      },
+    })
+
+    const student = await PrismaService.studentDetails.findFirstOrThrow({
+      where: {
+        userId: user.id,
+      },
+    })
+
+    if (student.companies_ids.includes(company.userId))
+      throw new ConflictException('Company already scanned')
+
+    const points = (await visitedAllDayStands(student, company.userId))
+      ? 50
+      : 10
+
+    await PrismaService.$transaction([
+      PrismaService.companyDetails.update({
+        where: {
+          userId: company.userId,
+        },
+        data: {
+          students: {
+            connect: {
+              userId: student.userId,
+            },
+          },
+        },
+      }),
+      PrismaService.studentDetails.update({
+        where: {
+          userId: student.userId,
+        },
+        data: {
+          companies: {
+            connect: {
+              userId: company.userId,
+            },
+          },
+          companies_ids: {
+            push: company.userId,
+          },
+          points: {
+            increment: points,
+          },
+          scans: {
+            increment: 1,
+          },
+        },
+      }),
+    ])
+
+    return {
+      ...company,
+      user: {
+        ...company.user,
+        image: getFullResourcePath(company.user.image),
+      },
+    }
   })
 }
