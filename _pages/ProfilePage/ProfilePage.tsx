@@ -11,6 +11,7 @@ import { useBoundStore } from '@/lib/frontend/store'
 import { useSession } from 'next-auth/react'
 import { User } from 'next-auth'
 import { UserType } from '@prisma/client'
+import { QRDialog } from '@/components/QRDialog'
 
 const ProfilePage = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
@@ -52,7 +53,7 @@ const ProfilePage = () => {
         </Modal.Content>
       </Modal.Root>
 
-      <ScannerModal />
+      <QRDialog />
 
       {false && !isMobile && <PreviewCard />}
     </div>
