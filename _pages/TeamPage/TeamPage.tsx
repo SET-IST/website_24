@@ -5,6 +5,7 @@ import {
   people,
   relacoesExternas,
   suporteInformatico,
+  embaixadores,
 } from '@/data/team'
 import cn from 'classnames'
 import Header from './components/Header'
@@ -25,6 +26,7 @@ const TeamPage = () => {
         <Department {...relacoesExternas} />
         <Department {...logistica} />
         <Department {...people} />
+        <Department {...embaixadores} />
       </div>
     </div>
   )
