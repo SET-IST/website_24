@@ -47,15 +47,17 @@ const ProfilePage = () => {
       <Modal.Root opened={false && !!isMobile} onClose={() => {}}>
         <Modal.Overlay />
         <Modal.Content>
-          <Modal.Body p={0}>
-            <PreviewCard />
-          </Modal.Body>
+          <Modal.Body p={0}>{/* <PreviewCard /> */}</Modal.Body>
         </Modal.Content>
       </Modal.Root>
 
       <QRDialog />
 
-      {false && !isMobile && <PreviewCard />}
+      {false &&
+        !isMobile &&
+        {
+          /* <PreviewCard /> */
+        }}
     </div>
   )
 }
