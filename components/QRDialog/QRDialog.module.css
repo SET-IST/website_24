@@ -1,0 +1,3 @@
+.SegmentedControlText {
+    @apply text-white data-[active="true"]:text-[#1C7ED6]
+}
