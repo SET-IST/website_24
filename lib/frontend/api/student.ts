@@ -6,6 +6,7 @@ import {
   patchStudentProfile,
   scanCompany as server_scanCompany,
 } from '@/lib/server/services/student'
+import { Unpacked } from '../utils'
 
 // Get types from backend services
 export type StudentProfile = Awaited<ReturnType<typeof getStudentProfile>>
@@ -13,7 +14,9 @@ export type StudentProfilePatchResponse = Awaited<
   ReturnType<typeof patchStudentProfile>
 >
 
-export type ScannedCompany = Awaited<ReturnType<typeof getStudentCompanies>>
+export type ScannedCompany = Unpacked<
+  Awaited<ReturnType<typeof getStudentCompanies>>
+>
 export type CompanyScan = Awaited<ReturnType<typeof server_scanCompany>>
 
 export const fetchStudentProfile = async (): Promise<StudentProfile> => {
