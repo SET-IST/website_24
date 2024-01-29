@@ -1,16 +1,18 @@
-import { StudentCompanyScan } from '@/lib/frontend/api'
+import { CompanyScan } from '@/lib/frontend/api'
+import { useBoundStore } from '@/lib/frontend/store'
 import { Text } from '@mantine/core'
 import { Image } from '@mantine/core'
 
-
 interface StandComponentProps {
-  data: StudentCompanyScan
+  data: CompanyScan
 }
 
 const Stand = ({ data }: StandComponentProps) => {
+  const selectCompany = useBoundStore((state) => state.selectCompany)
+
   return (
     <div
-      onClick={() => {}}
+      onClick={() => selectCompany(data)}
       className="w-full h-fit p-4 flex flex-row items-center hover:bg-gray-50 transition-all cursor-pointer"
     >
       <div className="relative h-12 w-12 sm:h-14 sm:w-14 shrink-0 overflow-hidden rounded-lg bg-gray-200">

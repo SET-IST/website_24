@@ -1,15 +1,14 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 import {
   CompanyScan,
-  StudentCompanyScan,
+  RemoveScanData,
   fetchStudentCompaniesScans,
   scanCompany,
 } from '../api'
 import { AxiosError } from 'axios'
 
 export const useStudentCompanyScans = () => {
-  return useQuery<StudentCompanyScan[], AxiosError>(
+  return useQuery<RemoveScanData<CompanyScan>[], AxiosError>(
     ['StudentCompanyScans'],
     () => fetchStudentCompaniesScans()
   )

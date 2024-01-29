@@ -155,7 +155,7 @@ export function QRDialog() {
                       style={styles}
                     >
                       <Text c="white" ta="center" fz={25} fw={700} mt="md">
-                        +10 pontos
+                        +{scanResponse?.points} pontos
                       </Text>
                       <PreviewCard data={scanResponse} />
                       <Button

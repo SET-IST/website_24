@@ -1,7 +1,7 @@
 import { UserCard, UserTabs } from './components'
 import { useMediaQuery, useSetState } from '@mantine/hooks'
 import { Modal, em } from '@mantine/core'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import {
   StudentSettingsForm,
   CompanySettingsForm,
@@ -19,18 +19,21 @@ const ProfilePage = () => {
   const session = useSession()
   const user: User = session.data?.user
 
-  //Getters
+  // Getters
   const profileSettingsVisible = useBoundStore(
     (state) => state.profileSettingsVisible
   )
+  const selectedCompany = useBoundStore((state) => state.selectedCompany)
 
-  //Setters
-  const showSettings = useBoundStore((state) => state.showSettings)
+  // Setters
+  const selectCompany = useBoundStore((state) => state.selectCompany)
 
-  const settingsCloseCallback = () => {
-    showSettings(false)
-    window.scrollTo(0, 0)
-  }
+  useEffect(() => {
+    if (!profileSettingsVisible) {
+      window.scrollTo(0, 0)
+    }
+  }, [profileSettingsVisible])
+
   return (
     <div className="w-full h-full flex flex-col sm:flex-row sm:gap-4">
       {(!profileSettingsVisible || !isMobile) && <UserCard />}
@@ -44,20 +47,22 @@ const ProfilePage = () => {
           <StudentSettingsForm />
         ))}
 
-      <Modal.Root opened={false && !!isMobile} onClose={() => {}}>
+      <Modal.Root
+        opened={!!selectedCompany && !!isMobile}
+        onClose={() => selectCompany(undefined)}
+      >
         <Modal.Overlay />
         <Modal.Content>
-          <Modal.Body p={0}>{/* <PreviewCard /> */}</Modal.Body>
+          <Modal.Body p={0}>
+            {' '}
+            <PreviewCard data={selectedCompany} />
+          </Modal.Body>
         </Modal.Content>
       </Modal.Root>
 
       <QRDialog />
 
-      {false &&
-        !isMobile &&
-        {
-          /* <PreviewCard /> */
-        }}
+      {!!selectedCompany && !isMobile && <PreviewCard data={selectedCompany} />}
     </div>
   )
 }

@@ -1,12 +1,12 @@
-
 import { StateCreator } from 'zustand'
-
+import { CompanyScan } from '../api'
 
 export interface ProfileSlice {
   profileSettingsVisible: boolean
+  selectedCompany?: CompanyScan
 
   showSettings: (show: boolean) => void
-
+  selectCompany: (company: CompanyScan) => void
 }
 
 export const createProfileSlice: StateCreator<
@@ -15,11 +15,14 @@ export const createProfileSlice: StateCreator<
   [],
   ProfileSlice
 > = (set) => ({
-    profileSettingsVisible: false,
+  profileSettingsVisible: false,
+  selectedCompany: undefined,
   showSettings: (show) =>
     set({
-        profileSettingsVisible: show,
+      profileSettingsVisible: show,
+    }),
+  selectCompany: (company) =>
+    set({
+      selectedCompany: company,
     }),
 })
-
-

@@ -78,12 +78,12 @@ export async function getStudentCompanies(user: User) {
             linkHref: true,
             linkText: true,
             category: true,
-            user:{
-              select:{
-                name:true,
-                image:true,
-              }
-            }
+            user: {
+              select: {
+                name: true,
+                image: true,
+              },
+            },
           },
         },
       },
@@ -202,6 +202,7 @@ export async function scanCompany(user: User, companyId: string) {
         ...company.user,
         image: getFullResourcePath(company.user.image),
       },
+      points: points,
     }
   })
 }
