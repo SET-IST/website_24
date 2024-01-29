@@ -25,6 +25,7 @@ const ProfilePage = () => {
   )
   const selectedCompany = useBoundStore((state) => state.selectedCompany)
 
+
   // Setters
   const selectCompany = useBoundStore((state) => state.selectCompany)
 
