@@ -1,10 +1,10 @@
-import { CompanyScan } from '@/lib/frontend/api'
+import { CompanyScan, RemoveScanData } from '@/lib/frontend/api'
 import { useBoundStore } from '@/lib/frontend/store'
 import { Text } from '@mantine/core'
 import { Image } from '@mantine/core'
 
 interface StandComponentProps {
-  data: CompanyScan
+  data: RemoveScanData<CompanyScan>
 }
 
 const Stand = ({ data }: StandComponentProps) => {

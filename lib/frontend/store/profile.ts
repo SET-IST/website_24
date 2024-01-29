@@ -1,12 +1,12 @@
 import { StateCreator } from 'zustand'
-import { CompanyScan } from '../api'
+import { CompanyScan, RemoveScanData } from '../api'
 
 export interface ProfileSlice {
   profileSettingsVisible: boolean
-  selectedCompany?: CompanyScan
+  selectedCompany?: RemoveScanData<CompanyScan>
 
   showSettings: (show: boolean) => void
-  selectCompany: (company: CompanyScan) => void
+  selectCompany: (company: RemoveScanData<CompanyScan>) => void
 }
 
 export const createProfileSlice: StateCreator<
