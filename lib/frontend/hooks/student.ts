@@ -1,16 +1,15 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import {
   CompanyScan,
-  RemoveScanData,
+  ScannedCompany,
   fetchStudentCompaniesScans,
   scanCompany,
 } from '../api'
 import { AxiosError } from 'axios'
 
 export const useStudentCompanyScans = () => {
-  return useQuery<RemoveScanData<CompanyScan>[], AxiosError>(
-    ['StudentCompanyScans'],
-    () => fetchStudentCompaniesScans()
+  return useQuery<ScannedCompany[], AxiosError>(['StudentCompanyScans'], () =>
+    fetchStudentCompaniesScans()
   )
 }
 
