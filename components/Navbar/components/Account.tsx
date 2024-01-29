@@ -11,7 +11,7 @@ import {
 import { IconChevronDown } from '@tabler/icons-react'
 import classes from './Navbar.module.css'
 import classNames from 'classnames'
-import { SessionContextValue, signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { links } from '@/data/links'

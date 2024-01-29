@@ -4,10 +4,10 @@ import {
   getStudentCompanies,
   getStudentProfile,
   patchStudentProfile,
+  scanCompany as server_scanCompany,
 } from '@/lib/server/services/student'
-import { FileWithPath } from '@mantine/dropzone'
+import { Unpacked } from '../utils'
 
-type Unpacked<T> = T extends (infer U)[] ? U : T
 
 // Get types from backend services
 export type StudentProfile = Awaited<ReturnType<typeof getStudentProfile>>
@@ -15,7 +15,11 @@ export type StudentProfilePatchResponse = Awaited<
   ReturnType<typeof patchStudentProfile>
 >
 
-export type StudentCompanyScan = Unpacked<Awaited<ReturnType<typeof getStudentCompanies>>>
+export type ScannedCompany = Unpacked<
+  Awaited<ReturnType<typeof getStudentCompanies>>
+>
+export type CompanyScan = Awaited<ReturnType<typeof server_scanCompany>>
+
 
 export const fetchStudentProfile = async (): Promise<StudentProfile> => {
   const { data } = await ApiClient.get('student/profile')
@@ -30,9 +34,14 @@ export const updateStudentProfile = async (
   return profile
 }
 
-export const fetchStudentCompaniesScans = async (): Promise<StudentCompanyScan[]> => {
+export const fetchStudentCompaniesScans = async (): Promise<
+  ScannedCompany[]
+> => {
   const { data } = await ApiClient.get('student/companies')
   return data
 }
 
-
+export const scanCompany = async (companyId: string): Promise<CompanyScan> => {
+  const { data } = await ApiClient.post(`student/scan/${companyId}`)
+  return data
+}

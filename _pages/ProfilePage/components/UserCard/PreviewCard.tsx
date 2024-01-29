@@ -1,52 +1,32 @@
-import {
-  Avatar,
-  Text,
-  Paper,
-  Skeleton,
-  Group,
-  em,
-  CloseButton,
-} from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
+import { Avatar, Text, Paper, em } from '@mantine/core'
 import { AnchorLink } from '@/components/AnchorLink'
+import { CompanyScan, ScannedCompany } from '@/lib/frontend/api'
 
-const PreviewCard = () => {
-  const companyData = {
-    name: 'Example company',
-    image: '',
-  }
+interface PreviewCardProps {
+  data: CompanyScan | ScannedCompany
+}
 
-  const isLoadingData = () => {
-    return false
-  }
-
-  const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
-
+const PreviewCard = ({ data }: PreviewCardProps) => {
   return (
     <Paper
-      className="h-fit min-w-min w-full sm:w-1/3 !rounded-none sm:!rounded-lg"
+      className="h-fit min-w-min w-full sm:w-1/3 !rounded-lg"
       withBorder
-      p={isMobile ? 'xl' : 'lg'}
+      p={'lg'}
       bg="var(--mantine-color-body)"
     >
-      <Group justify="flex-end">
-        <CloseButton />
-      </Group>
       <div className=" w-full flex flex-col justify-center items-center">
-        {isLoadingData() ? (
-          <Skeleton circle height={120} />
-        ) : (
-          <Avatar src={''} size={100} radius={120} />
-        )}
+        <Avatar src={data?.user.image} size={100} radius={120} />
 
         <Text c="#00415a" ta="center" fz="xl" fw={700} mt="md">
-          <Skeleton visible={isLoadingData()}>Nome</Skeleton>
+          {data?.user.name}
         </Text>
 
-        <Skeleton
-          className="flex flex-col items-center gap-2"
-          visible={isLoadingData()}
-        >
+        <div className="flex flex-col items-center gap-2">
+          <AnchorLink
+            label={data?.linkText}
+            href={data?.linkHref}
+            preview={true}
+          />
           <Text
             className="sm:min-w-[18rem]"
             ta="center"
@@ -54,14 +34,9 @@ const PreviewCard = () => {
             fw={500}
             fz="sm"
           >
-            Descrição
+            {data?.description}
           </Text>
-          <AnchorLink
-            label="Saber mais sobre nós"
-            href="https://pt.wikipedia.org/wiki/Worten"
-            preview={true}
-          />
-        </Skeleton>
+        </div>
       </div>
     </Paper>
   )

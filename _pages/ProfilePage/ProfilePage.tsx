@@ -1,7 +1,7 @@
 import { UserCard, UserTabs } from './components'
 import { useMediaQuery, useSetState } from '@mantine/hooks'
 import { Modal, em } from '@mantine/core'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import {
   StudentSettingsForm,
   CompanySettingsForm,
@@ -11,6 +11,7 @@ import { useBoundStore } from '@/lib/frontend/store'
 import { useSession } from 'next-auth/react'
 import { User } from 'next-auth'
 import { UserType } from '@prisma/client'
+import { QRDialog } from '@/components/QRDialog'
 
 const ProfilePage = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
@@ -18,18 +19,22 @@ const ProfilePage = () => {
   const session = useSession()
   const user: User = session.data?.user
 
-  //Getters
+  // Getters
   const profileSettingsVisible = useBoundStore(
     (state) => state.profileSettingsVisible
   )
+  const selectedCompany = useBoundStore((state) => state.selectedCompany)
 
-  //Setters
-  const showSettings = useBoundStore((state) => state.showSettings)
 
-  const settingsCloseCallback = () => {
-    showSettings(false)
-    window.scrollTo(0, 0)
-  }
+  // Setters
+  const selectCompany = useBoundStore((state) => state.selectCompany)
+
+  useEffect(() => {
+    if (!profileSettingsVisible) {
+      window.scrollTo(0, 0)
+    }
+  }, [profileSettingsVisible])
+
   return (
     <div className="w-full h-full flex flex-col sm:flex-row sm:gap-4">
       {(!profileSettingsVisible || !isMobile) && <UserCard />}
@@ -43,16 +48,22 @@ const ProfilePage = () => {
           <StudentSettingsForm />
         ))}
 
-      <Modal.Root opened={false && !!isMobile} onClose={() => {}}>
+      <Modal.Root
+        opened={!!selectedCompany && !!isMobile}
+        onClose={() => selectCompany(undefined)}
+      >
         <Modal.Overlay />
         <Modal.Content>
           <Modal.Body p={0}>
-            <PreviewCard />
+            {' '}
+            <PreviewCard data={selectedCompany} />
           </Modal.Body>
         </Modal.Content>
       </Modal.Root>
 
-      {false && !isMobile && <PreviewCard />}
+      <QRDialog />
+
+      {!!selectedCompany && !isMobile && <PreviewCard data={selectedCompany} />}
     </div>
   )
 }

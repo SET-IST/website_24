@@ -66,7 +66,6 @@ model StudentDetails {
   enrolledActivities ActivityEnrollment[]
 }
 
-// add activities to companies
 model CompanyDetails {
   id         Int              @id @default(autoincrement())
   category   CompanyCategory
@@ -80,6 +79,9 @@ model CompanyDetails {
   description String  @db.VarChar(150)
   linkHref    String?
   linkText    String? @db.VarChar(40)
+
+  // The days this company will be present at the event
+  days Day[]
 }
 
 model User {
@@ -159,4 +161,10 @@ model AwardToken {
   type      AwardType
   studentId Int            @unique
   student   StudentDetails @relation(fields: [studentId], references: [id])
+}
+
+model Day {
+  id        Int              @id @default(autoincrement())
+  dateCode  String           @unique
+  companies CompanyDetails[]
 }

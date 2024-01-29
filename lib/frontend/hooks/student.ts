@@ -1,12 +1,30 @@
-import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { StudentCompanyScan, fetchStudentCompaniesScans } from "../api";
-import { UserType } from "@prisma/client";
+import { QueryClient, useMutation, useQuery } from '@tanstack/react-query'
+import {
+  CompanyScan,
+  ScannedCompany,
+  fetchStudentCompaniesScans,
+  scanCompany,
+} from '../api'
+import { AxiosError } from 'axios'
 
 export const useStudentCompanyScans = () => {
-    const session = useSession();
-    const user = session.data?.user;
-    return useQuery<StudentCompanyScan[], Error>(['StudentCompanyScans'], () => fetchStudentCompaniesScans(), {
-        enabled: session.status === 'authenticated' && (user?.role === UserType.Student || user?.role === UserType.Staff)
-    });
+  return useQuery<ScannedCompany[], AxiosError>(['StudentCompanyScans'], () =>
+    fetchStudentCompaniesScans()
+  )
+}
+
+export const useScan = (queryClient: QueryClient) => {
+  return useMutation<CompanyScan, AxiosError, string>({
+    mutationFn: async (companyId: string) => {
+      return scanCompany(companyId)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['Profile'],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['StudentCompanyScans'],
+      })
+    },
+  })
 }

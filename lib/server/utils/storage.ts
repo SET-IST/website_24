@@ -1,4 +1,5 @@
 import { S3ClientService } from '@/core/services/server'
+import { handleS3Exception } from '@/core/utils'
 import { DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3'
 
 /**
@@ -13,22 +14,27 @@ export function getFullResourcePath(resource?: string | null) {
 // Currently EdgeStore doesn't support backend clients, therefore we need to duplicate methods
 
 export async function getFile(path: string) {
-  const { ContentLength, LastModified, Metadata } = await S3ClientService.send(
-    new HeadObjectCommand({
-      Bucket: process.env.ES_AWS_BUCKET_NAME,
-      Key: path,
-    })
-  )
+  try {
+    const { ContentLength, LastModified, Metadata } =
+      await S3ClientService.send(
+        new HeadObjectCommand({
+          Bucket: process.env.ES_AWS_BUCKET_NAME,
+          Key: path,
+        })
+      )
 
-  if (!ContentLength || !LastModified) {
-    return
-  }
+    if (!ContentLength || !LastModified) {
+      return
+    }
 
-  return {
-    url: path,
-    metadata: Metadata,
-    size: ContentLength,
-    uploadedAt: LastModified,
+    return {
+      url: path,
+      metadata: Metadata,
+      size: ContentLength,
+      uploadedAt: LastModified,
+    }
+  } catch (error) {
+    handleS3Exception(error)
   }
 }
 

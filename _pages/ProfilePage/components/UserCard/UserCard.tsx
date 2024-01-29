@@ -17,13 +17,9 @@ const UserCard = () => {
     isError: isUserError,
   } = useProfile()
 
-  //Getters
-  const profileSettingsVisible = useBoundStore(
-    (state) => state.profileSettingsVisible
-  )
-
-  //Setters
+  // Setters
   const showSettings = useBoundStore((state) => state.showSettings)
+  const showScanModal = useBoundStore((state) => state.showScanModal)
 
   return (
     <Paper
@@ -99,7 +95,12 @@ const UserCard = () => {
             <Button fullWidth mt="lg">
               Redimir prémio
             </Button>
-            <Button fullWidth mt="lg" leftSection={<IconQrcode size={24} />}>
+            <Button
+              onClick={() => showScanModal(true)}
+              fullWidth
+              mt="lg"
+              leftSection={<IconQrcode size={24} />}
+            >
               Scan
             </Button>
           </div>
