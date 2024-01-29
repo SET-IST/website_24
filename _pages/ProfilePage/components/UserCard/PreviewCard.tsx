@@ -1,9 +1,9 @@
 import { Avatar, Text, Paper, em } from '@mantine/core'
 import { AnchorLink } from '@/components/AnchorLink'
-import { CompanyScan } from '@/lib/frontend/api'
+import { CompanyScan, ScannedCompany } from '@/lib/frontend/api'
 
 interface PreviewCardProps {
-  data: CompanyScan
+  data: CompanyScan | ScannedCompany
 }
 
 const PreviewCard = ({ data }: PreviewCardProps) => {
