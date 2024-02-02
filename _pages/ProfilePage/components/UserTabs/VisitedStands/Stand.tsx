@@ -10,9 +10,11 @@ interface StandComponentProps {
 const Stand = ({ data }: StandComponentProps) => {
   const selectCompany = useBoundStore((state) => state.selectCompany)
 
+  const selectedCompany = useBoundStore((state) => state.selectedCompany)
+
   return (
     <div
-      onClick={() => selectCompany(data)}
+      onClick={() => selectCompany(data === selectedCompany ? undefined : data)}
       className="w-full h-fit p-4 flex flex-row items-center hover:bg-gray-50 transition-all cursor-pointer"
     >
       <div className="relative h-12 w-12 sm:h-14 sm:w-14 shrink-0 overflow-hidden rounded-lg bg-gray-200">

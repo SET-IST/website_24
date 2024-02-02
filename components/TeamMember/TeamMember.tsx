@@ -28,16 +28,18 @@ const TeamMember = ({ data }: TeamMemberProps) => {
       <Text ta="center" c="dimmed" fz="md">
         {data.role}
       </Text>
-      <ActionIcon
-        component="a"
-        target="_blank"
-        href={data.linkedin}
-        size="lg"
-        variant="subtle"
-        aria-label="LinkedIn"
-      >
-        <IconBrandLinkedin color="#0a66c2" />
-      </ActionIcon>
+      {!!data.linkedin && (
+        <ActionIcon
+          component="a"
+          target="_blank"
+          href={data.linkedin}
+          size="lg"
+          variant="subtle"
+          aria-label="LinkedIn"
+        >
+          <IconBrandLinkedin color="#0a66c2" />
+        </ActionIcon>
+      )}
     </div>
   )
 }

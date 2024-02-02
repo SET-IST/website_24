@@ -80,7 +80,6 @@ import InesMarques from '@/assets/team/Embaixadores/Ines Marques.webp'
 import InesTomaz from '@/assets/team/Embaixadores/Ines Tomaz.webp'
 import VhirJahit from '@/assets/team/Embaixadores/Vhir Jahit.webp'
 
-
 export interface TeamMember {
   name: string
   image: StaticImageData
@@ -111,7 +110,7 @@ const coordenacao: IDepartment = {
       name: 'Beatriz Alves',
       image: BeatrizAlves,
       role: 'Coordenadora',
-      linkedin: '',
+      linkedin: 'https://www.linkedin.com/in/beatriz-alves-3124612b2',
     },
     {
       name: 'Manuel Candeias',
@@ -171,7 +170,7 @@ const logistica: IDepartment = {
       name: 'Inês Coelho',
       image: InesCoelho,
       role: 'Colaboradora',
-      linkedin: 'http://linkedin.com/in/inescoelho03',
+      linkedin: 'https://linkedin.com/in/inescoelho03',
     },
     {
       name: 'João Lobato',
@@ -319,7 +318,7 @@ const people: IDepartment = {
       image: EmaPinheiro,
       customImagePosition: '50% -60px',
       role: 'Colaboradora',
-      linkedin: 'http://linkedin.com/in/ema-pinheiro-77879a256',
+      linkedin: 'https://linkedin.com/in/ema-pinheiro-77879a256',
     },
     {
       name: 'Lia Neves',
@@ -333,7 +332,7 @@ const people: IDepartment = {
       image: ManuelDias,
       customImagePosition: '50% -50px',
       role: 'Colaborador',
-      linkedin: 'http://www.linkedin.com/in/manuelmldias',
+      linkedin: 'https://www.linkedin.com/in/manuelmldias',
     },
   ],
 }
@@ -531,53 +530,56 @@ const suporteInformatico: IDepartment = {
       name: 'Tiago Caldas',
       image: TiagoCaldas,
       role: 'Colaborador',
-      linkedin: 'http://www.linkedin.com/in/tiago-caldas-26a387268',
+      linkedin: 'https://www.linkedin.com/in/tiago-caldas-26a387268',
     },
   ],
 }
-
 
 const embaixadores: IDepartment = {
   name: 'Embaixadores',
   slug: 'embaixadores',
   coordinators: [],
   members: [
-  {
-    name: 'Afonso de Melo',
-    image: AfonsoMelo,
-    role: 'Embaixador',
-    linkedin: 'www.linkedin.com/in/afonsodemello',
-  },
-  {
-    name: 'Ana Cordeiro',
-    image: AnaCordeiro,
-    role: 'Embaixadora',
-    linkedin: 'https://www.linkedin.com/in/maria-teresa-madeira-',
-  },
-  {
-    name: 'Guilherme Soares',
-    image: GuilhermeSoares,
-    role: 'Embaixador',
-    linkedin: 'https://www.linkedin.com/in/guilherme-m-soares/',
-  },
-  {
-    name: 'Inês Marques',
-    image: InesMarques,
-    role: 'Embaixadora',
-    linkedin: '',
-  },
-  {
-    name: 'Inês Tomaz',
-    image: InesTomaz,
-    role: 'Embaixadora',
-    linkedin: '	https://www.linkedin.com/in/in%C3%AAs-tomaz-39b9b1261/',
-  },
-  {
-    name: 'Vhir Jahit',
-    image: VhirJahit,
-    role: 'Embaixador',
-    linkedin: 'www.linkedin.com/in/vhir-sacarlal-9395aa278',
-  },
+    {
+      name: 'Afonso de Melo',
+      image: AfonsoMelo,
+      role: 'Embaixador',
+      linkedin: 'www.linkedin.com/in/afonsodemello',
+      customImagePosition: '50% -30px',
+    },
+    {
+      name: 'Ana Cordeiro',
+      image: AnaCordeiro,
+      role: 'Embaixadora',
+      linkedin: 'https://www.linkedin.com/in/maria-teresa-madeira-',
+      customImagePosition: '50% -50px',
+    },
+    {
+      name: 'Guilherme Soares',
+      image: GuilhermeSoares,
+      role: 'Embaixador',
+      linkedin: 'https://www.linkedin.com/in/guilherme-m-soares/',
+      customImagePosition: '50% -50px',
+    },
+    {
+      name: 'Inês Marques',
+      image: InesMarques,
+      role: 'Embaixadora',
+      linkedin: '',
+      customImagePosition: '50% -55px',
+    },
+    {
+      name: 'Inês Tomaz',
+      image: InesTomaz,
+      role: 'Embaixadora',
+      linkedin: 'https://www.linkedin.com/in/in%C3%AAs-tomaz-39b9b1261/',
+    },
+    {
+      name: 'Vhir Jahit',
+      image: VhirJahit,
+      role: 'Embaixador',
+      linkedin: 'www.linkedin.com/in/vhir-sacarlal-9395aa278',
+    },
   ],
 }
 
