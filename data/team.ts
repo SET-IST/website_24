@@ -302,7 +302,7 @@ const people: IDepartment = {
       name: 'Ana Oliveira',
       image: AnaOliveira,
       role: 'Coordenadora',
-      linkedin: '',
+      linkedin: 'https://www.linkedin.com/in/ana-lemos-oliveira',
     },
   ],
   members: [
