@@ -1,8 +1,8 @@
 import { CompanyStudentScan } from '@/lib/frontend/api'
 import { getCourse, getInstitution } from '@/lib/frontend/utils'
-import { Avatar, Button, Text } from '@mantine/core'
+import { Button, Text } from '@mantine/core'
 import { Image } from '@mantine/core'
-import { IconDownload, IconFileDownload } from '@tabler/icons-react'
+import { IconFileDownload } from '@tabler/icons-react'
 
 interface StudentComponentProps {
   data: CompanyStudentScan
