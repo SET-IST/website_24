@@ -573,12 +573,14 @@ const embaixadores: IDepartment = {
       image: InesTomaz,
       role: 'Embaixadora',
       linkedin: 'https://www.linkedin.com/in/in%C3%AAs-tomaz-39b9b1261/',
+      customImagePosition: '50% -60px',
     },
     {
       name: 'Vhir Jahit',
       image: VhirJahit,
       role: 'Embaixador',
       linkedin: 'www.linkedin.com/in/vhir-sacarlal-9395aa278',
+      customImagePosition: '50% -20px',
     },
   ],
 }
