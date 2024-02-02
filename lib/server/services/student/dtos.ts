@@ -1,6 +1,13 @@
 import { IsEmail, IsOptional, IsString } from 'class-validator'
 
-export class PatchStudentProfileDto {
+export interface IPatchStudentProfile {
+  name?: string
+  email?: string
+  university?: string
+  course?: string
+}
+
+export class PatchStudentProfileDto implements IPatchStudentProfile{
   @IsOptional()
   @IsString()
   name?: string
@@ -11,9 +18,9 @@ export class PatchStudentProfileDto {
 
   @IsOptional()
   @IsString()
-  university?: string
+  institutionCode?: string
 
   @IsOptional()
   @IsString()
-  course?: string
+  courseCode?: string
 }

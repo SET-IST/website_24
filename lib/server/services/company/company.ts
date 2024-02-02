@@ -4,6 +4,7 @@ import { PrismaService } from '@/core/services/server'
 import { isSamePass } from '@/core/utils/auth'
 import { UnauthorizedException } from 'next-api-decorators'
 import { User } from 'next-auth'
+import { getFullResourcePath } from '../../utils'
 
 export async function login(
   req: CompanyLoginRequest
@@ -34,10 +35,9 @@ export async function login(
   })
 }
 
-
 export async function getCompanyProfile(user: User) {
   return await databaseQueryWrapper(async () => {
-    return await PrismaService.user.findUniqueOrThrow({
+    const company = await PrismaService.user.findUniqueOrThrow({
       where: {
         id: user.id,
       },
@@ -54,48 +54,69 @@ export async function getCompanyProfile(user: User) {
         },
       },
     })
-  })
-}
 
-export async function patchCompanyProfile(user: User, req: PatchCompanyProfileDto) {
-  return await databaseQueryWrapper(async () => {
-    console.log(req)
-    await PrismaService.companyDetails.update({
-        where: {
-            userId: user.id
-        },
-        data: {
-            user:{
-                update: {
-                    name: req.name,
-                }
-            },
-            description: req.description,
-            linkHref: req.linkHref,
-            linkText: req.linkText
-        }
-    })
-    return {message: "Company profile updated"}
-  })
-}
-
-export async function getCompanyStudents(user: User){
-  return await databaseQueryWrapper(async () => {
-    return await PrismaService.companyDetails.findUniqueOrThrow({
-      where: {
-        userId: user.id
-      },
-      select:
-        {
-          students: {
-            select: {
-              id: true,
-              course: true,
-              university: true
-            }
-          }
-        }
-      })
+    const response = {
+      ...company,
+      image: getFullResourcePath(company.image),
     }
-  )
+
+    return response
+  })
+}
+
+export async function patchCompanyProfile(
+  user: User,
+  req: PatchCompanyProfileDto
+) {
+  return await databaseQueryWrapper(async () => {
+    await PrismaService.companyDetails.update({
+      where: {
+        userId: user.id,
+      },
+      data: {
+        user: {
+          update: {
+            name: req.name,
+          },
+        },
+        description: req.description,
+        linkHref: req.linkHref,
+        linkText: req.linkText,
+      },
+    })
+    return { message: 'Company profile updated' }
+  })
+}
+
+export async function getCompanyStudents(user: User) {
+  return await databaseQueryWrapper(async () => {
+    const details =  await PrismaService.companyDetails.findUniqueOrThrow({
+      where: {
+        userId: user.id,
+      },
+      select: {
+        students: {
+          select: {
+            id: true,
+            course: true,
+            university: true,
+            user: {
+              select: {
+                name: true,
+                email: true,
+                image: true,
+              },
+            },
+          },
+        },
+      },
+    })
+    return details.students.map((student) => ({
+      ...student,
+      user: {
+        ...student.user,
+        image: getFullResourcePath(student.user.image),
+      },
+    })) 
+  })
 }

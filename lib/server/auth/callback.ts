@@ -6,6 +6,7 @@ import { DateTime } from 'luxon'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { CallbacksOptions } from 'next-auth'
 import { Adapter } from 'next-auth/adapters'
+import { getFullResourcePath } from '@/lib/server/utils'
 
 const adapter = PrismaAdapter(PrismaService) as Adapter
 
@@ -38,10 +39,11 @@ export const AuthCallbacks = (
     },
     async session({ session, token, user }) {
       session.user = {
+        ...session.user,
         id: user.id,
         role: user.role,
         readChangelog: user.readChangelog,
-        ...session.user,
+        image: getFullResourcePath(user.image),
       }
 
       return session

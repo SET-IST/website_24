@@ -52,7 +52,7 @@ enum CompanyCategory {
 // Add activities to students
 model StudentDetails {
   id                 Int                  @id @default(autoincrement())
-  cv                 CV?
+  cvLocation         String?              @db.VarChar(128)
   scans              Int                  @default(0)
   points             Int                  @default(0)
   course             String               @db.VarChar(128)
@@ -66,7 +66,6 @@ model StudentDetails {
   enrolledActivities ActivityEnrollment[]
 }
 
-// add activities to companies
 model CompanyDetails {
   id         Int              @id @default(autoincrement())
   category   CompanyCategory
@@ -79,7 +78,10 @@ model CompanyDetails {
 
   description String  @db.VarChar(150)
   linkHref    String?
-  linkText    String? @db.VarChar(30)
+  linkText    String? @db.VarChar(40)
+
+  // The days this company will be present at the event
+  days Day[]
 }
 
 model User {
@@ -104,13 +106,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model CV {
-  id         String            @id @default(uuid())
-  cvLocation String         @db.VarChar(128)
-  studentId  Int            @unique
-  student    StudentDetails @relation(fields: [studentId], references: [id])
-}
-
 //create the activity model
 enum ActivityType {
   Lecture
@@ -119,13 +114,13 @@ enum ActivityType {
 }
 
 model ActivityEnrollment {
-  userId     String            
+  userId     String
   student    StudentDetails @relation(fields: [userId], references: [userId])
-  activityId Int            
+  activityId Int
   activity   Activity       @relation(fields: [activityId], references: [id])
   confirmed  Boolean
 
-  @@unique(name: "enrollmentId",[userId, activityId])
+  @@unique(name: "enrollmentId", [userId, activityId])
 }
 
 model Activity {
@@ -166,4 +161,10 @@ model AwardToken {
   type      AwardType
   studentId Int            @unique
   student   StudentDetails @relation(fields: [studentId], references: [id])
+}
+
+model Day {
+  id        Int              @id @default(autoincrement())
+  dateCode  String           @unique
+  companies CompanyDetails[]
 }

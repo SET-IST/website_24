@@ -3,6 +3,8 @@ import { TokenEndpointHandler } from 'next-auth/providers'
 import { FenixRegistration, Role } from './types'
 import * as CompanyService from '@/lib/server/services/company'
 import { CompanyLoginRequest } from '../services/company/dtos'
+import { displayName } from '../utils'
+import { Course, instituitions } from '@/data/courses'
 
 const FENIX_ACCESS_TOKEN_ENDPOINT =
   'https://fenix.tecnico.ulisboa.pt/oauth/access_token'
@@ -18,8 +20,22 @@ function getMostRecentRegistration(registrations?: FenixRegistration[]) {
   return sortedRegistrations[0]
 }
 
-function getFenixCourse(roles: Role[]) {
-  const teacherRole = roles.find((role) => role.type === 'TEACHER')
+function findCourse(instituitionId: string, name: string): Course | undefined {
+  if (!Object.keys(instituitions).includes(instituitionId)) return
+
+  const courses = instituitions[instituitionId].courses
+
+  let course = undefined
+  Object.keys(courses).forEach((courseId) => {
+    if (name.includes(courses[courseId].name)) {
+      course = courses[courseId]
+    }
+  })
+
+  return course
+}
+
+function getFenixCourseCode(institutionCode: string, roles: Role[]) {
   const studentRole = roles.find((role) => role.type === 'STUDENT')
   const alumniRole = roles.find((role) => role.type === 'ALUMNI')
 
@@ -41,13 +57,9 @@ function getFenixCourse(roles: Role[]) {
     mostRecentRegistration = studentRegistration ?? alumniRegistration
   }
 
-  if (teacherRole && !mostRecentRegistration) {
-    return teacherRole.department?.name
-  }
+  if (!mostRecentRegistration) return ''
 
-  mostRecentRegistration = mostRecentRegistration?.name ?? 'Unknown course'
-
-  return mostRecentRegistration
+  return findCourse(institutionCode, mostRecentRegistration.name)?.code ?? ''
 }
 
 /* Fenix Handlers */
@@ -91,17 +103,16 @@ export const FenixAccessTokenHandler: TokenEndpointHandler = {
 }
 
 export const FenixProfileHandler: any = (profile: any, tokens: TokenSet) => {
+  const institutionCode = profile.campus === 'Taguspark' ? '1519' : '1518'
+
   return {
     id: profile.username,
-    name: profile.name,
+    name: displayName(profile.name),
     email: profile.email,
     studentDetails: {
       create: {
-        university:
-          profile.campus === 'Taguspark'
-            ? 'Universidade de Lisboa - Instituto Superior T\u00e9cnico (Tagus Park)'
-            : 'Universidade de Lisboa - Instituto Superior T\u00e9cnico',
-        course: getFenixCourse(profile.roles),
+        university: institutionCode,
+        course: getFenixCourseCode(institutionCode, profile.roles),
       },
     },
   }

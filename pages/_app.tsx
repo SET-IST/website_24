@@ -23,6 +23,7 @@ import '@mantine/notifications/styles.css'
 
 import { MantineProvider } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
+import { EdgeStoreProvider } from '@/lib/frontend/edgestore'
 
 type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (_page: ReactElement) => ReactNode
@@ -47,6 +48,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           },
         },
       })
+
   )
 
   const getLayout = Component.getLayout ?? ((page) => page)
@@ -54,12 +56,14 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   return (
     <MantineProvider>
       <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <SessionProvider session={pageProps.session}>
-            <Notifications position="top-center" />
-            {getLayout(<Component {...pageProps} />)}
-          </SessionProvider>
-        </Hydrate>
+        <EdgeStoreProvider>
+          <Hydrate state={pageProps.dehydratedState}>
+            <SessionProvider session={pageProps.session}>
+              <Notifications position="top-center" />
+              {getLayout(<Component {...pageProps} />)}
+            </SessionProvider>
+          </Hydrate>
+        </EdgeStoreProvider>
       </QueryClientProvider>
     </MantineProvider>
   )
