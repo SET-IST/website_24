@@ -1,24 +1,41 @@
 import { ActivityData } from '@/lib/frontend/api/activities'
+import { useEnrollStudent } from '@/lib/frontend/hooks/activities'
 import { Badge, Button, Text, rem } from '@mantine/core'
 import { ActivityType } from '@prisma/client'
 import { IconMapPin } from '@tabler/icons-react'
+import { useQueryClient } from '@tanstack/react-query'
 import { DateTime } from 'luxon'
-import { date } from 'yup'
 
 interface ActivityComponentProps {
   data: ActivityData
   isMobile?: boolean
+  enrollCallback: (activityId: string) => void
+  unEnrollCallback: (activityId: string) => void
 }
 
 interface ActivityButtonProps {
   data: ActivityData
   isMobile?: boolean
+  enrollCallback: (activityId: string) => void
+  unEnrollCallback: (activityId: string) => void
 }
 
-const ActivityButton = ({ data, isMobile }: ActivityButtonProps) => {
+const ActivityButton = ({
+  data,
+  isMobile,
+  enrollCallback,
+  unEnrollCallback,
+}: ActivityButtonProps) => {
   if (data?.type && data?.type !== ActivityType.Lecture) {
     if (data.confirmed == undefined) {
-      return <Button fullWidth={!!isMobile}>Inscrever-me</Button>
+      return (
+        <Button
+          onClick={() => enrollCallback(String(data.id))}
+          fullWidth={!!isMobile}
+        >
+          Inscrever-me
+        </Button>
+      )
     }
     if (data.confirmed) {
       return (
@@ -28,7 +45,11 @@ const ActivityButton = ({ data, isMobile }: ActivityButtonProps) => {
       )
     } else {
       return (
-        <Button variant="default" fullWidth={!!isMobile}>
+        <Button
+          variant="default"
+          fullWidth={!!isMobile}
+          onClick={() => unEnrollCallback(String(data.id))}
+        >
           Cancelar inscrição
         </Button>
       )
@@ -38,8 +59,13 @@ const ActivityButton = ({ data, isMobile }: ActivityButtonProps) => {
   }
 }
 
-const Activity = ({ data, isMobile }: ActivityComponentProps) => {
-  const date = DateTime.fromJSDate(data?.date ?? new Date)
+const Activity = ({
+  data,
+  isMobile,
+  enrollCallback,
+  unEnrollCallback,
+}: ActivityComponentProps) => {
+  const date = data?.date ? DateTime.fromISO(String(data.date)) : DateTime.now()
   return (
     <div className="w-full h-fit bg-[color:var(--mantine-color-white)] hover:bg-gray-50 p-4 flex flex-col gap-4 sm:flex-row sm:gap-0 items-center sm:rounded-md">
       <div className="w-full h-fit flex flex-col gap-2">
@@ -67,7 +93,12 @@ const Activity = ({ data, isMobile }: ActivityComponentProps) => {
           </Badge>
         </div>
       </div>
-      <ActivityButton data={data} isMobile={isMobile} />
+      <ActivityButton
+        data={data}
+        isMobile={isMobile}
+        enrollCallback={enrollCallback}
+        unEnrollCallback={unEnrollCallback}
+      />
     </div>
   )
 }

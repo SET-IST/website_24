@@ -12,13 +12,12 @@ import {
 } from 'next-api-decorators'
 import { PatchActivityDto } from './dtos'
 
-
-type ExtendedActivity = Activity & {confirmed?: boolean} 
+type ExtendedActivity = Activity & { confirmed?: boolean }
 
 export async function getActivities(
   req: NextApiRequest,
   res: NextApiResponse
-): Promise<ExtendedActivity[]  | undefined> {
+): Promise<ExtendedActivity[] | undefined> {
   return await databaseQueryWrapper(async () => {
     const activities = await PrismaService.activity.findMany()
     const session = await getSession(req, res)
@@ -46,7 +45,7 @@ export async function getActivities(
         }
       }
       return activity
-    }) 
+    })
   })
 }
 

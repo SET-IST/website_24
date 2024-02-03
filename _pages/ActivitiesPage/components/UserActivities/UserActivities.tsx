@@ -1,8 +1,17 @@
 import { useMediaQuery } from '@mantine/hooks'
 import { DateTime } from 'luxon'
 import { em } from '@mantine/core'
-import { useActivities } from '@/lib/frontend/hooks/activities'
+import {
+  useActivities,
+  useEnrollStudent,
+  useUnEnrollStudent,
+} from '@/lib/frontend/hooks/activities'
 import Activity from './Activity'
+import { useQueryClient } from '@tanstack/react-query'
+import { showSuccessNotification } from '@/components/Notifications'
+import { useSession } from 'next-auth/react'
+import { useBoundStore } from '@/lib/frontend/store'
+import { removeStudent } from '@/lib/server/services/activities'
 
 // const activities: ActivityData[] = [
 //   {
@@ -39,9 +48,40 @@ import Activity from './Activity'
 // ]
 
 const UserActivities = () => {
+  const session = useSession()
+  const showLogin = useBoundStore((state) => state.showLoginDialog)
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
-  const { data: activities, isLoading} = useActivities() 
+  const { data: activities, isLoading } = useActivities()
+  const {
+    mutateAsync: enroll,
+    isError: isEnrollError,
+    error: enrollError,
+  } = useEnrollStudent(useQueryClient())
+  const {
+    mutateAsync: unEnroll,
+    isError: isUnEnrollError,
+    error: unEnrollError,
+  } = useUnEnrollStudent(useQueryClient())
 
+  const enrollStudent = (activityId: string) => {
+    if (session.status !== 'authenticated') {
+      showLogin(true)
+      return
+    }
+    enroll(activityId).then(() => {
+      showSuccessNotification({
+        message: 'Inscrição pendente de confirmação',
+      })
+    })
+  }
+
+  const unEnrollStudent = (activityId: string) => {
+    unEnroll(activityId).then(() => {
+      showSuccessNotification({
+        message: 'Inscrição cancelada com sucesso',
+      })
+    })
+  }
   return (
     <div className="flex bg-[#ffffff] sm:bg-[color:var(--mantine-color-white)] flex-col sm:gap-4 sm:h-[26rem] sm:overflow-scroll sm:rounded-lg sm:p-2 sm:py-4">
       {activities?.map((activityData, index) => (
@@ -49,6 +89,8 @@ const UserActivities = () => {
           key={`activity_${index}`}
           data={activityData}
           isMobile={isMobile}
+          enrollCallback={enrollStudent}
+          unEnrollCallback={unEnrollStudent}
         />
       ))}
     </div>
