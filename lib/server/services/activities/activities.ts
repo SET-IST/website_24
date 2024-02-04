@@ -21,7 +21,11 @@ export async function getActivities(
   return await databaseQueryWrapper(async () => {
     const activities = await PrismaService.activity.findMany()
     const session = await getSession(req, res)
-    if (!session || session.user?.role != UserType.Student) return activities
+    if (
+      !session ||
+      ![UserType.Student, UserType.Staff].includes(session.user?.role)
+    )
+      return activities
 
     const student = await PrismaService.studentDetails.findUniqueOrThrow({
       where: {
@@ -76,12 +80,12 @@ export async function enrollStudent(user: User, id: number) {
           confirmed: false,
         },
       })
-      return { message: 'Successfully enrolled' }
+      return activity
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2002':
-            return { message: 'Already enrolled' }
+            throw new BadRequestException('Already enrolled')
           default:
             throw new InternalServerErrorException(error.message)
         }
@@ -121,7 +125,7 @@ export async function removeStudent(user: User, id: number) {
           },
         },
       })
-      return { message: 'Successfully removed' }
+      return activity
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
