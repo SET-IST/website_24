@@ -8,10 +8,17 @@ import {
 } from '@/lib/frontend/hooks/activities'
 import Activity from './Activity'
 import { useQueryClient } from '@tanstack/react-query'
-import { showSuccessNotification } from '@/components/Notifications'
+import {
+  showInfoNotification,
+  showSuccessNotification,
+} from '@/components/Notifications'
 import { useSession } from 'next-auth/react'
 import { useBoundStore } from '@/lib/frontend/store'
 import { removeStudent } from '@/lib/server/services/activities'
+import {
+  EnrollUserResponse,
+  UnEnrollUserResponse,
+} from '@/lib/frontend/api/activities'
 
 // const activities: ActivityData[] = [
 //   {
@@ -68,17 +75,19 @@ const UserActivities = () => {
       showLogin(true)
       return
     }
-    enroll(activityId).then(() => {
-      showSuccessNotification({
-        message: 'Inscrição pendente de confirmação',
+    enroll(activityId).then((activity: EnrollUserResponse) => {
+      showInfoNotification({
+        title: 'Inscrição pendente de confirmação',
+        message: activity?.title ?? '',
       })
     })
   }
 
   const unEnrollStudent = (activityId: string) => {
-    unEnroll(activityId).then(() => {
-      showSuccessNotification({
-        message: 'Inscrição cancelada com sucesso',
+    unEnroll(activityId).then((activity: UnEnrollUserResponse) => {
+      showInfoNotification({
+        title: 'Inscrição cancelada com sucesso',
+        message: activity?.title ?? '',
       })
     })
   }
