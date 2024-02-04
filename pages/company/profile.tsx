@@ -6,7 +6,7 @@ import ProfilePage from '@/_pages/ProfilePage'
 import type { ReactElement } from 'react'
 
 const CompanyProfile = () => {
-  return <ProfilePage isCompany={true} />
+  return <ProfilePage />
 }
 
 CompanyProfile.getLayout = (page: ReactElement) => {

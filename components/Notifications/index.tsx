@@ -27,6 +27,6 @@ export const showSuccessNotification = (props: NotificationProps) => {
   notifications.show({
     ...props,
     color: 'teal',
-    icon: <IconCheck style={{ width: rem(20), height: rem(20) }} />,
+    icon: <IconCheck style={{ width: rem(20), height: rem(20) }}/>
   })
 }

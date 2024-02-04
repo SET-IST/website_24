@@ -1,102 +1,68 @@
 import { UserCard, UserTabs } from './components'
 import { useMediaQuery, useSetState } from '@mantine/hooks'
 import { Modal, em } from '@mantine/core'
-import { useState } from 'react'
 import {
   StudentSettingsForm,
   CompanySettingsForm,
 } from '@/components/SettingsForms'
+import { PreviewCard } from './components/UserCard/PreviewCard'
+import { useBoundStore } from '@/lib/frontend/store'
+import { useSession } from 'next-auth/react'
+import { User } from 'next-auth'
+import { UserType } from '@prisma/client'
+import { QRDialog } from '@/components/QRDialog'
 
-interface ProfilePageProps {
-  isCompany: boolean
-}
-
-enum ProfileView {
-  TABS,
-  SETTINGS,
-  DETAILS,
-}
-
-interface IDetails {
-  context?: string
-  objectId?: string
-}
-
-const ProfilePage = ({ isCompany }: ProfilePageProps) => {
-  const [currentView, setCurrentView] = useState<ProfileView>(ProfileView.TABS)
-  const [details, setDetails] = useSetState<IDetails>({})
+const ProfilePage = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
 
-  const selectCallback = (context: string, objectId: string) => {
-    setDetails({
-      context: context,
-      objectId: objectId,
-    })
-    setCurrentView(ProfileView.DETAILS)
-  }
+  const session = useSession()
+  const user: User = session.data?.user
 
-  const detailsCloseCallback = () => {
-    setCurrentView(ProfileView.TABS)
-    setDetails({
-      context: '',
-      objectId: '',
-    })
-  }
+  // Getters
+  const profileSettingsVisible = useBoundStore(
+    (state) => state.profileSettingsVisible
+  )
+  const selectedCompany = useBoundStore((state) => state.selectedCompany)
 
-  const settingsCloseCallback = () => {
-    setCurrentView(ProfileView.TABS)
-    window.scrollTo(0, 0)
-  }
+
+  // Setters
+  const selectCompany = useBoundStore((state) => state.selectCompany)
+
+  useEffect(() => {
+    if (!profileSettingsVisible) {
+      window.scrollTo(0, 0)
+    }
+  }, [profileSettingsVisible])
 
   return (
     <div className="w-full h-full flex flex-col sm:flex-row sm:gap-4">
-      {(currentView !== ProfileView.SETTINGS || !isMobile) && (
-        <UserCard
-          isPreview={false}
-          isCompany={isCompany}
-          openSettings={() => {
-            setCurrentView(ProfileView.SETTINGS)
-            window.scrollTo(0, 0)
-          }}
-        />
-      )}
+      {(!profileSettingsVisible || !isMobile) && <UserCard />}
 
-      {currentView !== ProfileView.SETTINGS && (
-        <UserTabs isCompany={isCompany} selectCallback={selectCallback} />
-      )}
+      {!profileSettingsVisible && <UserTabs />}
 
-      {currentView === ProfileView.SETTINGS &&
-        (isCompany ? (
-          <CompanySettingsForm onCancel={settingsCloseCallback} />
+      {profileSettingsVisible &&
+        (user.role == UserType.Company ? (
+          <CompanySettingsForm />
         ) : (
-          <StudentSettingsForm onCancel={settingsCloseCallback} />
+          <StudentSettingsForm />
         ))}
 
       <Modal.Root
-        opened={currentView === ProfileView.DETAILS && !!isMobile}
-        onClose={detailsCloseCallback}
+        opened={!!selectedCompany && !!isMobile}
+        onClose={() => selectCompany(undefined)}
       >
         <Modal.Overlay />
         <Modal.Content>
           <Modal.Body p={0}>
-            <UserCard
-              userId={details.objectId}
-              closeCallback={detailsCloseCallback}
-              isPreview={true}
-              isCompany={true}
-            />
+            {' '}
+            <PreviewCard data={selectedCompany} />
           </Modal.Body>
         </Modal.Content>
       </Modal.Root>
 
-      {currentView === ProfileView.DETAILS && !isMobile && (
-        <UserCard
-          userId={details.objectId}
-          closeCallback={detailsCloseCallback}
-          isPreview={true}
-          isCompany={true}
-        />
-      )}
+      <QRDialog />
+
+      {!!selectedCompany && !isMobile && <PreviewCard data={selectedCompany} />}
     </div>
   )
 }

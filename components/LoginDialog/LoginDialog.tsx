@@ -18,6 +18,7 @@ import { showErrorNotification } from '@/components/Notifications'
 import { SignInPageErrorParam } from '@auth/core/types'
 import { useEffect, useState } from 'react'
 import { links } from '@/data/links'
+import { useEdgeStore } from '@/lib/frontend/edgestore'
 
 export function LoginDialog() {
   const router = useRouter()
@@ -58,6 +59,8 @@ export function LoginDialog() {
     },
   })
 
+  const { reset } = useEdgeStore()
+
   const handleCredentialsLogin = async (credentials: any) => {
     setCredentialsIsLoading(true)
     signIn('credentials', {
@@ -68,6 +71,7 @@ export function LoginDialog() {
         console.log(data)
         switch (data?.status) {
           case 200:
+            reset()
             router.push(links.company.profile)
             showDialog(false)
             break
@@ -130,7 +134,7 @@ export function LoginDialog() {
                   signIn('fenix', {
                     redirect: false,
                     callbackUrl: links.student.profile,
-                  })
+                  }).then(() => reset())
                 }}
               >
                 Entrar com Técnico ID
@@ -141,7 +145,7 @@ export function LoginDialog() {
                   signIn('google', {
                     redirect: false,
                     callbackUrl: links.student.profile,
-                  })
+                  }).then(() => reset())
                 }}
                 loading={googleIsLoading}
                 loaderProps={{

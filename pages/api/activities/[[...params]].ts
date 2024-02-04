@@ -12,7 +12,7 @@ import {
 } from 'next-api-decorators'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as Server from '../../../lib/server/services/activities'
-import { RequiresSession, Role } from '@/lib/server/middleware'
+import { RequiresSession, RestrictedValidationPipe, Role } from '@/lib/server/middleware'
 import { UserData } from '@/core/utils'
 import type { User } from '@prisma/client'
 import { isNumberString } from 'class-validator'
@@ -64,7 +64,7 @@ class ActivitiesRoutes {
   @Role('Staff')
   public async patchEnrollment(
     @Param('id') activityId: string,
-    @Body(ValidationPipe) body: Server.PatchActivityDto
+    @Body(RestrictedValidationPipe) body: Server.PatchActivityDto
   ) {
     if (!isNumberString(activityId))
       throw new BadRequestException('Invalid activity id')

@@ -6,7 +6,7 @@ import ProfilePage from '@/_pages/ProfilePage'
 import type { ReactElement } from 'react'
 
 const StudentProfile = () => {
-  return <ProfilePage isCompany={false} />
+  return <ProfilePage />
 }
 
 StudentProfile.getLayout = (page: ReactElement) => {

@@ -9,20 +9,19 @@ import {
   rem,
 } from '@mantine/core'
 
-import classes from './Navbar.module.css'
 import SetLogoInverted from '@/assets/logos/logo_set_inverted.svg'
 import SetLogo from '@/assets/logos/logo_set.svg'
-import { PropsWithChildren, useEffect, useState } from 'react'
+import { PropsWithChildren, useState } from 'react'
 import classNames from 'classnames'
 import Link from 'next/link'
-import { createAccountNavItems, createNavItem } from './utils'
-import { AccountMenu } from './account'
+import { DesktopNavItem } from './components/DesktopNavItem'
 import { useSession } from 'next-auth/react'
-import { MainLinks, NavLinkType, NavLinkVisibility } from '@/data/nav'
+import { MainNavLinks } from '@/data/nav'
 import { useRouter } from 'next/router'
-import { IconArrowLeft } from '@tabler/icons-react'
 import { links } from '@/data/links'
 import { LoginDialog } from '../LoginDialog'
+import { NavProfileMenu } from './components/menu'
+import { AccountMenu } from './components/Account'
 
 type NavbarProps = PropsWithChildren & {
   startTransparent?: boolean
@@ -32,11 +31,7 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
   const [opened, { toggle }] = useDisclosure()
   const { height } = useViewportSize()
   const [scroll, scrollTo] = useWindowScroll()
-  const [showSettings, setShowSettings] = useState<boolean>(false)
   const router = useRouter()
-
-  //TODO: migrate to auth.js REFACTOR ASAP
-  const sessionContext = useSession()
 
   const isInverted = (): boolean => {
     return !!startTransparent ? scroll.y > height / 4 : true
@@ -44,7 +39,6 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
 
   const closeMobileMenu = () => {
     toggle()
-    setShowSettings(false)
   }
 
   return (
@@ -72,9 +66,11 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
               : 'bg-transparent'
           )}
         >
-          {/* Logo */}
+          {/* Desktop menu */}
 
           <Group justify="space-between" style={{ flex: 1 }}>
+            {/* Logo */}
+
             <Link
               href="#"
               onClick={(event) => {
@@ -93,16 +89,17 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
             {/* Desktop navbar */}
 
             <Group ml="xl" gap={8} visibleFrom="sm">
-              {MainLinks.map((link) =>
-                createNavItem(link, router, isInverted(), false)
-              )}
+              {MainNavLinks.map((link, index) => (
+                <DesktopNavItem
+                  key={`desktop_nav_${index}`}
+                  link={link}
+                  inverted={isInverted()}
+                />
+              ))}
             </Group>
+
             <Group ml="xl" gap={0} visibleFrom="sm">
-              <AccountMenu
-                session={sessionContext}
-                renderForMobile={false}
-                inverted={isInverted()}
-              />
+              <AccountMenu renderForMobile={false} inverted={isInverted()} />
             </Group>
           </Group>
 
@@ -121,6 +118,8 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
 
       <AppShell.Navbar py="md" px="md">
         <Stack gap="xl">
+          {/* Top section */}
+
           <Group justify="space-between">
             <Link
               href="#"
@@ -133,6 +132,7 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
             >
               <SetLogo aria-hidden />
             </Link>
+
             <Burger
               opened={opened}
               onClick={closeMobileMenu}
@@ -140,72 +140,13 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
               size="sm"
             />
           </Group>
-          <Stack gap={0} className="border-none">
-            {showSettings ? (
-              <>
-                <NavLink
-                  label="Voltar"
-                  onClick={() => setShowSettings(false)}
-                  variant="subtle"
-                  c="#00415a"
-                  leftSection={
-                    <IconArrowLeft
-                      style={{ width: rem(18), height: rem(18) }}
-                      stroke={2}
-                    />
-                  }
-                  styles={{
-                    label: {
-                      fontSize: 'var(--mantine-font-size-md)',
-                      fontWeight: 500,
-                    },
-                    description: {
-                      fontSize: 'var(--mantine-font-size-sm)',
-                    },
-                  }}
-                />
-                {createAccountNavItems(
-                  sessionContext,
-                  router,
-                  true,
-                  closeMobileMenu
-                )}
-              </>
-            ) : (
-              <>
-                <AccountMenu
-                  session={sessionContext}
-                  renderForMobile={true}
-                  inverted={isInverted()}
-                />
 
-                <Divider my="xs" />
-                {sessionContext.status === 'authenticated' &&
-                  createNavItem(
-                    {
-                      type: NavLinkType.FUNCTION,
-                      visibility: NavLinkVisibility.MOBILE,
-                      label: 'Definições',
-                      slug: 'mobile_settings',
-                      link: '',
-                      linkFn: () => setShowSettings(true),
-                    },
-                    router,
-                    isInverted(),
-                    true,
-                    closeMobileMenu
-                  )}
-                {MainLinks.map((link) =>
-                  createNavItem(
-                    link,
-                    router,
-                    isInverted(),
-                    true,
-                    closeMobileMenu
-                  )
-                )}
-              </>
-            )}
+          {/* Navigation */}
+
+          <Stack gap={8} className="border-none">
+            <AccountMenu renderForMobile={true} inverted={isInverted()} />
+            <Divider />
+            <NavProfileMenu />
           </Stack>
         </Stack>
       </AppShell.Navbar>

@@ -52,7 +52,7 @@ enum CompanyCategory {
 // Add activities to students
 model StudentDetails {
   id                 Int                  @id @default(autoincrement())
-  cv                 CV?
+  cvLocation         String?              @db.VarChar(128)
   scans              Int                  @default(0)
   points             Int                  @default(0)
   course             String               @db.VarChar(128)
@@ -79,7 +79,10 @@ model CompanyDetails {
 
   description String  @db.VarChar(150)
   linkHref    String?
-  linkText    String? @db.VarChar(30)
+  linkText    String? @db.VarChar(40)
+
+  // The days this company will be present at the event
+  days Day[]
 }
 
 model User {
@@ -102,13 +105,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model CV {
-  id         Int            @id @default(autoincrement())
-  cvLocation String         @db.VarChar(128)
-  studentId  Int            @unique
-  student    StudentDetails @relation(fields: [studentId], references: [id])
 }
 
 //create the activity model
@@ -166,4 +162,10 @@ model AwardToken {
   type      AwardType
   studentId Int            @unique
   student   StudentDetails @relation(fields: [studentId], references: [id])
+}
+
+model Day {
+  id        Int              @id @default(autoincrement())
+  dateCode  String           @unique
+  companies CompanyDetails[]
 }
