@@ -72,12 +72,13 @@ model CompanyDetails {
   category   CompanyCategory
   username   String           @unique
   password   String
+  scans      Int              @default(0)
   students   StudentDetails[]
   activities Activity[]
   user       User             @relation(fields: [userId], references: [id])
   userId     String           @unique
 
-  description String  @db.VarChar(150)
+  description String  @db.VarChar(500)
   linkHref    String?
   linkText    String? @db.VarChar(40)
 

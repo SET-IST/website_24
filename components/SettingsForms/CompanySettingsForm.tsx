@@ -44,8 +44,8 @@ const CompanySettingsForm = () => {
   const schema = Yup.object().shape({
     name: Yup.string().min(2, 'O nome deve ter pelo menos 2 caracteres'),
     description: Yup.string().max(
-      150,
-      'A descrição pode conter no máximo 150 caracteres'
+      500,
+      'A descrição pode conter no máximo 500 caracteres'
     ),
     linkHref: Yup.string().url('URL inválido').nullable(),
     linkText: Yup.string().when([], {

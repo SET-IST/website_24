@@ -50,6 +50,8 @@ export async function getCompanyProfile(user: User) {
             linkText: true,
             category: true,
             username: true,
+            scans: true,
+            activities: true,
           },
         },
       },
@@ -90,7 +92,7 @@ export async function patchCompanyProfile(
 
 export async function getCompanyStudents(user: User) {
   return await databaseQueryWrapper(async () => {
-    const details =  await PrismaService.companyDetails.findUniqueOrThrow({
+    const details = await PrismaService.companyDetails.findUniqueOrThrow({
       where: {
         userId: user.id,
       },
@@ -117,6 +119,6 @@ export async function getCompanyStudents(user: User) {
         ...student.user,
         image: getFullResourcePath(student.user.image),
       },
-    })) 
+    }))
   })
 }

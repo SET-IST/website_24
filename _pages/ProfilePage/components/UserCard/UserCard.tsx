@@ -73,8 +73,15 @@ const UserCard = () => {
             stats={
               user?.role === UserType.Company
                 ? [
-                    { label: 'Scans', value: 5 },
-                    { label: 'Eventos', value: 2 },
+                    {
+                      label: 'Scans',
+                      value: (user as CompanyProfile)?.companyDetails?.scans,
+                    },
+                    {
+                      label: 'Eventos',
+                      value: (user as CompanyProfile)?.companyDetails
+                        ?.activities.length,
+                    },
                   ]
                 : [
                     {
