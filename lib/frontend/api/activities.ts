@@ -10,8 +10,10 @@ export type ActivityData = Unpacked<Awaited<ReturnType<typeof getActivities>>>
 export type EnrollUserResponse = Awaited<ReturnType<typeof enrollStudent>>
 export type UnEnrollUserResponse = Awaited<ReturnType<typeof removeStudent>>
 
-export const fetchActivities = async (): Promise<ActivityData[]> => {
-  const { data } = await ApiClient.get('activities')
+export const fetchActivities = async (
+  date: string
+): Promise<ActivityData[]> => {
+  const { data } = await ApiClient.get(`activities?date=${encodeURI(date)}`)
   return data
 }
 

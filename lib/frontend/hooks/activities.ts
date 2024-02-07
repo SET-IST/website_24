@@ -9,9 +9,9 @@ import {
 } from '../api/activities'
 import { Axios, AxiosError } from 'axios'
 
-export const useActivities = () => {
-  return useQuery<ActivityData[], AxiosError>(['Activities'], () => {
-    return fetchActivities()
+export const useActivities = (date: string) => {
+  return useQuery<ActivityData[], AxiosError>(['Activities', date], () => {
+    return fetchActivities(date)
   })
 }
 

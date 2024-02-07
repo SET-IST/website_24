@@ -15,10 +15,12 @@ import SpeedInterview from '@/assets/img/speed-interview.webp'
 import Workshop from '@/assets/img/workshop.jpeg'
 import Palestra from '@/assets/img/palestra-palco.webp'
 import { FooterLayout } from '../layouts'
-import { useEffect } from 'react'
-import { fetchActivities } from '@/lib/frontend/api/activities'
+import { useBoundStore } from '@/lib/frontend/store'
 
 const ActivitiesPage = () => {
+  const currentDate = useBoundStore((state) => state.selectedDate)
+  const setCurrentDate = useBoundStore((state) => state.setSelectedDate)
+
   return (
     <div className="sm:h-screen pt-15 sm:pt-18 sm:pb-3 bg-[color:var(--mantine-color-gray-1)]">
       <div className="w-full h-full flex flex-col">
@@ -28,7 +30,26 @@ const ActivitiesPage = () => {
             <div className="sticky sm:relative top-15 z-10 sm:top-0 px-2 sm:px-0 py-3 bg-[color:var(--mantine-color-white)]">
               <SegmentedControl
                 fullWidth
-                data={['Dia 26', 'Dia 27', 'Dia 28', 'Dia 29']}
+                defaultValue={currentDate}
+                onChange={setCurrentDate}
+                data={[
+                  {
+                    label: 'Dia 26',
+                    value: '2024-02-26',
+                  },
+                  {
+                    label: 'Dia 27',
+                    value: '2024-02-27',
+                  },
+                  {
+                    label: 'Dia 28',
+                    value: '2024-02-28',
+                  },
+                  {
+                    label: 'Dia 29',
+                    value: '2024-02-29',
+                  },
+                ]}
               />
             </div>
             <UserActivities />

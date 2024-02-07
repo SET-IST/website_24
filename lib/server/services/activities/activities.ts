@@ -11,16 +11,33 @@ import {
   NotFoundException,
 } from 'next-api-decorators'
 import { PatchActivityDto } from './dtos'
+import { DateTime } from 'luxon'
 
 type ExtendedActivity = Activity & { confirmed?: boolean }
 
 export async function getActivities(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
+  date: DateTime
 ): Promise<ExtendedActivity[] | undefined> {
   return await databaseQueryWrapper(async () => {
-    const activities = await PrismaService.activity.findMany()
+    const activities = await PrismaService.activity.findMany({
+      where: {
+        date: {
+          gte: date.startOf('day').toJSDate(),
+          lte: date.startOf('day').plus({ days: 1 }).toJSDate(),
+        },
+      },
+    })
     const session = await getSession(req, res)
+
+    // Sort activities by time
+    activities.sort(
+      (a, b) =>
+        DateTime.fromJSDate(a.date).toMillis() -
+        DateTime.fromJSDate(b.date).toMillis()
+    )
+
     if (
       !session ||
       ![UserType.Student, UserType.Staff].includes(session.user?.role)
@@ -41,6 +58,7 @@ export async function getActivities(
         acc[activityId] = confirmed
         return acc
       }, {} as Record<number, boolean>)
+
     return activities.map((activity) => {
       if (activity.id in enrolledActivities) {
         return {

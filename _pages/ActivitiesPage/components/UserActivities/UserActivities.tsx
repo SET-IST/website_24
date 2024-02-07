@@ -58,7 +58,10 @@ const UserActivities = () => {
   const session = useSession()
   const showLogin = useBoundStore((state) => state.showLoginDialog)
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
-  const { data: activities, isLoading } = useActivities()
+
+  const currentDate = useBoundStore((state) => state.selectedDate)
+  const { data: activities, isLoading } = useActivities(currentDate)
+
   const {
     mutateAsync: enroll,
     isError: isEnrollError,
