@@ -1,63 +1,54 @@
-import { handleApiException, UserData } from '@/core/utils'
-import * as Server from '@/lib/server/user'
-import { UpdateStudentRequest } from '@/lib/server/user'
-import { isEmpty, isUUID } from 'class-validator'
 import {
-  BadRequestException,
-  Body,
-  Catch,
   createHandler,
   Get,
-  Param,
   Patch,
-  Post,
+  Body,
   ValidationPipe,
+  Param,
+  BadRequestException,
+  Post,
 } from 'next-api-decorators'
-//  Types
-import { RequiresSession, Role } from '@/core/middlewares/server'
+import * as Server from '../../../lib/server/services/student'
+import {
+  RequiresSession,
+  RestrictedValidationPipe,
+  Role,
+} from '@/lib/server/middleware'
+import { UserData } from '@/core/utils'
 import type { User } from '@prisma/client'
-import { UserType } from '@prisma/client'
+import { isUUID } from 'class-validator'
 
-@Catch(handleApiException)
 @RequiresSession()
-class UserRoutes {
-  @Get('/me')
-  @Role(UserType.STUDENT, UserType.STAFF)
-  public async getMe(@UserData() user: User) {
-    if (isEmpty(user.id) || !isUUID(user.id, 4)) {
-      throw new BadRequestException('Invalid or missing id parameter')
-    }
-    return await Server.getStudentById(user.id, true)
+@Role('Student', 'Staff')
+class StudentRoutes {
+  @Get('/profile')
+  public async getStudentProfile(@UserData() user: User) {
+    return await Server.getStudentProfile(user)
   }
 
-  @Get('/:id')
-  public async getStudentById(@Param('id') id: string) {
-    if (isEmpty(id) || !isUUID(id, 4)) {
-      throw new BadRequestException('Invalid or missing id parameter')
-    }
-    return await Server.getStudentById(id, false)
-  }
-
-  @Patch('/:id')
-  @Role(UserType.STAFF)
-  async updateStudentById(
-    @Param('id') id: string,
-    @Body(ValidationPipe) payload: UpdateStudentRequest
-  ) {
-    if (isEmpty(id) || !isUUID(id, 4)) {
-      throw new BadRequestException('Invalid or missing id parameter')
-    }
-    return await Server.updateExternalStudent(id, payload)
-  }
-
-  @Post('/external')
-  @Role(UserType.STUDENT, UserType.STAFF)
-  async updateExternalStudent(
+  @Patch('/profile')
+  public async patchStudentProfile(
     @UserData() user: User,
-    @Body(ValidationPipe) extReq: UpdateStudentRequest
+    @Body(RestrictedValidationPipe) data: Server.PatchStudentProfileDto
   ) {
-    await Server.updateExternalStudent(user.id, extReq)
+    return await Server.patchStudentProfile(user, data)
+  }
+
+  @Get('/companies')
+  public async getStudentCompanies(@UserData() user: User) {
+    return await Server.getStudentCompanies(user)
+  }
+
+  @Get('/enrollments')
+  public async getStudentEnrollments(@UserData() user: User) {
+    return await Server.getStudentEnrollments(user)
+  }
+
+  @Post('/scan/:id')
+  public async scan(@UserData() user: User, @Param('id') companyId: string) {
+    if (!isUUID(companyId)) throw new BadRequestException('Invalid company id')
+    return await Server.scanCompany(user, companyId)
   }
 }
 
-export default createHandler(UserRoutes)
+export default createHandler(StudentRoutes)

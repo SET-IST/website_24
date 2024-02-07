@@ -38,45 +38,52 @@ model Session {
 }
 
 enum UserType {
-  STUDENT
-  COMPANY
-  STAFF
+  Student
+  Company
+  Staff
 }
 
-model CompanyCategory {
-  id        Int              @id @default(autoincrement())
-  name      String
-  companies CompanyDetails[]
+enum CompanyCategory {
+  Platinum
+  Gold
+  Silver
 }
 
+// Add activities to students
 model StudentDetails {
-  id            Int              @id @default(autoincrement())
-  cv            CV?
-  age           Int
-  scans         Int              @default(0)
-  points        Int              @default(0)
-  course        String           @db.VarChar(128)
-  university    String           @db.VarChar(128)
-  companies_ids String[]
-  companies     CompanyDetails[]
-  user          User             @relation(fields: [userId], references: [id])
-  userId        String           @unique
-  awardToken    AwardToken?
-  reedems       Int              @default(0)
+  id                 Int                  @id @default(autoincrement())
+  cvLocation         String?              @db.VarChar(128)
+  scans              Int                  @default(0)
+  points             Int                  @default(0)
+  course             String               @db.VarChar(128)
+  university         String               @db.VarChar(128)
+  companies_ids      String[]
+  companies          CompanyDetails[]
+  user               User                 @relation(fields: [userId], references: [id])
+  userId             String               @unique
+  awardToken         AwardToken?
+  reedems            Int                  @default(0)
+  enrolledActivities ActivityEnrollment[]
 }
 
+// add activities to companies
 model CompanyDetails {
   id         Int              @id @default(autoincrement())
-  categoryId Int
-  category   CompanyCategory  @relation(fields: [categoryId], references: [id])
+  category   CompanyCategory
   username   String           @unique
   password   String
+  scans      Int              @default(0)
   students   StudentDetails[]
-  workshops  Workshop[]
+  activities Activity[]
   user       User             @relation(fields: [userId], references: [id])
   userId     String           @unique
 
-  codes CompanyCode[]
+  description String  @db.VarChar(500)
+  linkHref    String?
+  linkText    String? @db.VarChar(40)
+
+  // The days this company will be present at the event
+  days Day[]
 }
 
 model User {
@@ -88,7 +95,7 @@ model User {
   readChangelog  Boolean         @default(true)
   accounts       Account[]
   sessions       Session[]
-  role           UserType        @default(STUDENT) //custom relation for roles of student and company
+  role           UserType        @default(Student) //custom relation for roles of student and company
   studentDetails StudentDetails? //custom table with aditional info of student
   companyDetails CompanyDetails? //custom table with aditional info of company
 }
@@ -101,28 +108,49 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Speaker {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(60)
-  name        String   @db.VarChar(60)
-  date        DateTime
-  description String   @db.VarChar(128)
+//create the activity model
+enum ActivityType {
+  Lecture
+  Workshop
+  SpeedInterview
 }
 
-model CV {
-  id         Int            @id @default(autoincrement())
-  cvLocation String         @db.VarChar(128)
-  studentId  Int            @unique
-  student    StudentDetails @relation(fields: [studentId], references: [id])
+model ActivityEnrollment {
+  userId     String
+  student    StudentDetails @relation(fields: [userId], references: [userId])
+  activityId Int
+  activity   Activity       @relation(fields: [activityId], references: [id])
+  confirmed  Boolean
+
+  @@unique(name: "enrollmentId", [userId, activityId])
 }
 
-model Workshop {
-  id          Int            @id @default(autoincrement())
-  name        String         @db.VarChar(60)
+model Activity {
+  id          Int          @id @default(autoincrement())
+  title       String       @db.VarChar(60)
+  description String       @db.VarChar(128)
   date        DateTime
-  description String         @db.VarChar(128)
-  companyId   Int
-  company     CompanyDetails @relation(fields: [companyId], references: [id])
+  duration    Int
+  location    String       @db.VarChar(60)
+  type        ActivityType
+
+  companies CompanyDetails[]
+
+  enrollments ActivityEnrollment[]
+}
+
+// create the QRCode model
+enum ObjectType {
+  COMPANY
+  REDEEM
+}
+
+model qrCode {
+  id         String     @id @default(uuid())
+  objectId   String
+  objectType ObjectType
+
+  @@map("QRCode")
 }
 
 enum AwardType {
@@ -137,16 +165,8 @@ model AwardToken {
   student   StudentDetails @relation(fields: [studentId], references: [id])
 }
 
-model CompanyCode {
-  id        String         @id @default(uuid())
-  companyId Int
-  company   CompanyDetails @relation(fields: [companyId], references: [id])
-
-  // Tells if this code is permanent or temporary
-  // If false, the code will be deleted as soon as
-  // the company stops showing the QR code
-  permanent Boolean @default(false)
-
-  // Used for websocket callback after the scan of a temporary QR code
-  socketId String @default("")
+model Day {
+  id        Int              @id @default(autoincrement())
+  dateCode  String           @unique
+  companies CompanyDetails[]
 }
