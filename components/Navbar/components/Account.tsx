@@ -23,9 +23,14 @@ import { useProfile } from '@/lib/frontend/hooks'
 interface AccountMenuProps {
   inverted: boolean
   renderForMobile: boolean
+  closeCallback: () => void
 }
 
-export function AccountMenu({ inverted, renderForMobile }: AccountMenuProps) {
+export function AccountMenu({
+  inverted,
+  renderForMobile,
+  closeCallback,
+}: AccountMenuProps) {
   const router = useRouter()
   const [userMenuOpened, setUserMenuOpened] = useState(false)
   const showLoginDialog = useBoundStore((state) => state.showLoginDialog)
@@ -139,7 +144,7 @@ export function AccountMenu({ inverted, renderForMobile }: AccountMenuProps) {
       </Menu.Target>
       {session.status === 'authenticated' && (
         <Menu.Dropdown py={0} px={0}>
-          <NavProfileMenu />
+          <NavProfileMenu closeCallback={closeCallback} />
         </Menu.Dropdown>
       )}
     </Menu>

@@ -1,7 +1,7 @@
 const links = {
   home: '/',
   activities: '/activities',
-  awards: '/premios',
+  awards: '/prizes',
   team: '/team',
   changelog: '/novidades',
   auth: {

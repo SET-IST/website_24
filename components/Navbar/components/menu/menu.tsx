@@ -45,7 +45,8 @@ function NavComposite(
   level: number,
   isMobile: boolean,
   user: User,
-  router: NextRouter
+  router: NextRouter,
+  closeCallback: () => void
 ) {
   const items = data.map((item: NavLinkExtendedProps, index) => {
     // Should it be visible?
@@ -83,10 +84,19 @@ function NavComposite(
           key={`nav_${level}_${index}`}
           {...navLinkDefault}
           active={isActive(item, router, level)}
-          onClick={() => select(item, router, user)}
+          onClick={() => {
+            select(item, router, user)
+          }}
           variant="subtle"
         >
-          {NavComposite(item.nestedNav, level + 1, isMobile, user, router)}
+          {NavComposite(
+            item.nestedNav,
+            level + 1,
+            isMobile,
+            user,
+            router,
+            closeCallback
+          )}
         </NavLink>
       )
     } else {
@@ -95,7 +105,10 @@ function NavComposite(
           key={`nav_${level}_${index}`}
           {...navLinkDefault}
           active={isActive(item, router, level)}
-          onClick={() => select(item, router, user)}
+          onClick={() => {
+            select(item, router, user)
+            closeCallback()
+          }}
           variant="subtle"
         />
       )
@@ -105,7 +118,11 @@ function NavComposite(
   return items
 }
 
-export function NavProfileMenu() {
+interface NavProfileMenuProps {
+  closeCallback: () => void
+}
+
+export function NavProfileMenu({ closeCallback }: NavProfileMenuProps) {
   const session = useSession()
   const router = useRouter()
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`) ?? false
@@ -122,5 +139,9 @@ export function NavProfileMenu() {
     }
   }, [user])
 
-  return <Box>{NavComposite(profileNavlinks, 0, isMobile, user, router)}</Box>
+  return (
+    <Box>
+      {NavComposite(profileNavlinks, 0, isMobile, user, router, closeCallback)}
+    </Box>
+  )
 }

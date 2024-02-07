@@ -1,5 +1,8 @@
+import { useBoundStore } from '@/lib/frontend/store'
 import { UnstyledButton, Text, Button, em } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 interface TipProps {
   title: string
@@ -7,11 +10,16 @@ interface TipProps {
   action?: {
     title: string
     url: string
+    requiresLogin: boolean
   }
 }
 
 export default function Tip({ title, description, action }: TipProps) {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
+
+  const session = useSession()
+  const router = useRouter()
+  const showLogin = useBoundStore((state) => state.showLoginDialog)
 
   return (
     <div className="flex flex-col gap-4 items-start sm:border-l-2 sm:p-4 border-[var(--mantine-color-blue-6)] sm:hover:bg-[#003448] transition-all h-fit">
@@ -29,7 +37,17 @@ export default function Tip({ title, description, action }: TipProps) {
         </Text>
       </div>
       {action && (
-        <Button component="a" href={action.url} fullWidth={isMobile}>
+        <Button
+          onClick={() => {
+            if (action.requiresLogin && session.status !== 'authenticated') {
+              showLogin(true)
+              return
+            }
+
+            router.push(action.url)
+          }}
+          fullWidth={isMobile}
+        >
           {action.title}
         </Button>
       )}

@@ -8,12 +8,12 @@ export default function Prize({ title, image, description }: PrizeData) {
   return (
     <Paper
       radius={0}
-      className="relative z-0 overflow-hidden select-none cursor-default"
+      className="relative z-0 overflow-hidden select-none cursor-default grow"
     >
       <Image
         alt="Prémio"
         h={isMobile ? 320 : 200}
-        w={isMobile ? undefined : 350}
+        w={isMobile ? undefined : 400}
         src={image.src}
       />
       <div className="group absolute inset-0 z-30">

@@ -28,17 +28,13 @@ type NavbarProps = PropsWithChildren & {
 }
 
 export default function Navbar({ children, startTransparent }: NavbarProps) {
-  const [opened, { toggle }] = useDisclosure()
+  const [opened, { toggle, close }] = useDisclosure()
   const { height } = useViewportSize()
   const [scroll, scrollTo] = useWindowScroll()
   const router = useRouter()
 
   const isInverted = (): boolean => {
     return !!startTransparent ? scroll.y > height / 4 : true
-  }
-
-  const closeMobileMenu = () => {
-    toggle()
   }
 
   return (
@@ -99,7 +95,11 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
             </Group>
 
             <Group ml="xl" gap={0} visibleFrom="sm">
-              <AccountMenu renderForMobile={false} inverted={isInverted()} />
+              <AccountMenu
+                closeCallback={close}
+                renderForMobile={false}
+                inverted={isInverted()}
+              />
             </Group>
           </Group>
 
@@ -126,27 +126,26 @@ export default function Navbar({ children, startTransparent }: NavbarProps) {
               onClick={(event) => {
                 event.preventDefault()
                 router.push(links.home)
-                closeMobileMenu()
+                close()
               }}
               className="w-28 h-auto"
             >
               <SetLogo aria-hidden />
             </Link>
 
-            <Burger
-              opened={opened}
-              onClick={closeMobileMenu}
-              hiddenFrom="sm"
-              size="sm"
-            />
+            <Burger opened={opened} onClick={close} hiddenFrom="sm" size="sm" />
           </Group>
 
           {/* Navigation */}
 
           <Stack gap={8} className="border-none">
-            <AccountMenu renderForMobile={true} inverted={isInverted()} />
+            <AccountMenu
+              closeCallback={close}
+              renderForMobile={true}
+              inverted={isInverted()}
+            />
             <Divider />
-            <NavProfileMenu />
+            <NavProfileMenu closeCallback={close} />
           </Stack>
         </Stack>
       </AppShell.Navbar>

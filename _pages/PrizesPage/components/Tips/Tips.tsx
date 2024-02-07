@@ -18,6 +18,7 @@ const TipsSection = () => {
           action={{
             title: 'Ver atividades',
             url: links.activities,
+            requiresLogin: false,
           }}
         />
         <Tip
@@ -26,6 +27,7 @@ const TipsSection = () => {
           action={{
             title: 'Ver o meu perfil',
             url: links.student.profile,
+            requiresLogin: true,
           }}
         />
       </div>
