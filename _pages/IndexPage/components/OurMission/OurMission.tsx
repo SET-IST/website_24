@@ -17,6 +17,7 @@ import { useMediaQuery } from '@mantine/hooks'
 
 const OurMissionSection = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
+  const router = useRouter()
 
   return (
     <div className="flex flex-col-reverse sm:flex-row justify-center items-stretch">
@@ -36,6 +37,7 @@ const OurMissionSection = () => {
           </Container>
         </div>
         <Button
+          onClick={() => router.push(links.activities)}
           variant="filled"
           fullWidth={isMobile}
           mt={10}

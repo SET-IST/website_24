@@ -1,13 +1,5 @@
-import { ReactNode } from 'react'
-
-export enum NavLinkType {
-  // Common fixed route
-  ROUTE,
-  // Call linkFn function instead of using route
-  FUNCTION,
-  // UI Divider
-  DIVIDER,
-}
+import { NavLinkProps } from '@mantine/core'
+import { UserType } from '@prisma/client'
 
 export enum NavLinkVisibility {
   MOBILE,
@@ -15,12 +7,10 @@ export enum NavLinkVisibility {
   ALL,
 }
 
-export type NavLink = {
-  type: NavLinkType
-  visibility: NavLinkVisibility
-  label: string
-  slug: string
-  link: string
-  icon?: ReactNode
-  linkFn?: () => void
+export type NavLinkExtendedProps = NavLinkProps & {
+  nestedNav?: NavLinkExtendedProps[]
+  visibility?: NavLinkVisibility
+  navId: string
+  link: string | Record<UserType, string>
+  component?: JSX.Element
 }
