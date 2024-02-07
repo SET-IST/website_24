@@ -1,55 +1,52 @@
-import type { User } from '.prisma/client'
-import { UserType } from '.prisma/client'
-import { isEmpty, isUUID } from 'class-validator'
+import { handleApiException } from '@/core/utils'
+import { CompanyLoginRequest, PatchCompanyProfileDto } from '@/lib/server/services/company/dtos'
 import {
-  BadRequestException,
   Body,
   Catch,
-  Get,
-  Param,
   Post,
-  ValidationPipe,
+  Get,
   createHandler,
+  Patch,
 } from 'next-api-decorators'
-import { RequiresSession, Role } from '../../../core/middlewares/server'
-import { UserData, handleApiException } from '../../../core/utils'
-import * as Server from '../../../lib/server/user'
-import { GenerateQRRequest } from '../../../lib/server/user'
+import * as CompanyService from '@/lib/server/services/company'
+import {
+  RequiresSession,
+  RestrictedValidationPipe,
+  Role,
+} from '@/lib/server/middleware'
+import type { User } from '@prisma/client'
+import { UserData } from '@/core/utils'
 
 @Catch(handleApiException)
-@RequiresSession()
 class CompanyRoutes {
-  @Get('/me')
-  @Role(UserType.COMPANY)
-  async getMe(@UserData() user: User) {
-    return await Server.getCompanyById(user.id)
+  @Post('login')
+  public async login(@Body(RestrictedValidationPipe) req: CompanyLoginRequest) {
+    return await CompanyService.login(req)
   }
 
-  @Get('/:id')
-  public async getCompanyById(@Param('id') id: string) {
-    if (isEmpty(id) || !isUUID(id, 4)) {
-      throw new BadRequestException('Invalid or missing id parameter')
-    }
-
-    return await Server.getCompanyById(id)
+  @Get('/profile')
+  @RequiresSession()
+  @Role('Company')
+  public async getCompanyProfile(@UserData() user: User) {
+    return await CompanyService.getCompanyProfile(user)
   }
 
-  @Get('/students/cv')
-  @Role(UserType.COMPANY, UserType.STAFF)
-  async getAllStudentsCV(@UserData() user: User) {
-    return await Server.getAllStudentCVs(user.id)
+  @Patch('/profile')
+  @RequiresSession()
+  @Role('Company')
+  public async updateCompanyProfile(
+    @UserData() user: User, 
+    @Body(RestrictedValidationPipe) req: PatchCompanyProfileDto) {
+      return await CompanyService.patchCompanyProfile(user,req)
   }
 
   @Get('/students')
-  @Role(UserType.COMPANY, UserType.STAFF)
+  @RequiresSession()
+  @Role('Company')
   public async getCompanyStudents(@UserData() user: User) {
-    return await Server.getCompanyStudents(user.id)
+    return await CompanyService.getCompanyStudents(user)
   }
 
-  @Post('/qr')
-  @Role(UserType.COMPANY, UserType.STAFF)
-  public async generateQR(@Body(ValidationPipe) qrReq: GenerateQRRequest) {
-    return await Server.generateQR(qrReq)
-  }
 }
+
 export default createHandler(CompanyRoutes)

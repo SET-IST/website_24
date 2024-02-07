@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
+  version: 1.1.0
   title: 'SET Web API'
   description: 'Web API for interacting with SET backend'
 
@@ -105,18 +105,6 @@ components:
           type: integer
         points:
           type: integer
-        enrolledActivities:
-          type: array
-          items:
-            $ref: '#/components/schemas/Activity'
-        confirmedActivities:
-          type: array
-          items:
-            $ref: '#/components/schemas/Activity'
-        scannedCompanies:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompanyPublic'
     StudentPublic:
       allOf:
         - $ref: '#/components/schemas/User'
@@ -378,49 +366,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /user/{id}:
-    get:
-      description: Returns the user with the specified id
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Successfully return a user (Student or Company)
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/StudentPublic'
-                  - $ref: '#/components/schemas/CompanyPublic'
-        '400':
-          description: 'Invalid user id'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'No User found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /profile:
+
+  /student/profile:
     get:
       description: Returns the current user profile
       responses:
         '200':
-          description: Successfully return a user private profile (Student or Company)
+          description: Successfully return a student profile
           content:
             application/json:
               schema:
                 oneOf:
                   - $ref: '#/components/schemas/StudentPrivate'
-                  - $ref: '#/components/schemas/CompanyPrivate'
         '401':
           description: 'User not logged in'
           content:
@@ -428,13 +385,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     patch:
-      description: Update user profile
+      description: Update student profile
       requestBody:
         content:
           multipart/form-data:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/CompanyPartialData'
                 - $ref: '#/components/schemas/StudentPartialData'
       responses:
         '200':
@@ -447,6 +403,161 @@ paths:
                 $ref: '#/components/schemas/Error'
         '401':
           description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /student/companies:
+    get:
+      description: Returns the companies scanned by the student
+      responses:
+        '200':
+          description: Successfully return scanned companies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyPublic'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: 'User does not have the required privilege'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /student/enrolments:
+    get:
+      description: Returns the activities where the student is enrolled
+      responses:
+        '200':
+          description: Successfully return enrolled activities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: 'User does not have the required privilege'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /company/profile:
+    get:
+      description: Returns the current company profile
+      responses:
+        '200':
+          description: Successfully return a company profile
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CompanyPrivate'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      description: Update company profile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CompanyPartialData'
+      responses:
+        '200':
+          description: User profile updated
+        '400':
+          description: Invalid form data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /company/students:
+    get:
+      description: Returns the students who scanned the company
+      responses:
+        '200':
+          description: Successfully return students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentsPublic'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: 'User does not have the required privilege'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /company/download-cv/{id}:
+    get:
+      description: Returns the student cv (PLATINUM COMPANY route ONLY)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: student user id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully return student cv
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: 'Invalid user id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 'User not logged in'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: 'User does not have the required privilege'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'No CV found'
           content:
             application/json:
               schema:

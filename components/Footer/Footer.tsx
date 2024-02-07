@@ -4,7 +4,7 @@ import classes from './FooterLinks.module.css'
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[color:var(--mantine-color-gray-2)] bg-[color:var(--mantine-color-gray-0)] pt-5 sm:pt-10 pb-5">
+    <footer className="border-t border-[color:var(--mantine-color-gray-2)] bg-[color:var(--mantine-color-gray-1)] pt-5 sm:pt-10 pb-5">
       <div className="flex flex-col gap-6 sm:gap-0 sm:flex-row sm:justify-between items-start sm:items-center mx-5 sm:mx-20 py-8">
         <SetLogo aria-hidden />
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">

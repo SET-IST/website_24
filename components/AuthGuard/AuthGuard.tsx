@@ -22,7 +22,7 @@ const AuthGuard = ({ children, roles }: AuthGuardProps) => {
     status === 'unauthenticated' ||
     (status === 'authenticated' && !roles.includes(data?.user.role))
   ) {
-    router.push(links.auth.signIn)
+    router.push(links.home)
     return <Loader />
   }
 

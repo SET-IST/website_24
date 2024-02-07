@@ -1,24 +1,25 @@
 const links = {
   home: '/',
-  activities: '/atividades',
+  activities: '/activities',
   awards: '/premios',
-  team: '/equipa',
+  team: '/team',
   changelog: '/novidades',
   auth: {
-    signIn: '/auth/signin',
+    company: {
+      apiLogin: '/api/company/login',
+    },
   },
   staff: {
     redeem: '/staff/redeem',
     managePoints: '/staff/manage-points',
   },
-  user: {
-    profile: '/profile',
-  },
   student: {
     scan: '/student/scan',
+    profile: '/profile',
   },
   company: {
     cvPlatform: '/company/cvs-explorer',
+    profile: '/profile',
   },
   help: '/help',
   bugReport: 'bug-report',
