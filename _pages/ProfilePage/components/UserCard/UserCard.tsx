@@ -32,7 +32,7 @@ const UserCard = () => {
         {isUserLoading ? (
           <Skeleton circle height={120} />
         ) : (
-          <Avatar src={user?.image} size={100} radius={120} />
+          <Avatar src={user?.image} size={100} />
         )}
 
         <Text c="#00415a" ta="center" fz="xl" fw={700} mt="md">
