@@ -1,7 +1,6 @@
 import { UserCard, UserTabs } from './components'
 import { useMediaQuery, useSetState } from '@mantine/hooks'
 import { Modal, em } from '@mantine/core'
-import { useEffect } from 'react'
 import {
   StudentSettingsForm,
   CompanySettingsForm,
@@ -12,6 +11,7 @@ import { useSession } from 'next-auth/react'
 import { User } from 'next-auth'
 import { UserType } from '@prisma/client'
 import { QRDialog } from '@/components/QRDialog'
+import { useEffect } from 'react'
 
 const ProfilePage = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
@@ -24,7 +24,6 @@ const ProfilePage = () => {
     (state) => state.profileSettingsVisible
   )
   const selectedCompany = useBoundStore((state) => state.selectedCompany)
-
 
   // Setters
   const selectCompany = useBoundStore((state) => state.selectCompany)

@@ -171,6 +171,9 @@ export async function scanCompany(user: User, companyId: string) {
               userId: student.userId,
             },
           },
+          scans: {
+            increment: 1,
+          },
         },
       }),
       PrismaService.studentDetails.update({

@@ -11,15 +11,38 @@ import {
   NotFoundException,
 } from 'next-api-decorators'
 import { PatchActivityDto } from './dtos'
+import { DateTime } from 'luxon'
+
+type ExtendedActivity = Activity & { confirmed?: boolean }
 
 export async function getActivities(
   req: NextApiRequest,
-  res: NextApiResponse
-): Promise<Activity[] | undefined> {
+  res: NextApiResponse,
+  date: DateTime
+): Promise<ExtendedActivity[] | undefined> {
   return await databaseQueryWrapper(async () => {
-    const activities = await PrismaService.activity.findMany()
+    const activities = await PrismaService.activity.findMany({
+      where: {
+        date: {
+          gte: date.startOf('day').toJSDate(),
+          lte: date.startOf('day').plus({ days: 1 }).toJSDate(),
+        },
+      },
+    })
     const session = await getSession(req, res)
-    if (!session || session.user?.role != UserType.Student) return activities
+
+    // Sort activities by time
+    activities.sort(
+      (a, b) =>
+        DateTime.fromJSDate(a.date).toMillis() -
+        DateTime.fromJSDate(b.date).toMillis()
+    )
+
+    if (
+      !session ||
+      ![UserType.Student, UserType.Staff].includes(session.user?.role)
+    )
+      return activities
 
     const student = await PrismaService.studentDetails.findUniqueOrThrow({
       where: {
@@ -35,6 +58,7 @@ export async function getActivities(
         acc[activityId] = confirmed
         return acc
       }, {} as Record<number, boolean>)
+
     return activities.map((activity) => {
       if (activity.id in enrolledActivities) {
         return {
@@ -74,12 +98,12 @@ export async function enrollStudent(user: User, id: number) {
           confirmed: false,
         },
       })
-      return { message: 'Successfully enrolled' }
+      return activity
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2002':
-            return { message: 'Already enrolled' }
+            throw new BadRequestException('Already enrolled')
           default:
             throw new InternalServerErrorException(error.message)
         }
@@ -119,7 +143,7 @@ export async function removeStudent(user: User, id: number) {
           },
         },
       })
-      return { message: 'Successfully removed' }
+      return activity
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {

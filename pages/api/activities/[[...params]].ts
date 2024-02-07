@@ -9,21 +9,29 @@ import {
   Req,
   Res,
   BadRequestException,
+  Query,
 } from 'next-api-decorators'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as Server from '../../../lib/server/services/activities'
-import { RequiresSession, RestrictedValidationPipe, Role } from '@/lib/server/middleware'
+import {
+  RequiresSession,
+  RestrictedValidationPipe,
+  Role,
+} from '@/lib/server/middleware'
 import { UserData } from '@/core/utils'
 import type { User } from '@prisma/client'
-import { isNumberString } from 'class-validator'
+import { isDateString, isNumberString } from 'class-validator'
+import { DateTime } from 'luxon'
 
 class ActivitiesRoutes {
   @Get()
   public async getActivities(
     @Req() req: NextApiRequest,
-    @Res() res: NextApiResponse
+    @Res() res: NextApiResponse,
+    @Query('date') dateStr: string
   ) {
-    return await Server.getActivities(req, res)
+    if (!isDateString(dateStr)) throw new BadRequestException('Invalid date')
+    return await Server.getActivities(req, res, DateTime.fromISO(dateStr))
   }
 
   @Post('/:id/enroll')

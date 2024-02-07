@@ -15,6 +15,14 @@ export const showErrorNotification = (props: NotificationProps) => {
   })
 }
 
+export const showInfoNotification = (props: NotificationProps) => {
+  notifications.show({
+    ...props,
+    color: 'blue',
+    autoClose: 1000,
+  })
+}
+
 export const showSuccessNotification = (props: NotificationProps) => {
   notifications.show({
     ...props,

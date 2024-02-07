@@ -1,4 +1,3 @@
-import { Text } from '@mantine/core'
 import Student from './Student'
 import { useCompanyStudentsScans } from '@/lib/frontend/hooks/company'
 

@@ -32,7 +32,7 @@ const UserCard = () => {
         {isUserLoading ? (
           <Skeleton circle height={120} />
         ) : (
-          <Avatar src={user?.image} size={100} radius={120} />
+          <Avatar src={user?.image} size={100} />
         )}
 
         <Text c="#00415a" ta="center" fz="xl" fw={700} mt="md">
@@ -73,8 +73,15 @@ const UserCard = () => {
             stats={
               user?.role === UserType.Company
                 ? [
-                    { label: 'Scans', value: 5 },
-                    { label: 'Eventos', value: 2 },
+                    {
+                      label: 'Scans',
+                      value: (user as CompanyProfile)?.companyDetails?.scans,
+                    },
+                    {
+                      label: 'Eventos',
+                      value: (user as CompanyProfile)?.companyDetails
+                        ?.activities.length,
+                    },
                   ]
                 : [
                     {
