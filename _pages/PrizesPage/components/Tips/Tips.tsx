@@ -25,7 +25,7 @@ const TipsSection = () => {
           description="Faz upload do teu currículo e habilita-te a ganhar o prémio dos CVs"
           action={{
             title: 'Ver o meu perfil',
-            url: links.user.profile,
+            url: links.student.profile,
           }}
         />
       </div>
