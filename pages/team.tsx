@@ -1,4 +1,5 @@
 //  Layouts
+import PrizesPage from '@/_pages/PrizesPage'
 import { FooterLayout, NavbarLayout } from '@/_pages/layouts'
 //  Pages
 import EquipaPage from '../_pages/TeamPage'
