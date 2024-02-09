@@ -62,16 +62,18 @@ const UserActivities = () => {
   const currentDate = useBoundStore((state) => state.selectedDate)
   const { data: activities, isLoading } = useActivities(currentDate)
 
+  const queryClient = useQueryClient()
+
   const {
     mutateAsync: enroll,
     isError: isEnrollError,
     error: enrollError,
-  } = useEnrollStudent(useQueryClient())
+  } = useEnrollStudent(queryClient)
   const {
     mutateAsync: unEnroll,
     isError: isUnEnrollError,
     error: unEnrollError,
-  } = useUnEnrollStudent(useQueryClient())
+  } = useUnEnrollStudent(queryClient)
 
   const enrollStudent = (activityId: string) => {
     if (session.status !== 'authenticated') {

@@ -88,6 +88,7 @@ export async function getStudentCompanies(user: User) {
         },
       },
     })
+
     return details.companies.map((company) => ({
       ...company,
       user: {
@@ -100,7 +101,7 @@ export async function getStudentCompanies(user: User) {
 
 export async function getStudentEnrollments(user: User) {
   return await databaseQueryWrapper(async () => {
-    return await PrismaService.studentDetails.findUniqueOrThrow({
+    let enrollments = await PrismaService.studentDetails.findUniqueOrThrow({
       where: {
         userId: user.id,
       },
@@ -112,18 +113,51 @@ export async function getStudentEnrollments(user: User) {
             confirmed: true,
             activity: {
               select: {
+                id: true,
                 title: true,
                 description: true,
                 date: true,
                 duration: true,
                 location: true,
                 type: true,
+                companies: {
+                  select: {
+                    user: {
+                      select: {
+                        name: true,
+                        image: true,
+                      },
+                    },
+                  },
+                },
               },
             },
           },
         },
       },
     })
+
+    // Company images
+    enrollments = {
+      enrolledActivities: enrollments.enrolledActivities.map(
+        (activityEnrollment) => ({
+          ...activityEnrollment,
+          activity: {
+            ...activityEnrollment.activity,
+            confirmed: activityEnrollment.confirmed,
+            companies: activityEnrollment.activity.companies.map((company) => ({
+              ...company,
+              user: {
+                ...company.user,
+                image: getFullResourcePath(company.user.image),
+              },
+            })),
+          },
+        })
+      ),
+    }
+
+    return enrollments.enrolledActivities
   })
 }
 
