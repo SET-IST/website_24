@@ -1,8 +1,10 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import {
+  Award,
   CompanyScan,
   ScannedCompany,
   UserEnrollment,
+  fetchAward,
   fetchEnrolledActivities,
   fetchStudentCompaniesScans,
   scanCompany,
@@ -35,4 +37,8 @@ export const useScan = (queryClient: QueryClient) => {
       })
     },
   })
+}
+
+export const useAward = () => {
+  return useQuery<Award, AxiosError>(['Award'], () => fetchAward())
 }

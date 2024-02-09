@@ -159,10 +159,10 @@ enum AwardType {
 }
 
 model AwardToken {
-  id        String         @id @default(uuid())
-  type      AwardType
-  studentId Int            @unique
-  student   StudentDetails @relation(fields: [studentId], references: [id])
+  id      String         @id @default(uuid())
+  type    AwardType
+  userId  String         @unique
+  student StudentDetails @relation(fields: [userId], references: [userId])
 }
 
 model Day {

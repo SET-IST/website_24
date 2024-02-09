@@ -49,6 +49,11 @@ class StudentRoutes {
     if (!isUUID(companyId)) throw new BadRequestException('Invalid company id')
     return await Server.scanCompany(user, companyId)
   }
+
+  @Get('/award')
+  public async requestAward(@UserData() user: User) {
+    return await Server.requestAward(user)
+  }
 }
 
 export default createHandler(StudentRoutes)

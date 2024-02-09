@@ -3,6 +3,7 @@ import { Text, Modal, Transition, Badge, Button } from '@mantine/core'
 import { PrizeCard } from './components'
 import { useProfile } from '@/lib/frontend/hooks'
 import { StudentProfile } from '@/lib/frontend/api'
+import { useAward } from '@/lib/frontend/hooks/student'
 
 export function PrizeDialog() {
   // Getters
@@ -12,6 +13,14 @@ export function PrizeDialog() {
   const showRedeemModal = useBoundStore((state) => state.showRedeemModal)
 
   const { data, isLoading: isUserLoading, isError: isUserError } = useProfile()
+
+  const {
+    data: awardData,
+    isSuccess: awardLoaded,
+    error: awardError,
+  } = useAward()
+
+  const notEnoughPoints = awardError?.response?.status === 400
 
   const user = data as StudentProfile
 
@@ -49,14 +58,22 @@ export function PrizeDialog() {
                 Olá {user?.name.split(' ')[0]}
               </Text>
               <Text c="white" ta="center" fz="lg" fw={500}>
-                Tens {user?.studentDetails?.points} pontos por gastar
+                Tens <strong>{user?.studentDetails?.points}</strong> pontos por
+                gastar
               </Text>
+              {notEnoughPoints && (
+                <Text c="white" ta="center" fz="md" fw={500}>
+                  Faltam-te{' '}
+                  <strong>{40 - (user?.studentDetails?.points ?? 0)}</strong>{' '}
+                  pontos para teres um prémio
+                </Text>
+              )}
             </div>
 
             <div className="flex flex-col gap-5">
               <div className="flex flex-col items-center gap-4">
                 <Transition
-                  mounted={true}
+                  mounted={awardLoaded}
                   transition="slide-up"
                   duration={200}
                   timingFunction="ease"
@@ -67,7 +84,7 @@ export function PrizeDialog() {
                       className="w-full flex flex-col gap-4 items-center"
                       style={styles}
                     >
-                      <PrizeCard />
+                      <PrizeCard award={awardData} />
                     </div>
                   )}
                 </Transition>
@@ -75,11 +92,13 @@ export function PrizeDialog() {
             </div>
           </div>
 
-          <div>
-            <Text c="white" ta="center" fz="sm" fw={500}>
-              Apresenta este código na receção para reclamares o teu prémio
-            </Text>
-          </div>
+          {awardLoaded && (
+            <div>
+              <Text c="white" ta="center" fz="sm" fw={500}>
+                Apresenta este código na receção para reclamares o teu prémio
+              </Text>
+            </div>
+          )}
         </div>
       </div>
     </Modal>
