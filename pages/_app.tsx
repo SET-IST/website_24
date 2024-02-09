@@ -36,20 +36,16 @@ type AppPropsWithLayout<
 }
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 'Infinity' as unknown as number,
-            refetchOnMount: false,
-            refetchOnWindowFocus: false,
-            retry: false,
-          },
-        },
-      })
-
-  )
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 'Infinity' as unknown as number,
+        refetchOnMount: false,
+        refetchOnWindowFocus: true,
+        retry: false,
+      },
+    },
+  })
 
   const getLayout = Component.getLayout ?? ((page) => page)
 

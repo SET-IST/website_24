@@ -44,7 +44,7 @@ export function QRDialog() {
   useEffect(() => {
     if (companyCode) {
       scan(companyCode).catch((error: AxiosError) => {
-        if (error.response?.status !== 409) {
+        if (![409, 404].includes(error.response?.status ?? 500)) {
           showErrorNotification({
             title: 'Ocorreu um erro, por favor tenta outra vez',
             message: error.message,
@@ -173,7 +173,10 @@ export function QRDialog() {
                   )}
                 </Transition>
                 <Transition
-                  mounted={isError && error.response?.status === 409}
+                  mounted={
+                    isError &&
+                    [404, 409].includes(error.response?.status ?? 500)
+                  }
                   transition="fade"
                   duration={200}
                   timingFunction="ease"
@@ -181,7 +184,10 @@ export function QRDialog() {
                 >
                   {(styles) => (
                     <Badge style={styles} color="blue" size="lg" radius="md">
-                      Já fizeste scan desta empresa
+                      {error?.response?.status === 409 &&
+                        'Já fizeste scan desta empresa'}
+                      {error?.response?.status === 404 &&
+                        'Este código é inválido'}
                     </Badge>
                   )}
                 </Transition>
@@ -192,10 +198,9 @@ export function QRDialog() {
                 <Text c="white" ta="center" fz={25} fw={700} mt="md">
                   Código pessoal
                 </Text>
-                <div className="border-2 rounded-xl overflow-hidden">
+                <div className="rounded-xl overflow-hidden">
                   <QRCode
-                    bgColor="#1C7ED6"
-                    fgColor="rgb(250, 250, 250)"
+                    fgColor="#1C7ED6"
                     eyeRadius={5}
                     qrStyle="dots"
                     value={user.id}

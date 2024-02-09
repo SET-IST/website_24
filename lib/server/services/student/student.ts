@@ -1,9 +1,9 @@
 import { databaseQueryWrapper } from '@/core/utils'
 import { PrismaService } from '../../../../core/services/server'
-import type { User } from '@prisma/client'
+import { AwardType, type User } from '@prisma/client'
 import { PatchStudentProfileDto } from './dtos'
 import { getFile, getFullResourcePath } from '@/lib/server/utils'
-import { ConflictException } from 'next-api-decorators'
+import { BadRequestException, ConflictException } from 'next-api-decorators'
 import { visitedAllDayStands } from '../../utils/event'
 
 export async function getStudentProfile(user: User) {
@@ -88,6 +88,7 @@ export async function getStudentCompanies(user: User) {
         },
       },
     })
+
     return details.companies.map((company) => ({
       ...company,
       user: {
@@ -100,7 +101,7 @@ export async function getStudentCompanies(user: User) {
 
 export async function getStudentEnrollments(user: User) {
   return await databaseQueryWrapper(async () => {
-    return await PrismaService.studentDetails.findUniqueOrThrow({
+    let enrollments = await PrismaService.studentDetails.findUniqueOrThrow({
       where: {
         userId: user.id,
       },
@@ -112,18 +113,51 @@ export async function getStudentEnrollments(user: User) {
             confirmed: true,
             activity: {
               select: {
+                id: true,
                 title: true,
                 description: true,
                 date: true,
                 duration: true,
                 location: true,
                 type: true,
+                companies: {
+                  select: {
+                    user: {
+                      select: {
+                        name: true,
+                        image: true,
+                      },
+                    },
+                  },
+                },
               },
             },
           },
         },
       },
     })
+
+    // Company images
+    enrollments = {
+      enrolledActivities: enrollments.enrolledActivities.map(
+        (activityEnrollment) => ({
+          ...activityEnrollment,
+          activity: {
+            ...activityEnrollment.activity,
+            confirmed: activityEnrollment.confirmed,
+            companies: activityEnrollment.activity.companies.map((company) => ({
+              ...company,
+              user: {
+                ...company.user,
+                image: getFullResourcePath(company.user.image),
+              },
+            })),
+          },
+        })
+      ),
+    }
+
+    return enrollments.enrolledActivities
   })
 }
 
@@ -207,5 +241,58 @@ export async function scanCompany(user: User, companyId: string) {
       },
       points: points,
     }
+  })
+}
+
+export async function requestAward(user: User) {
+  return await databaseQueryWrapper(async () => {
+    // Check if an award already exists
+
+    let prize = await PrismaService.awardToken.findUnique({
+      where: {
+        userId: user.id,
+      },
+      select: {
+        id: true,
+        type: true,
+      },
+    })
+
+    if (prize) return prize
+
+    // Generate QR
+
+    return await PrismaService.$transaction(async (tx) => {
+      // Check points
+      const studentTx = await tx.studentDetails.findUniqueOrThrow({
+        where: {
+          userId: user.id,
+        },
+      })
+
+      if (studentTx.points - 40 < 0) {
+        throw new BadRequestException(
+          'The student does not have enough points to request awards'
+        )
+      }
+
+      return await tx.awardToken.create({
+        data: {
+          type:
+            studentTx.reedems % 3 == 0 && studentTx.reedems != 0
+              ? AwardType.SPECIAL
+              : AwardType.NORMAL,
+          student: {
+            connect: {
+              id: studentTx.id,
+            },
+          },
+        },
+        select: {
+          id: true,
+          type: true,
+        },
+      })
+    })
   })
 }

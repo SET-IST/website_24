@@ -1,9 +1,7 @@
 import { ActivityData } from '@/lib/frontend/api/activities'
-import { useEnrollStudent } from '@/lib/frontend/hooks/activities'
-import { Badge, Button, Text, rem } from '@mantine/core'
+import { Avatar, Badge, Button, Text, Tooltip, rem } from '@mantine/core'
 import { ActivityType } from '@prisma/client'
 import { IconMapPin } from '@tabler/icons-react'
-import { useQueryClient } from '@tanstack/react-query'
 import { DateTime } from 'luxon'
 
 interface ActivityComponentProps {
@@ -32,6 +30,7 @@ const ActivityButton = ({
         <Button
           onClick={() => enrollCallback(String(data.id))}
           fullWidth={!!isMobile}
+          className="min-w-fit"
         >
           Inscrever-me
         </Button>
@@ -39,7 +38,7 @@ const ActivityButton = ({
     }
     if (data.confirmed) {
       return (
-        <Button disabled fullWidth={!!isMobile}>
+        <Button disabled className="min-w-fit" fullWidth={!!isMobile}>
           Inscrito
         </Button>
       )
@@ -48,6 +47,7 @@ const ActivityButton = ({
         <Button
           variant="default"
           fullWidth={!!isMobile}
+          className="min-w-fit"
           onClick={() => unEnrollCallback(String(data.id))}
         >
           Cancelar inscrição
@@ -69,6 +69,21 @@ const Activity = ({
   return (
     <div className="w-full h-fit bg-[color:var(--mantine-color-white)] hover:bg-gray-50 p-4 flex flex-col gap-4 sm:flex-row sm:gap-0 items-center sm:rounded-md">
       <div className="w-full h-fit flex flex-col gap-2">
+        {data?.companies && (
+          <Tooltip.Group openDelay={300} closeDelay={100}>
+            <Avatar.Group spacing="sm">
+              {data.companies.map((company, index) => (
+                <Tooltip
+                  key={`${data.id}_company_${index}`}
+                  label={company.user.name}
+                  withArrow
+                >
+                  <Avatar src={company.user.image} radius="xl" />
+                </Tooltip>
+              ))}
+            </Avatar.Group>
+          </Tooltip.Group>
+        )}
         <div>
           <Text c="#00415a" fw={600}>
             <span className="text-base">{data?.title}</span>

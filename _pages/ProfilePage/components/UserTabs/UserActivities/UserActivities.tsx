@@ -1,27 +1,56 @@
-import { Text } from '@mantine/core'
-import Activity, { ActivityData } from './Activity'
-import { DateTime } from 'luxon'
-
-const activities: ActivityData[] = [
-  {
-    name: 'A evolução da Internet - Web3 e Blockchain',
-    desc: 'Segurança, transparência e independência: O futuro é Web3 e Blockchain',
-    date: DateTime.now().plus({ days: 4 }),
-    location: 'Palco',
-  },
-  {
-    name: 'Speed Interview',
-    desc: 'Worten e Caixa Geral',
-    date: DateTime.now().plus({ days: 3, hours: 2, minutes: 11 }),
-    location: 'Salas 0-67 e 0-69',
-  },
-]
+import Activity from '@/_pages/ActivitiesPage/components/UserActivities/Activity'
+import { showInfoNotification } from '@/components/Notifications'
+import { UnEnrollUserResponse } from '@/lib/frontend/api/activities'
+import {
+  useEnrollStudent,
+  useUnEnrollStudent,
+} from '@/lib/frontend/hooks/activities'
+import { useStudentEnrollments } from '@/lib/frontend/hooks/student'
+import { useBoundStore } from '@/lib/frontend/store'
+import { em } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
+import { useQueryClient } from '@tanstack/react-query'
 
 const UserActivities = () => {
+  /* 
+    Lets make some things clear:
+
+    Are we repeating code? Yes 
+    Is there a better way to do it? For sure
+    Do we have time to do it? NO
+  */
+
+  const currentDate = useBoundStore((state) => state.selectedDate)
+
+  const { data: enrollments, isLoading } = useStudentEnrollments()
+
+  const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
+
+  const {
+    mutateAsync: unEnroll,
+    isError: isUnEnrollError,
+    error: unEnrollError,
+  } = useUnEnrollStudent(useQueryClient())
+
+  const unEnrollStudent = (activityId: string) => {
+    unEnroll(activityId).then((activity: UnEnrollUserResponse) => {
+      showInfoNotification({
+        title: 'Inscrição cancelada com sucesso',
+        message: activity?.title ?? '',
+      })
+    })
+  }
+
   return (
     <div className="flex flex-col">
-      {activities.map((activityData, index) => (
-        <Activity key={`activity_${index}`} data={activityData} />
+      {enrollments?.map((activityData, index) => (
+        <Activity
+          key={`activity_${index}`}
+          data={activityData?.activity}
+          isMobile={isMobile}
+          enrollCallback={() => {}}
+          unEnrollCallback={unEnrollStudent}
+        />
       ))}
     </div>
   )

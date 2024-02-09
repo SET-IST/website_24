@@ -12,8 +12,17 @@ import {
 } from 'next-api-decorators'
 import { PatchActivityDto } from './dtos'
 import { DateTime } from 'luxon'
+import { getFullResourcePath } from '@/lib/server/utils'
 
-type ExtendedActivity = Activity & { confirmed?: boolean }
+type ExtendedActivity = Activity & {
+  confirmed?: boolean
+  companies: {
+    user: {
+      name: string
+      image: string | null
+    }
+  }[]
+}
 
 export async function getActivities(
   req: NextApiRequest,
@@ -21,11 +30,23 @@ export async function getActivities(
   date: DateTime
 ): Promise<ExtendedActivity[] | undefined> {
   return await databaseQueryWrapper(async () => {
-    const activities = await PrismaService.activity.findMany({
+    let activities = await PrismaService.activity.findMany({
       where: {
         date: {
           gte: date.startOf('day').toJSDate(),
           lte: date.startOf('day').plus({ days: 1 }).toJSDate(),
+        },
+      },
+      include: {
+        companies: {
+          select: {
+            user: {
+              select: {
+                name: true,
+                image: true,
+              },
+            },
+          },
         },
       },
     })
@@ -37,6 +58,17 @@ export async function getActivities(
         DateTime.fromJSDate(a.date).toMillis() -
         DateTime.fromJSDate(b.date).toMillis()
     )
+
+    activities = activities.map((activity) => ({
+      ...activity,
+      companies: activity.companies.map((company) => ({
+        ...company,
+        user: {
+          ...company.user,
+          image: getFullResourcePath(company.user.image),
+        },
+      })),
+    }))
 
     if (
       !session ||
