@@ -12,6 +12,7 @@ import { User } from 'next-auth'
 import { UserType } from '@prisma/client'
 import { QRDialog } from '@/components/QRDialog'
 import { useEffect } from 'react'
+import { PrizeDialog } from '@/components/PrizeDialog'
 
 const ProfilePage = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
@@ -61,6 +62,7 @@ const ProfilePage = () => {
       </Modal.Root>
 
       <QRDialog />
+      <PrizeDialog />
 
       {!!selectedCompany && !isMobile && <PreviewCard data={selectedCompany} />}
     </div>

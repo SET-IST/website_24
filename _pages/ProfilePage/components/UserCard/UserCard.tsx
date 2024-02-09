@@ -20,6 +20,7 @@ const UserCard = () => {
   // Setters
   const showSettings = useBoundStore((state) => state.showSettings)
   const showScanModal = useBoundStore((state) => state.showScanModal)
+  const showRedeemModal = useBoundStore((state) => state.showRedeemModal)
 
   return (
     <Paper
@@ -99,8 +100,8 @@ const UserCard = () => {
 
         {user?.role !== UserType.Company && (
           <div className="flex flex-row gap-2 w-full min-w-fit">
-            <Button fullWidth mt="lg">
-              Redimir prémio
+            <Button fullWidth mt="lg" onClick={() => showRedeemModal(true)}>
+              Reclamar prémio
             </Button>
             <Button
               onClick={() => showScanModal(true)}

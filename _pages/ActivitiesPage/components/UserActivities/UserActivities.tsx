@@ -19,6 +19,7 @@ import {
   EnrollUserResponse,
   UnEnrollUserResponse,
 } from '@/lib/frontend/api/activities'
+import ActivitySkeleton from './ActivitySkeleton'
 
 // const activities: ActivityData[] = [
 //   {
@@ -98,6 +99,14 @@ const UserActivities = () => {
   }
   return (
     <div className="flex bg-[#ffffff] sm:bg-[color:var(--mantine-color-white)] flex-col sm:gap-4 sm:h-[26rem] sm:overflow-scroll sm:rounded-lg sm:p-2 sm:py-4">
+      {!activities && (
+        <>
+          <ActivitySkeleton />
+          <ActivitySkeleton />
+          <ActivitySkeleton />
+          <ActivitySkeleton />
+        </>
+      )}
       {activities?.map((activityData, index) => (
         <Activity
           key={`activity_${index}`}
