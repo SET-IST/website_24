@@ -65,7 +65,7 @@ export function PrizeDialog() {
                 <Text c="white" ta="center" fz="md" fw={500}>
                   Faltam-te{' '}
                   <strong>{40 - (user?.studentDetails?.points ?? 0)}</strong>{' '}
-                  pontos para teres um prémio
+                  pontos para teres um brinde
                 </Text>
               )}
             </div>
@@ -95,7 +95,7 @@ export function PrizeDialog() {
           {awardLoaded && (
             <div>
               <Text c="white" ta="center" fz="sm" fw={500}>
-                Apresenta este código na receção para reclamares o teu prémio
+                Apresenta este código na receção para reclamares o teu brinde
               </Text>
             </div>
           )}

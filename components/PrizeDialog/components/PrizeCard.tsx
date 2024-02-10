@@ -28,10 +28,10 @@ export function PrizeCard({ award }: PrizeCardProps) {
       <Card.Section>
         <div className="flex flex-col justify-normal items-center border-t p-2">
           {award?.type === AwardType.NORMAL && (
-            <Badge color="blue">Prémio normal</Badge>
+            <Badge color="blue">Brinde normal</Badge>
           )}
           {award?.type === AwardType.SPECIAL && (
-            <Badge color="indigo">Prémio bónus</Badge>
+            <Badge color="indigo">Brinde bónus</Badge>
           )}
         </div>
       </Card.Section>
