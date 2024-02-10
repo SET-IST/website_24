@@ -1,2 +1,5 @@
 export * from './profile'
 export * from './institutions'
+export * from './company'
+export * from './student'
+export * from './activities'

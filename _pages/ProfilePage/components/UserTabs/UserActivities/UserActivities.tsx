@@ -20,8 +20,6 @@ const UserActivities = () => {
     Do we have time to do it? NO
   */
 
-  const currentDate = useBoundStore((state) => state.selectedDate)
-
   const { data: enrollments, isLoading } = useStudentEnrollments()
 
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)

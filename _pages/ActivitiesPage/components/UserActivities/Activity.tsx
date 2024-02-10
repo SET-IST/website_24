@@ -1,8 +1,10 @@
 import { ActivityData } from '@/lib/frontend/api/activities'
 import { Avatar, Badge, Button, Text, Tooltip, rem } from '@mantine/core'
-import { ActivityType } from '@prisma/client'
+import { ActivityType, UserType } from '@prisma/client'
 import { IconMapPin } from '@tabler/icons-react'
 import { DateTime } from 'luxon'
+import { User } from 'next-auth'
+import { useSession } from 'next-auth/react'
 
 interface ActivityComponentProps {
   data: ActivityData
@@ -65,6 +67,9 @@ const Activity = ({
   enrollCallback,
   unEnrollCallback,
 }: ActivityComponentProps) => {
+  const session = useSession()
+  const user = session.data?.user as User
+
   const date = data?.date ? DateTime.fromISO(String(data.date)) : DateTime.now()
   return (
     <div className="w-full h-fit bg-[color:var(--mantine-color-white)] hover:bg-gray-50 p-4 flex flex-col gap-4 sm:flex-row sm:gap-0 items-center sm:rounded-md">
@@ -108,12 +113,16 @@ const Activity = ({
           </Badge>
         </div>
       </div>
-      <ActivityButton
-        data={data}
-        isMobile={isMobile}
-        enrollCallback={enrollCallback}
-        unEnrollCallback={unEnrollCallback}
-      />
+
+      {((user && user.role !== UserType.Company) ||
+        session.status !== 'authenticated') && (
+        <ActivityButton
+          data={data}
+          isMobile={isMobile}
+          enrollCallback={enrollCallback}
+          unEnrollCallback={unEnrollCallback}
+        />
+      )}
     </div>
   )
 }

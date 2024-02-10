@@ -28,6 +28,16 @@ export async function updateProfileImage(data: UpdateAWSEntry) {
 
 export async function updateCV(data: UpdateAWSEntry) {
   return await databaseQueryWrapper(async () => {
+    const student = await PrismaService.studentDetails.findUnique({
+      where: {
+        userId: data.userId,
+      },
+    })
+
+    if (student?.cvLocation) {
+      await deleteFile(student?.cvLocation)
+    }
+
     await PrismaService.studentDetails.update({
       where: {
         userId: data.userId,

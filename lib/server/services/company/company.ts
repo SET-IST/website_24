@@ -2,9 +2,16 @@ import { databaseQueryWrapper } from '@/core/utils'
 import { CompanyLoginRequest, PatchCompanyProfileDto } from './dtos'
 import { PrismaService } from '@/core/services/server'
 import { isSamePass } from '@/core/utils/auth'
-import { UnauthorizedException } from 'next-api-decorators'
+import {
+  ForbiddenException,
+  NotFoundException,
+  UnauthorizedException,
+} from 'next-api-decorators'
 import { User } from 'next-auth'
-import { getFullResourcePath } from '../../utils'
+import { downloadFile, getFile, getFullResourcePath } from '../../utils'
+import { CompanyCategory } from '@prisma/client'
+import { createReadStream } from 'fs'
+import { NextApiResponse } from 'next'
 
 export async function login(
   req: CompanyLoginRequest
@@ -90,35 +97,237 @@ export async function patchCompanyProfile(
   })
 }
 
-export async function getCompanyStudents(user: User) {
+export async function getCompanyStudents(
+  user: User,
+  page?: number,
+  query?: string
+) {
   return await databaseQueryWrapper(async () => {
-    const details = await PrismaService.companyDetails.findUniqueOrThrow({
+    const company = await PrismaService.companyDetails.findUniqueOrThrow({
+      where: {
+        userId: user.id,
+      },
+    })
+
+    const searchQuery = {
+      AND: [
+        {
+          companies_ids: {
+            has: user.id,
+          },
+        },
+        {
+          OR: [
+            {
+              user: {
+                name: {
+                  contains: query,
+                },
+              },
+            },
+            {
+              user: {
+                email: {
+                  contains: query,
+                },
+              },
+            },
+            {
+              course: {
+                contains: query,
+              },
+            },
+            {
+              university: {
+                contains: query,
+              },
+            },
+          ],
+        },
+      ],
+    }
+
+    const [details, count] = await PrismaService.$transaction([
+      PrismaService.studentDetails.findMany({
+        where: searchQuery,
+        skip: (page ? page - 1 : 0) * 25,
+        take: 25,
+        select: {
+          id: true,
+          university: true,
+          course: true,
+          cvLocation: company.category === CompanyCategory.Platinum,
+          user: {
+            select: {
+              name: true,
+              image: true,
+              email: true,
+            },
+          },
+        },
+      }),
+      prisma.studentDetails.count({
+        where: searchQuery,
+      }),
+    ])
+
+    return {
+      pagination: {
+        pages: Math.ceil(count / 25),
+      },
+      data: details.map((student) => ({
+        ...student,
+        ...student.user,
+        user: undefined,
+        image: getFullResourcePath(student.user.image),
+      })),
+    }
+  })
+}
+
+export async function getCompanyActivities(user: User) {
+  return await databaseQueryWrapper(async () => {
+    let activities = await PrismaService.companyDetails.findUniqueOrThrow({
       where: {
         userId: user.id,
       },
       select: {
-        students: {
-          select: {
-            id: true,
-            course: true,
-            university: true,
-            user: {
+        activities: {
+          include: {
+            enrollments: {
               select: {
-                name: true,
-                email: true,
-                image: true,
+                confirmed: true,
+                student: {
+                  select: {
+                    id: true,
+                    university: true,
+                    course: true,
+                    cvLocation: true,
+                    user: {
+                      select: {
+                        name: true,
+                        image: true,
+                        email: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            companies: {
+              select: {
+                user: {
+                  select: {
+                    name: true,
+                    image: true,
+                  },
+                },
               },
             },
           },
         },
       },
     })
-    return details.students.map((student) => ({
-      ...student,
-      user: {
-        ...student.user,
-        image: getFullResourcePath(student.user.image),
-      },
+
+    return activities.activities.map((activity) => ({
+      ...activity,
+      companies: activity.companies.map((company) => ({
+        ...company,
+        user: {
+          ...company.user,
+          image: getFullResourcePath(company.user.image),
+        },
+      })),
+      enrollments: activity.enrollments
+        .filter((enrollment) => enrollment.confirmed)
+        .map((enrollment) => ({
+          ...enrollment,
+          student: {
+            ...enrollment.student,
+            user: {
+              ...enrollment.student.user,
+              image: getFullResourcePath(enrollment.student.user.image),
+            },
+          },
+        })),
     }))
+  })
+}
+
+export async function downloadCV(user: User, path: string) {
+  return await databaseQueryWrapper(async () => {
+    // Check company role
+    const company = await PrismaService.companyDetails.findUniqueOrThrow({
+      where: {
+        userId: user.id,
+      },
+      include: {
+        activities: true,
+      },
+    })
+
+    // Check if file exists
+    const fileHead = await getFile(path)
+
+    if (!fileHead) throw new NotFoundException('Student CV not found')
+
+    // Check if student (owner of CV) scanned this company
+    const student = await PrismaService.studentDetails.findUniqueOrThrow({
+      where: {
+        userId: fileHead.metadata?.userid,
+      },
+      select: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        companies_ids: true,
+      },
+    })
+
+    let activityRelatedCV = false
+
+    if (!student.companies_ids.includes(company.userId)) {
+      // Ok, user didn't scan the company. Maybe it's an enrollment?
+
+      const companyEvents = company.activities.map((activity) => activity.id)
+
+      const userEventRegistrations =
+        await PrismaService.activityEnrollment.count({
+          where: {
+            AND: [
+              {
+                userId: fileHead.metadata?.userid,
+              },
+              {
+                activityId: {
+                  in: companyEvents,
+                },
+              },
+            ],
+          },
+        })
+
+      if (userEventRegistrations === 0) {
+        throw new ForbiddenException('Student is not connected to the company')
+      }
+
+      activityRelatedCV = true
+    }
+
+    if (company.category !== CompanyCategory.Platinum && !activityRelatedCV) {
+      throw new ForbiddenException(
+        'Company does not have the required category'
+      )
+    }
+
+    const fileData = await downloadFile(path)
+
+    return {
+      filename: `CV ${student.user.name}`,
+      contents: fileData?.Body as ReadableStream,
+      contentType: 'application/pdf',
+    }
   })
 }

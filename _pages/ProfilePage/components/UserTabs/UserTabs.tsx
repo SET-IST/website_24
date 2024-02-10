@@ -3,9 +3,10 @@ import { ReactNode, useState } from 'react'
 import { useMediaQuery, useWindowScroll } from '@mantine/hooks'
 import { VisitedStands } from './VisitedStands'
 import { UserActivities } from './UserActivities'
-import { Students } from './Students'
 import { useSession } from 'next-auth/react'
 import { UserType } from '@prisma/client'
+import { StudentDatatable } from './StudentDatatable'
+import { CompanyActivities } from './CompanyActivities'
 
 interface Tab {
   title: string
@@ -26,9 +27,14 @@ const UserTabs = () => {
   const tabs: Tab[] = isCompany
     ? [
         {
-          title: 'Scans',
+          title: 'Estudantes',
           ref: 'scans',
-          component: <Students />,
+          component: <StudentDatatable />,
+        },
+        {
+          title: 'Eventos',
+          ref: 'activities',
+          component: <CompanyActivities />,
         },
       ]
     : [
@@ -77,7 +83,7 @@ const UserTabs = () => {
 
         {tabs.map((tab, index) => (
           <Tabs.Panel
-            className="sm:max-h-[calc(100%-2.6rem)] sm:overflow-y-scroll"
+            className=" h-full sm:max-h-[calc(100%-2.6rem)] sm:overflow-y-scroll"
             key={`panel_${index}`}
             value={tab.ref}
           >
