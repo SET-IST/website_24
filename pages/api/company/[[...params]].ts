@@ -1,5 +1,8 @@
 import { handleApiException } from '@/core/utils'
-import { CompanyLoginRequest, PatchCompanyProfileDto } from '@/lib/server/services/company/dtos'
+import {
+  CompanyLoginRequest,
+  PatchCompanyProfileDto,
+} from '@/lib/server/services/company/dtos'
 import {
   Body,
   Catch,
@@ -7,6 +10,10 @@ import {
   Get,
   createHandler,
   Patch,
+  Query,
+  Param,
+  Download,
+  Res,
 } from 'next-api-decorators'
 import * as CompanyService from '@/lib/server/services/company'
 import {
@@ -16,6 +23,8 @@ import {
 } from '@/lib/server/middleware'
 import type { User } from '@prisma/client'
 import { UserData } from '@/core/utils'
+import type { NextApiResponse } from 'next'
+import { createReadStream } from 'fs'
 
 @Catch(handleApiException)
 class CompanyRoutes {
@@ -35,18 +44,37 @@ class CompanyRoutes {
   @RequiresSession()
   @Role('Company')
   public async updateCompanyProfile(
-    @UserData() user: User, 
-    @Body(RestrictedValidationPipe) req: PatchCompanyProfileDto) {
-      return await CompanyService.patchCompanyProfile(user,req)
+    @UserData() user: User,
+    @Body(RestrictedValidationPipe) req: PatchCompanyProfileDto
+  ) {
+    return await CompanyService.patchCompanyProfile(user, req)
   }
 
   @Get('/students')
   @RequiresSession()
   @Role('Company')
-  public async getCompanyStudents(@UserData() user: User) {
-    return await CompanyService.getCompanyStudents(user)
+  public async getCompanyStudents(
+    @UserData() user: User,
+    @Query('page') page?: number,
+    @Query('search') query?: string
+  ) {
+    return await CompanyService.getCompanyStudents(user, page, query)
   }
 
+  @Get('/activities')
+  @RequiresSession()
+  @Role('Company')
+  public async getCompanyActivities(@UserData() user: User) {
+    return await CompanyService.getCompanyActivities(user)
+  }
+
+  @Get('/students/cv/:cv')
+  @Download()
+  @RequiresSession()
+  @Role('Company')
+  public async downloadCV(@UserData() user: User, @Param('cv') cv: string) {
+    return await CompanyService.downloadCV(user, cv)
+  }
 }
 
 export default createHandler(CompanyRoutes)

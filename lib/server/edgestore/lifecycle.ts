@@ -1,4 +1,3 @@
-import { S3Client } from '@aws-sdk/client-s3'
 import { updateCV, updateProfileImage } from '../services/storage'
 
 type Metadata = Record<string, string | undefined | null>

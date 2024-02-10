@@ -61,8 +61,12 @@ const ProfilePage = () => {
         </Modal.Content>
       </Modal.Root>
 
-      <QRDialog />
-      <PrizeDialog />
+      {user.role === UserType.Student && (
+        <>
+          <QRDialog />
+          <PrizeDialog />
+        </>
+      )}
 
       {!!selectedCompany && !isMobile && <PreviewCard data={selectedCompany} />}
     </div>

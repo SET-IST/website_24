@@ -1,10 +1,12 @@
 import { ApiClient } from '@/core/services/client'
 import {
+  getCompanyActivities,
   getCompanyProfile,
   getCompanyStudents,
   patchCompanyProfile,
 } from '@/lib/server/services/company'
 import { IPatchCompanyProfile } from '@/lib/server/services/company/dtos'
+import { CompanyCategory } from '@prisma/client'
 
 type Unpacked<T> = T extends (infer U)[] ? U : T
 
@@ -14,7 +16,18 @@ export type CompanyProfilePatchResponse = Awaited<
   ReturnType<typeof patchCompanyProfile>
 >
 
-export type CompanyStudentScan = Unpacked<Awaited<ReturnType<typeof getCompanyStudents>>>
+export type CompanyStudents = NonNullable<
+  Awaited<ReturnType<typeof getCompanyStudents>>
+>
+
+export type CompanyStudentFiled = keyof Omit<
+  Unpacked<CompanyStudents['data']>,
+  'user'
+>
+
+export type CompanyActivity = NonNullable<
+  Unpacked<Awaited<ReturnType<typeof getCompanyActivities>>>
+>
 
 export const fetchCompanyProfile = async (): Promise<CompanyProfile> => {
   const { data } = await ApiClient.get('company/profile')
@@ -29,7 +42,26 @@ export const updateCompanyProfile = async (
   return profile
 }
 
-export const fetchCompanyStudentsScans = async (): Promise<CompanyStudentScan[]> => {
-  const { data } = await ApiClient.get('company/students')
+export const fetchCompanyStudentsScans = async (
+  page?: number,
+  search?: string
+): Promise<CompanyStudents> => {
+  let queryParams = new URLSearchParams()
+
+  if (page) queryParams.append('page', String(page))
+  if (search) queryParams.append('search', search)
+
+  const { data } = await ApiClient.get(
+    `company/students${
+      queryParams.size > 0 ? '?' + queryParams.toString() : ''
+    }`
+  )
+  return data
+}
+
+export const fetchCompanyActivities = async (): Promise<
+  CompanyActivity[] | undefined
+> => {
+  const { data } = await ApiClient.get('company/activities')
   return data
 }

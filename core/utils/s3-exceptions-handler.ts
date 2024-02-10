@@ -11,7 +11,7 @@ export function handleS3Exception(s3Exception: any): HttpException {
       `[S3ServiceException]: ${s3Exception.name}: ${s3Exception.message}`
     )
 
-    if (s3Exception.name === 'NoSuchKey') {
+    if (['NoSuchKey', 'NotFound'].includes(s3Exception.name)) {
       throw new NotFoundException(
         `[S3ServiceException]: ${s3Exception.name}: ${s3Exception.message}`
       )
