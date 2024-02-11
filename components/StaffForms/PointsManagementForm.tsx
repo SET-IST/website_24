@@ -132,11 +132,11 @@ const PointsManagementForm = () => {
           </Button>
           <Button
             disabled={!isValidUser}
-            onClick={() => addPoints(30)}
+            onClick={() => addPoints(20)}
             fullWidth
             variant="default"
           >
-            Atividade (+30)
+            Atividade (+20)
           </Button>
           <Button
             disabled={!isValidUser}
