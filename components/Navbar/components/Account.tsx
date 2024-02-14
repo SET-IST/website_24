@@ -48,11 +48,13 @@ export function AccountMenu({
       {session.status === 'authenticated' ? (
         <UnstyledButton
           onClick={() => {
-            router.push(
-              user?.role === UserType.Company
-                ? links.company.profile
-                : links.student.profile
-            )
+            router
+              .push(
+                user?.role === UserType.Company
+                  ? links.company.profile
+                  : links.student.profile
+              )
+              .then(() => closeCallback())
           }}
         >
           <Group

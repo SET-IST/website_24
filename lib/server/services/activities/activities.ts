@@ -203,12 +203,7 @@ export async function activityManagement(id: number) {
                 select: {
                   id: true,
                   userId: true,
-                  user: {
-                    select: {
-                      name: true,
-                      image: true,
-                    },
-                  },
+                  user: true,
                 },
               },
             },
@@ -217,7 +212,19 @@ export async function activityManagement(id: number) {
       }
     )
 
-    return activityToManagement
+    return {
+      ...activityToManagement,
+      enrollments: activityToManagement.enrollments.map((enrollment) => ({
+        ...enrollment,
+        student: {
+          ...enrollment.student,
+          user: {
+            ...enrollment.student.user,
+            image: getFullResourcePath(enrollment.student.user.image),
+          },
+        },
+      })),
+    }
   })
 }
 

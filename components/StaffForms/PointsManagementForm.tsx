@@ -35,21 +35,13 @@ const PointsManagementForm = () => {
     },
   })
 
-  const [selectedUser, setSelectedUser] = useState<null | User>(null)
-
-  const { data: userDetails } = useUserDetails(
-    form.values.uuid!,
-    !!selectedUser
-  )
+  const { data: userDetails } = useUserDetails(form.values.uuid)
 
   const isValidUser = !!userDetails && userDetails.role !== UserType.Company
 
-  const {
-    mutateAsync: updatePoints,
-    isLoading,
-    isError,
-    error,
-  } = useUpdateStudentPoints(useQueryClient())
+  const { mutateAsync: updatePoints, isLoading } = useUpdateStudentPoints(
+    useQueryClient()
+  )
 
   useEffect(() => {
     !!userDetails &&
@@ -59,15 +51,6 @@ const PointsManagementForm = () => {
       )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userDetails])
-
-  useEffect(() => {
-    if (isError) {
-      showErrorNotification({
-        title: `Ocorreu um erro, por favor tenta outra vez`,
-        message: error.message,
-      })
-    }
-  }, [isError, error])
 
   const addPoints = (points: number) => {
     if (form.values.points) {
@@ -81,11 +64,18 @@ const PointsManagementForm = () => {
     updatePoints({
       uuid: values.uuid,
       points: values.points,
-    }).then(() => {
-      showSuccessNotification({
-        message: 'Pontos atualizados',
-      })
     })
+      .then(() => {
+        showSuccessNotification({
+          message: 'Pontos atualizados',
+        })
+      })
+      .catch((error) => {
+        showErrorNotification({
+          title: `Ocorreu um erro, por favor tenta outra vez`,
+          message: error.message,
+        })
+      })
   }
 
   return (
@@ -98,11 +88,7 @@ const PointsManagementForm = () => {
         className="mt-4 flex flex-col gap-2"
       >
         <AccountSelect
-          callback={(userData) => {
-            const user = JSON.parse(userData) as User
-            form.setFieldValue('uuid', user.id)
-            setSelectedUser(user)
-          }}
+          callback={(userData) => form.setFieldValue('uuid', userData.id)}
           errors={form.errors}
         />
 

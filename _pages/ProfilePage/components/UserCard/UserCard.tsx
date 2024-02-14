@@ -36,10 +36,11 @@ const UserCard = () => {
           <Avatar src={user?.image} size={100} />
         )}
 
-        <Text c="#00415a" ta="center" fz="xl" fw={700} mt="md">
-          <Skeleton visible={isUserLoading}>{user?.name}</Skeleton>
-        </Text>
-
+        <Skeleton visible={isUserLoading}>
+          <Text c="#00415a" ta="center" fz="xl" fw={700} mt="md">
+            {user?.name}
+          </Text>
+        </Skeleton>
         <Skeleton
           className="flex flex-col items-center gap-2"
           visible={isUserLoading}

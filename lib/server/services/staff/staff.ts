@@ -4,7 +4,8 @@ import { getFullResourcePath } from '../../utils'
 import { UserType } from '@prisma/client'
 import { getCompanyProfile } from '../company'
 import { getStudentProfile } from '../student'
-import { UpdatePointsDto } from './dtos'
+import { CreateAwardDto, UpdatePointsDto } from './dtos'
+import { ConflictException } from 'next-api-decorators'
 
 export async function searchUser(query?: string) {
   return await databaseQueryWrapper(async () => {
@@ -40,17 +41,77 @@ export async function searchUser(query?: string) {
   })
 }
 
-export async function getUserDetails(uuid: string) {
+export async function getUser(uuid: string) {
   return await databaseQueryWrapper(async () => {
-    const user = await PrismaService.user.findUniqueOrThrow({
+    return await PrismaService.user.findUniqueOrThrow({
       where: {
         id: uuid,
       },
     })
+  })
+}
 
-    return user.role === UserType.Company
-      ? getCompanyProfile(user)
-      : getStudentProfile(user)
+export async function getUserDetails(uuid: string) {
+  return await databaseQueryWrapper(async () => {
+    const user = await getUser(uuid)
+
+    return user!.role === UserType.Company
+      ? getCompanyProfile(user!)
+      : getStudentProfile(user!)
+  })
+}
+
+export async function createAward(uuid: string, data: CreateAwardDto) {
+  return await databaseQueryWrapper(async () => {
+    // Check if student already has an award
+    let prize = await PrismaService.awardToken.findUnique({
+      where: {
+        userId: uuid,
+      },
+      select: {
+        id: true,
+        type: true,
+      },
+    })
+
+    if (prize)
+      throw new ConflictException('Student already has an award pending')
+
+    return await PrismaService.awardToken.create({
+      data: {
+        type: data.type,
+        student: {
+          connect: {
+            userId: uuid,
+          },
+        },
+      },
+    })
+  })
+}
+
+export async function redeemAward(uuid: string) {
+  return await databaseQueryWrapper(async () => {
+    const details = await PrismaService.awardToken.findUniqueOrThrow({
+      where: {
+        id: uuid,
+      },
+      include: {
+        student: {
+          select: {
+            user: true,
+          },
+        },
+      },
+    })
+
+    await PrismaService.awardToken.delete({
+      where: {
+        id: details.id,
+      },
+    })
+
+    return details
   })
 }
 

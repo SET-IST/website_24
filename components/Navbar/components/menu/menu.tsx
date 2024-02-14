@@ -34,9 +34,9 @@ function isActive(
 function select(link: NavLinkExtendedProps, router: NextRouter, user: User) {
   if (user && user.role && typeof link.link === 'object') {
     const links = link.link as Record<UserType, string>
-    router.push(links[user.role])
+    return router.push(links[user.role])
   } else {
-    router.push(link.link as string)
+    return router.push(link.link as string)
   }
 }
 
@@ -84,9 +84,6 @@ function NavComposite(
           key={`nav_${level}_${index}`}
           {...navLinkDefault}
           active={isActive(item, router, level)}
-          onClick={() => {
-            select(item, router, user)
-          }}
           variant="subtle"
         >
           {NavComposite(
@@ -106,8 +103,7 @@ function NavComposite(
           {...navLinkDefault}
           active={isActive(item, router, level)}
           onClick={() => {
-            select(item, router, user)
-            closeCallback()
+            select(item, router, user).then(() => closeCallback())
           }}
           variant="subtle"
         />

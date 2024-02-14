@@ -11,16 +11,16 @@ import {
   CloseButton,
 } from '@mantine/core'
 import { IconQrcode } from '@tabler/icons-react'
-import { useUserDetails, useUsersSearch } from '@/lib/frontend/hooks'
-import { useDebouncedValue } from '@mantine/hooks'
+import { useUsersSearch } from '@/lib/frontend/hooks'
+import { useDebouncedValue, useDisclosure } from '@mantine/hooks'
 import { FormErrors } from '@mantine/form/lib/types'
 import { User } from '@prisma/client'
-import { StaffScan } from './StaffScan'
-import { useBoundStore } from '@/lib/frontend/store'
+import { StaffScan } from './StaffScan/StaffScan'
+import { fetchUser } from '@/lib/frontend/api'
 
 interface AccountSelectProps {
   errors: FormErrors
-  callback: (user: string) => void
+  callback: (accountData: User) => void
 }
 
 export function AccountSelect({ errors, callback }: AccountSelectProps) {
@@ -33,6 +33,9 @@ export function AccountSelect({ errors, callback }: AccountSelectProps) {
 
   const [debouncedQuery] = useDebouncedValue(query, 200)
   const { data, isLoading } = useUsersSearch(debouncedQuery)
+
+  const [scanModalVisible, { open: openScanModal, close: closeScanModal }] =
+    useDisclosure(false)
 
   const options = (data || []).map((item, index) => (
     <Combobox.Option value={JSON.stringify(item)} key={'option_' + index}>
@@ -57,15 +60,12 @@ export function AccountSelect({ errors, callback }: AccountSelectProps) {
     </Combobox.Option>
   ))
 
-  // Setters
-  const showScanModal = useBoundStore((state) => state.showStaffScanModal)
-
   return (
     <>
       <Combobox
         onOptionSubmit={(optionValue) => {
           setValue((JSON.parse(optionValue) as User).id)
-          callback(optionValue)
+          callback(JSON.parse(optionValue) as User)
           combobox.closeDropdown()
         }}
         withinPortal={false}
@@ -94,7 +94,7 @@ export function AccountSelect({ errors, callback }: AccountSelectProps) {
                 <Loader size={18} />
               ) : (
                 <CloseButton
-                  onClick={() => showScanModal(true)}
+                  onClick={openScanModal}
                   icon={<IconQrcode size={26} stroke={1.5} />}
                 />
               )
@@ -113,14 +113,17 @@ export function AccountSelect({ errors, callback }: AccountSelectProps) {
         </Combobox.Dropdown>
       </Combobox>
       <StaffScan
-        queryHook={useUserDetails}
+        label="Scan de utilizador"
+        fetchMethod={fetchUser}
         callback={(data) => {
-          setValue((JSON.parse(data) as User).id)
-          setQuery((JSON.parse(data) as User).id)
+          setValue((data as User).id)
+          setQuery((data as User).id)
           callback(data)
           combobox.resetSelectedOption()
           combobox.openDropdown()
         }}
+        visible={scanModalVisible}
+        onClose={closeScanModal}
       />
     </>
   )
