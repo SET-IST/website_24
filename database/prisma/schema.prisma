@@ -170,3 +170,16 @@ model Day {
   dateCode  String           @unique
   companies CompanyDetails[]
 }
+
+enum EventLogType {
+  POINTS
+  AWARDS
+  ENROLLMENTS
+}
+
+model EventLog {
+  id          Int          @id @default(autoincrement())
+  timestamp   DateTime
+  type        EventLogType
+  description String
+}
