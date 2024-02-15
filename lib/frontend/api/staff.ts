@@ -6,10 +6,7 @@ import {
   redeemAward as server_redeemAward,
   createAward as server_createAward,
 } from '@/lib/server/services/staff'
-import {
-  ActivityManagementAction,
-  activityManagement,
-} from '@/lib/server/services/activities'
+import { activityManagement } from '@/lib/server/services/activities'
 
 export type AwardData = Awaited<ReturnType<typeof server_redeemAward>>
 export type AwardCreateData = Awaited<ReturnType<typeof server_createAward>>
