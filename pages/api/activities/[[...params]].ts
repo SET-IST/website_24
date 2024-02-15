@@ -71,12 +71,13 @@ class ActivitiesRoutes {
   @RequiresSession()
   @Role('Staff')
   public async patchEnrollment(
+    @UserData() user: User,
     @Param('id') activityId: string,
     @Body(RestrictedValidationPipe) body: Server.PatchActivityDto
   ) {
     if (!isNumberString(activityId))
       throw new BadRequestException('Invalid activity id')
-    return await Server.patchEnrollment(Number(activityId), body)
+    return await Server.patchEnrollment(user, Number(activityId), body)
   }
 }
 

@@ -91,7 +91,7 @@ export const StaffNavLinks: NavLinkExtendedProps[] = [
         visibility: NavLinkVisibility.ALL,
         label: 'Inscrições',
         navId: 'enrollments',
-        link: '',
+        link: links.staff.manageEnrollments,
         leftSection: (
           <IconCalendarStats
             style={{ width: rem(18), height: rem(18) }}
@@ -103,12 +103,21 @@ export const StaffNavLinks: NavLinkExtendedProps[] = [
         visibility: NavLinkVisibility.ALL,
         label: 'Gerir pontos',
         navId: 'manage_points',
-        link: '',
+        link: links.staff.managePoints,
         leftSection: (
           <IconSort09
             style={{ width: rem(20), height: rem(20) }}
             stroke={1.5}
           />
+        ),
+      },
+      {
+        visibility: NavLinkVisibility.ALL,
+        label: 'Validar brinde',
+        navId: 'validate_prize',
+        link: links.staff.validatePrize,
+        leftSection: (
+          <IconGift style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
         ),
       },
     ],

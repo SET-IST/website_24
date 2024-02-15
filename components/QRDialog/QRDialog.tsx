@@ -131,7 +131,7 @@ export function QRDialog() {
                           aspectRatio: { ideal: 1 },
                         }}
                         videoStyle={{
-                          'border-radius': '0.75rem',
+                          borderRadius: '0.75rem',
                         }}
                         onResult={(result, error) => {
                           if (result) {

@@ -61,7 +61,7 @@ const ProfilePage = () => {
         </Modal.Content>
       </Modal.Root>
 
-      {user.role === UserType.Student && (
+      {user.role && user.role !== UserType.Company && (
         <>
           <QRDialog />
           <PrizeDialog />

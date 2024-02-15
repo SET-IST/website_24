@@ -6,9 +6,7 @@ import {
   patchCompanyProfile,
 } from '@/lib/server/services/company'
 import { IPatchCompanyProfile } from '@/lib/server/services/company/dtos'
-import { CompanyCategory } from '@prisma/client'
-
-type Unpacked<T> = T extends (infer U)[] ? U : T
+import { Unpacked } from '../utils'
 
 // Get types from backend services
 export type CompanyProfile = Awaited<ReturnType<typeof getCompanyProfile>>

@@ -10,15 +10,15 @@ const links = {
     },
   },
   staff: {
-    redeem: '/staff/redeem',
+    validatePrize: '/staff/validate-prize',
     managePoints: '/staff/manage-points',
+    manageEnrollments: '/staff/manage-enrollments',
   },
   student: {
     scan: '/student/scan',
     profile: '/profile',
   },
   company: {
-    cvPlatform: '/company/cvs-explorer',
     profile: '/profile',
   },
   help: '/help',

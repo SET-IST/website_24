@@ -98,6 +98,7 @@ model User {
   role           UserType        @default(Student) //custom relation for roles of student and company
   studentDetails StudentDetails? //custom table with aditional info of student
   companyDetails CompanyDetails? //custom table with aditional info of company
+  EventLog       EventLog[]
 }
 
 model VerificationToken {
@@ -169,4 +170,20 @@ model Day {
   id        Int              @id @default(autoincrement())
   dateCode  String           @unique
   companies CompanyDetails[]
+}
+
+enum EventLogType {
+  POINTS
+  AWARDS
+  ENROLLMENTS
+}
+
+model EventLog {
+  id          Int          @id @default(autoincrement())
+  timestamp   DateTime
+  type        EventLogType
+  description String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }

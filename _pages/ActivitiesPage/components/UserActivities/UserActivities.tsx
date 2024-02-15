@@ -8,52 +8,14 @@ import {
 } from '@/lib/frontend/hooks/activities'
 import Activity from './Activity'
 import { useQueryClient } from '@tanstack/react-query'
-import {
-  showInfoNotification,
-  showSuccessNotification,
-} from '@/components/Notifications'
+import { showInfoNotification } from '@/components/Notifications'
 import { useSession } from 'next-auth/react'
 import { useBoundStore } from '@/lib/frontend/store'
-import { removeStudent } from '@/lib/server/services/activities'
 import {
   EnrollUserResponse,
   UnEnrollUserResponse,
 } from '@/lib/frontend/api/activities'
 import ActivitySkeleton from './ActivitySkeleton'
-
-// const activities: ActivityData[] = [
-//   {
-//     name: 'A evolução da Internet - Web3 e Blockchain',
-//     type: ActivityType.Lecture,
-//     desc: 'Segurança, transparência e independência: O futuro é Web3 e Blockchain',
-//     date: DateTime.now().plus({ days: 4 }),
-//     location: 'Palco',
-//   },
-//   {
-//     name: 'Speed Interview',
-//     type: ActivityType.SpeedInterview,
-//     desc: 'Worten e Caixa Geral',
-//     date: DateTime.now().plus({ days: 3, hours: 2, minutes: 11 }),
-//     location: 'Salas 0-67 e 0-69',
-//     studentEnrolled: StudentActivityStatus.NotEnrolled,
-//   },
-//   {
-//     name: 'Workshop',
-//     type: ActivityType.Workshop,
-//     desc: 'Magma Studios',
-//     date: DateTime.now().plus({ days: 3, hours: 2, minutes: 11 }),
-//     location: 'Salas 0-67 e 0-69',
-//     studentEnrolled: StudentActivityStatus.NotEnrolled,
-//   },
-//   {
-//     name: 'Speed Interview',
-//     type: ActivityType.SpeedInterview,
-//     desc: 'Worten e Caixa Geral',
-//     date: DateTime.now().plus({ days: 3, hours: 2, minutes: 11 }),
-//     location: 'Salas 0-67 e 0-69',
-//     studentEnrolled: StudentActivityStatus.NotEnrolled,
-//   },
-// ]
 
 const UserActivities = () => {
   const session = useSession()
