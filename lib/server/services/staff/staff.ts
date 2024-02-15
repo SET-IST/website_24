@@ -1,7 +1,7 @@
 import { PrismaService } from '@/core/services/server'
 import { databaseQueryWrapper } from '@/core/utils'
-import { getFullResourcePath } from '../../utils'
-import { UserType } from '@prisma/client'
+import { EventLogService, getFullResourcePath } from '../../utils'
+import { EventLogType, User, UserType } from '@prisma/client'
 import { getCompanyProfile } from '../company'
 import { getStudentProfile } from '../student'
 import { CreateAwardDto, UpdatePointsDto } from './dtos'
@@ -61,7 +61,11 @@ export async function getUserDetails(uuid: string) {
   })
 }
 
-export async function createAward(uuid: string, data: CreateAwardDto) {
+export async function createAward(
+  user: User,
+  uuid: string,
+  data: CreateAwardDto
+) {
   return await databaseQueryWrapper(async () => {
     // Check if student already has an award
     let prize = await PrismaService.awardToken.findUnique({
@@ -77,7 +81,7 @@ export async function createAward(uuid: string, data: CreateAwardDto) {
     if (prize)
       throw new ConflictException('Student already has an award pending')
 
-    return await PrismaService.awardToken.create({
+    const response = await PrismaService.awardToken.create({
       data: {
         type: data.type,
         student: {
@@ -87,6 +91,14 @@ export async function createAward(uuid: string, data: CreateAwardDto) {
         },
       },
     })
+
+    await EventLogService.logEvent(
+      user,
+      EventLogType.AWARDS,
+      `Created award ${response.id} (${response.type}) for student ${uuid}`
+    )
+
+    return response
   })
 }
 
@@ -115,7 +127,17 @@ export async function redeemAward(uuid: string) {
   })
 }
 
-export async function setStudentPoints(uuid: string, data: UpdatePointsDto) {
+export async function setStudentPoints(
+  user: User,
+  uuid: string,
+  data: UpdatePointsDto
+) {
+  await EventLogService.logEvent(
+    user,
+    EventLogType.POINTS,
+    `Updated points of student ${uuid} to ${data.points}`
+  )
+
   return await databaseQueryWrapper(async () => {
     await PrismaService.studentDetails.update({
       where: {

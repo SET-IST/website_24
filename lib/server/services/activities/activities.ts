@@ -1,6 +1,12 @@
 import { databaseQueryWrapper } from '@/core/utils'
 import { PrismaService } from '../../../../core/services/server'
-import { Activity, ActivityType, Prisma, UserType } from '@prisma/client'
+import {
+  Activity,
+  ActivityType,
+  EventLogType,
+  Prisma,
+  UserType,
+} from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from '@/lib/server/middleware'
 import type { User } from '@prisma/client'
@@ -12,7 +18,7 @@ import {
 } from 'next-api-decorators'
 import { PatchActivityDto } from './dtos'
 import { DateTime } from 'luxon'
-import { getFullResourcePath } from '@/lib/server/utils'
+import { EventLogService, getFullResourcePath } from '@/lib/server/utils'
 
 type ExtendedActivity = Activity & {
   confirmed?: boolean
@@ -229,10 +235,17 @@ export async function activityManagement(id: number) {
 }
 
 export async function patchEnrollment(
+  user: User,
   id: number,
   patchActivity: PatchActivityDto
 ) {
   return await databaseQueryWrapper(async () => {
+    await EventLogService.logEvent(
+      user,
+      EventLogType.ENROLLMENTS,
+      `Updated enrollment state of user ${patchActivity.userId} to ${patchActivity.action} at activity with id ${id}`
+    )
+
     if (patchActivity.action != 'DISCARD') {
       const confirmed = patchActivity.action == 'CONFIRM'
 

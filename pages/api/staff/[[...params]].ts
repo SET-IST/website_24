@@ -1,4 +1,4 @@
-import { handleApiException } from '@/core/utils'
+import { UserData, handleApiException } from '@/core/utils'
 import {
   BadRequestException,
   Body,
@@ -17,6 +17,7 @@ import {
 } from '@/lib/server/middleware'
 import * as StaffService from '@/lib/server/services/staff'
 import { isUUID } from 'class-validator'
+import type { User } from '@prisma/client'
 
 @Catch(handleApiException)
 @RequiresSession()
@@ -41,20 +42,22 @@ class StaffRoutes {
 
   @Patch('/users/:uuid/set-points')
   public async setStudentPoints(
+    @UserData() user: User,
     @Param('uuid') uuid: string,
     @Body(RestrictedValidationPipe) data: StaffService.UpdatePointsDto
   ) {
     if (!isUUID(uuid)) throw new BadRequestException('Invalid user id')
-    return await StaffService.setStudentPoints(uuid, data)
+    return await StaffService.setStudentPoints(user, uuid, data)
   }
 
   @Post('/users/:uuid/create-award')
   public async createAward(
+    @UserData() user: User,
     @Param('uuid') uuid: string,
     @Body(RestrictedValidationPipe) data: StaffService.CreateAwardDto
   ) {
     if (!isUUID(uuid)) throw new BadRequestException('Invalid user id')
-    return await StaffService.createAward(uuid, data)
+    return await StaffService.createAward(user, uuid, data)
   }
 
   @Get('/redeem/:uuid')
