@@ -112,14 +112,7 @@ export async function getStudentEnrollments(user: User) {
             activityId: true,
             confirmed: true,
             activity: {
-              select: {
-                id: true,
-                title: true,
-                description: true,
-                date: true,
-                duration: true,
-                location: true,
-                type: true,
+              include: {
                 companies: {
                   select: {
                     user: {
