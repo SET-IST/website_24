@@ -9,19 +9,19 @@ interface TeamMemberProps {
 }
 
 const TeamMember = ({ data }: TeamMemberProps) => {
+  const bottom = data.customImagePosition?.split(' ')[1] ?? '-45px'
+
   return (
     <div className="flex flex-col items-center min-w-fit">
-      <div className="flex flex-col items-center justify-center h-36 w-36 overflow-clip rounded-full">
-        <Image
+      <div className="relative h-36 w-36 overflow-clip rounded-full">
+        <div
           style={{
-            objectPosition: data.customImagePosition ?? '50% -30px',
-            objectFit: 'none',
+            bottom: bottom,
           }}
-          src={data.image}
-          alt={data.name}
-          height={200}
-          width={200}
-        />
+          className="absolute h-36 w-36 scale-[2]"
+        >
+          <Image src={data.image} alt="Logo" style={{ objectFit: 'cover' }} />
+        </div>
       </div>
 
       <Text c="#00415a" ta="center" fz="xl" mt="sm" fw={600}>

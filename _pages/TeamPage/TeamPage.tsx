@@ -15,7 +15,7 @@ const TeamPage = () => {
   return (
     <div
       className={cn(
-        'flex flex-col items-center gap-8 py-16 px-5 md:px-32 lg:px-40 bg-[color:var(--mantine-color-white)]'
+        'flex flex-col items-center gap-8 py-16 px-5 md:px-32 lg:px-32 bg-[color:var(--mantine-color-white)]'
       )}
     >
       <Header />

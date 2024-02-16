@@ -102,7 +102,7 @@ const coordenacao: IDepartment = {
     {
       name: 'Beatriz Venceslau',
       image: BeatrizVenceslau,
-      customImagePosition: '50% -80px',
+      customImagePosition: '50% -5px',
       role: 'Coordenadora Financeira',
       linkedin: 'https://www.linkedin.com/in/beatriz-venceslau/',
     },
@@ -129,6 +129,7 @@ const logistica: IDepartment = {
     {
       name: 'Fábio Soares',
       image: FabioSoares,
+      customImagePosition: '50% -35px',
       role: 'Coordenador',
       linkedin:
         'https://www.linkedin.com/in/fábio-alexandre-oliveira-soares-57545126a',
@@ -144,6 +145,7 @@ const logistica: IDepartment = {
     {
       name: 'Afonso Virtuoso',
       image: AfonsoVirtuoso,
+      customImagePosition: '50% -55px',
       role: 'Colaborador',
       linkedin:
         'https://www.linkedin.com/in/afonso-virtuoso-327042257?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
@@ -151,12 +153,14 @@ const logistica: IDepartment = {
     {
       name: 'Bruno Silva',
       image: BrunoSilva,
+      customImagePosition: '50% -20px',
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/bruno-silva-278907253',
     },
     {
       name: 'Diogo Marques',
       image: DiogoMarques,
+      customImagePosition: '50% -20px',
       role: 'Colaborador',
       linkedin: '',
     },
@@ -169,36 +173,42 @@ const logistica: IDepartment = {
     {
       name: 'Inês Coelho',
       image: InesCoelho,
+      customImagePosition: '50% -30px',
       role: 'Colaboradora',
       linkedin: 'https://linkedin.com/in/inescoelho03',
     },
     {
       name: 'João Lobato',
       image: JoaoLobato,
+      customImagePosition: '50% -40px',
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/joao-rafael-lobato',
     },
     {
       name: 'João Oliveira',
       image: JoaoOliveira,
+      customImagePosition: '50% -30px',
       role: 'Colaborador',
       linkedin: '',
     },
     {
       name: 'Maria João Leite',
       image: MariaJoaoLeite,
+      customImagePosition: '50% -50px',
       role: 'Colaboradora',
       linkedin: '',
     },
     {
       name: 'Marta Abreu',
       image: MartaAbreu,
+      customImagePosition: '50% -40px',
       role: 'Colaboradora',
       linkedin: 'https://www.linkedin.com/in/marta-alexandra-abreu',
     },
     {
       name: 'Matilde Luís',
       image: MatildeLuis,
+      customImagePosition: '50% -30px',
       role: 'Colaboradora',
       linkedin: '',
     },
@@ -212,12 +222,14 @@ const logistica: IDepartment = {
     {
       name: 'Samuel Sousa',
       image: SamuelSousa,
+      customImagePosition: '50% -30px',
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/samuelsousa99037/',
     },
     {
       name: 'Sofia Costa',
       image: SofiaCosta,
+      customImagePosition: '50% -30px',
       role: 'Colaboradora',
       linkedin: 'https://www.linkedin.com/in/sofia-t-costa/',
     },
@@ -248,7 +260,7 @@ const marketingDesign: IDepartment = {
     {
       name: 'Carolina Serpa',
       image: CarolinaSerpa,
-      customImagePosition: '50% -50px',
+      customImagePosition: '50% -25px',
       role: 'Colaboradora',
       linkedin: '',
     },
@@ -257,17 +269,19 @@ const marketingDesign: IDepartment = {
       image: DenysTsiple,
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/denys-undefined-aa5b26275',
+      customImagePosition: '50% -35px',
     },
     {
       name: 'Evanette Evaristo',
       image: EvanetteEvaristo,
       role: 'Colaboradora',
       linkedin: 'https://www.linkedin.com/in/evanette-evaristo-19760023a',
+      customImagePosition: '50% -35px',
     },
     {
       name: 'Gabriel Gabriel',
       image: GabrielGabriel,
-      customImagePosition: '50% 0px',
+      customImagePosition: '50% -70px',
       role: 'Colaborador',
       linkedin:
         'https://www.linkedin.com/in/gabriel-gabriel-bb261a25a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
@@ -275,20 +289,21 @@ const marketingDesign: IDepartment = {
     {
       name: 'Maria Costa',
       image: MariaCosta,
-      customImagePosition: '50% -60px',
+      customImagePosition: '50% -20px',
       role: 'Colaboradora',
       linkedin: '',
     },
     {
       name: 'Matilde Capelo',
       image: MatildeCapelo,
+      customImagePosition: '50% -35px',
       role: 'Colaboradora',
       linkedin: 'https://www.linkedin.com/in/matilde-lopes-633207241/',
     },
     {
       name: 'Nicole Fernandes',
       image: NicoleFernandes,
-      customImagePosition: '50% -60px',
+      customImagePosition: '50% -20px',
       role: 'Colaboradora',
       linkedin:
         'https://www.linkedin.com/in/nicole-fernandes-figueiredo-869abb234?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
@@ -311,28 +326,28 @@ const people: IDepartment = {
     {
       name: 'António Toste',
       image: AntonioToste,
-      customImagePosition: '50% -70px',
+      customImagePosition: '50% -20px',
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/antonio-toste/',
     },
     {
       name: 'Ema Pinheiro',
       image: EmaPinheiro,
-      customImagePosition: '50% -60px',
+      customImagePosition: '50% -20px',
       role: 'Colaboradora',
       linkedin: 'https://linkedin.com/in/ema-pinheiro-77879a256',
     },
     {
       name: 'Lia Neves',
       image: LiaNeves,
-      customImagePosition: '55% -40px',
+      customImagePosition: '55% -35px',
       role: 'Colaboradora',
       linkedin: 'https://www.linkedin.com/in/lia-neves1123',
     },
     {
       name: 'Manuel Dias',
       image: ManuelDias,
-      customImagePosition: '50% -50px',
+      customImagePosition: '50% -30px',
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/manuelmldias',
     },
@@ -346,14 +361,14 @@ const relacoesExternas: IDepartment = {
     {
       name: 'Martim Abreu',
       image: MartimAbreu,
-      customImagePosition: '45% -60px',
+      customImagePosition: '45% -30px',
       role: 'Coordenador',
       linkedin: 'https://www.linkedin.com/in/martim-abreu-4b8a29225/',
     },
     {
       name: 'Beatriz Pinto',
       image: BeatrizPinto,
-      customImagePosition: '50% -60px',
+      customImagePosition: '50% -20px',
       role: 'Coordenadora - Oradores',
       linkedin: 'https://www.linkedin.com/in/beatriz-ra-pinto/',
     },
@@ -387,20 +402,21 @@ const relacoesExternas: IDepartment = {
     {
       name: 'Carolina Cruz',
       image: CarolinaCruz,
+      customImagePosition: '45% -35px',
       role: 'Colaboradora',
       linkedin: 'https://www.linkedin.com/in/carolina-pinto-da-cruz-1b690b250/',
     },
     {
       name: 'Dorisa Silva',
       image: DorisaSilva,
-      customImagePosition: '45% -65px',
+      customImagePosition: '45% -25px',
       role: 'Colaboradora',
       linkedin: 'https://pt.linkedin.com/in/dorisa-silva-026574213',
     },
     {
       name: 'Francisco Silva',
       image: FranciscoSilva,
-      customImagePosition: '53% -15px',
+      customImagePosition: '53% -55px',
       role: 'Colaborador',
       linkedin:
         'https://www.linkedin.com/in/francisco-nogueira-da-silva?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
@@ -408,13 +424,14 @@ const relacoesExternas: IDepartment = {
     {
       name: 'Guadalupe Paramos',
       image: GuadalupeParamos,
-      customImagePosition: '50% 0px',
+      customImagePosition: '50% -60px',
       role: 'Colaboradora',
       linkedin: 'https://www.linkedin.com/in/guadalupeparamos',
     },
     {
       name: 'João Morais',
       image: JoaoMorais,
+      customImagePosition: '50% -30px',
       role: 'Colaborador',
       linkedin: '',
     },
@@ -434,7 +451,7 @@ const relacoesExternas: IDepartment = {
     {
       name: 'Nuno Monteiro',
       image: NunoMonteiro,
-      customImagePosition: '45% -50px',
+      customImagePosition: '45% -30px',
       role: 'Colaborador',
       linkedin: '',
     },
@@ -443,12 +460,12 @@ const relacoesExternas: IDepartment = {
       image: SaraMarques,
       role: 'Colaboradora',
       linkedin: '',
-      customImagePosition: '45% -50px',
+      customImagePosition: '45% -30px',
     },
     {
       name: 'Tomás Carvalho',
       image: TomasCarvalho,
-      customImagePosition: '50% -60px',
+      customImagePosition: '50% -20px',
       role: 'Colaborador',
       linkedin:
         'https://www.linkedin.com/in/tomasrvcarvalho?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
@@ -458,7 +475,7 @@ const relacoesExternas: IDepartment = {
       image: TomasMorais,
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/tomasamorais/',
-      customImagePosition: '50% -55px',
+      customImagePosition: '50% -25px',
     },
   ],
 }
@@ -470,7 +487,7 @@ const suporteInformatico: IDepartment = {
     {
       name: 'Gonçalo Silva',
       image: GoncaloSilva,
-      customImagePosition: '50% -30px',
+      customImagePosition: '50% -50px',
       role: 'Coordenador',
       linkedin: 'https://www.linkedin.com/in/goncaloacbs/',
     },
@@ -480,7 +497,7 @@ const suporteInformatico: IDepartment = {
     {
       name: 'Afonso Pires',
       image: AfonsoPires,
-      customImagePosition: '50% -50px',
+      customImagePosition: '50% -30px',
       role: 'Colaborador',
       linkedin:
         'https://www.linkedin.com/in/afonso-pires-b155a2222?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
@@ -501,6 +518,7 @@ const suporteInformatico: IDepartment = {
     {
       name: 'Miguel Vale',
       image: MiguelVale,
+      customImagePosition: '50% -30px',
       role: 'Colaborador',
       linkedin:
         'https://www.linkedin.com/in/miguel-vale-71090824b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
@@ -508,19 +526,21 @@ const suporteInformatico: IDepartment = {
     {
       name: 'Renato Marques',
       image: RenatoMarques,
+      customImagePosition: '50% -40px',
       role: 'Colaborador',
       linkedin: '',
     },
     {
       name: 'Ricardo Horta',
       image: RicardoHorta,
-      customImagePosition: '55% -30px',
+      customImagePosition: '55% -50px',
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/ricardo-horta-9b2825254',
     },
     {
       name: 'Rodrigo Alves',
       image: RodrigoAlves,
+      customImagePosition: '50% -35px',
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/rodrigo-alves-975562223/',
     },
@@ -549,42 +569,42 @@ const embaixadores: IDepartment = {
       image: AfonsoMelo,
       role: 'Embaixador',
       linkedin: 'www.linkedin.com/in/afonsodemello',
-      customImagePosition: '50% -30px',
+      customImagePosition: '50% -50px',
     },
     {
       name: 'Ana Cordeiro',
       image: AnaCordeiro,
       role: 'Embaixadora',
       linkedin: 'https://www.linkedin.com/in/maria-teresa-madeira-',
-      customImagePosition: '50% -50px',
+      customImagePosition: '50% -30px',
     },
     {
       name: 'Guilherme Soares',
       image: GuilhermeSoares,
       role: 'Embaixador',
       linkedin: 'https://www.linkedin.com/in/guilherme-m-soares/',
-      customImagePosition: '50% -50px',
+      customImagePosition: '50% -30px',
     },
     {
       name: 'Inês Marques',
       image: InesMarques,
       role: 'Embaixadora',
       linkedin: '',
-      customImagePosition: '50% -55px',
+      customImagePosition: '50% -25px',
     },
     {
       name: 'Inês Tomaz',
       image: InesTomaz,
       role: 'Embaixadora',
       linkedin: 'https://www.linkedin.com/in/in%C3%AAs-tomaz-39b9b1261/',
-      customImagePosition: '50% -60px',
+      customImagePosition: '50% -20px',
     },
     {
       name: 'Vhir Jahit',
       image: VhirJahit,
       role: 'Embaixador',
       linkedin: 'www.linkedin.com/in/vhir-sacarlal-9395aa278',
-      customImagePosition: '50% -20px',
+      customImagePosition: '50% -55px',
     },
   ],
 }
