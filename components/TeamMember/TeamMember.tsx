@@ -25,6 +25,7 @@ const TeamMember = ({ data }: TeamMemberProps) => {
             alt="Logo"
             style={{ objectFit: 'cover' }}
             quality={50}
+            placeholder="blur"
           />
         </div>
       </div>
