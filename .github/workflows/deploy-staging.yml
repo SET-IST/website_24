@@ -72,13 +72,13 @@ jobs:
           file: Dockerfile
           push: true
           # List of secrets to expose to the build (e.g., key=string, GIT_AUTH_TOKEN=mytoken)
-          # Bundle client exposed variables
-          secrets: |
-            "NEXT_PUBLIC_API_BASE_URL=${{ vars.API_ENDPOINT_STAG }}"
+          #secrets: # optional
           # List of tags
           #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:${GITHUB_REF#refs/*/}"
           #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest"
           #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:v0.0.0"
+          build-args: |
+            "NEXT_PUBLIC_API_BASE_URL=${{ vars.API_ENDPOINT_STAG }}"
           tags: |
             "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest-main"
             "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:${{ steps.tag.outputs.tag }}"
