@@ -21,10 +21,10 @@ const TeamMember = ({ data }: TeamMemberProps) => {
           className="absolute h-36 w-36 scale-[2]"
         >
           <Image
-            priority
             src={data.image}
             alt="Logo"
             style={{ objectFit: 'cover' }}
+            quality={50}
           />
         </div>
       </div>
