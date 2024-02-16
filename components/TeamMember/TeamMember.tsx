@@ -11,16 +11,18 @@ interface TeamMemberProps {
 const TeamMember = ({ data }: TeamMemberProps) => {
   return (
     <div className="flex flex-col items-center min-w-fit">
-      <Image
-        src={data.image.src}
-        alt={data.name}
-        width={300}
-        height={300}
-        className="object-none rounded-full w-36 h-36 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 my-2"
-        style={{
-          objectPosition: data.customImagePosition ?? '50% -40px',
-        }}
-      />
+      <div className="w-36 h-36 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full overflow-clip">
+        <Image
+          height={300}
+          width={300}
+          src={data.image.src}
+          alt="Picture of the author"
+          style={{
+            objectFit: 'none',
+            objectPosition: data.customImagePosition ?? '50% -30px',
+          }}
+        />
+      </div>
 
       <Text c="#00415a" ta="center" fz="xl" mt="sm" fw={600}>
         {data.name}

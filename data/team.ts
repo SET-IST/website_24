@@ -233,6 +233,7 @@ const marketingDesign: IDepartment = {
       image: AndreiaAzevedo,
       role: 'Coordenadora',
       linkedin: 'https://www.linkedin.com/in/andreiasilvaazevedo',
+      customImagePosition: '50% -45px',
     },
     {
       name: 'Pedro Gomes',
@@ -240,6 +241,7 @@ const marketingDesign: IDepartment = {
       role: 'Coordenador',
       linkedin:
         'https://www.linkedin.com/in/pedro-gomes-25727516b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
+      customImagePosition: '50% -45px',
     },
   ],
   members: [
@@ -441,6 +443,7 @@ const relacoesExternas: IDepartment = {
       image: SaraMarques,
       role: 'Colaboradora',
       linkedin: '',
+      customImagePosition: '45% -50px',
     },
     {
       name: 'Tomás Carvalho',
@@ -455,6 +458,7 @@ const relacoesExternas: IDepartment = {
       image: TomasMorais,
       role: 'Colaborador',
       linkedin: 'https://www.linkedin.com/in/tomasamorais/',
+      customImagePosition: '50% -55px',
     },
   ],
 }
