@@ -2,40 +2,29 @@ import { Carousel } from '@mantine/carousel'
 import Autoplay from 'embla-carousel-autoplay'
 import Image from 'next/image'
 
-// Include logos here
-import hccm from '@/assets/logos/empresas/hccm.webp'
-import indie from '@/assets/logos/empresas/indie_campers.webp'
-import deloitte from '@/assets/logos/empresas/deloitte.webp'
-import siscog from '@/assets/logos/empresas/siscog.webp'
-import celfocus from '@/assets/logos/empresas/celfocus.webp'
-import accenture from '@/assets/logos/empresas/accenture.webp'
-import brighten from '@/assets/logos/empresas/brighten.webp'
-
 import classes from './carousel.module.css'
 import { useRef } from 'react'
-
-const images = [
-  hccm.src,
-  indie.src,
-  deloitte.src,
-  siscog.src,
-  celfocus.src,
-  accenture.src,
-  brighten.src,
-]
+import { homeCompaniesSlider } from '@/data/companies'
 
 interface CompaniesCarouselProps {
   isMobile: boolean
 }
 
 export function CompaniesCarousel({ isMobile }: CompaniesCarouselProps) {
-  const autoplay = useRef(Autoplay({ delay: 2000 }))
+  const autoplay = useRef(
+    Autoplay({
+      delay: 2000,
+      stopOnInteraction: false,
+      stopOnLastSnap: false,
+      stopOnMouseEnter: true,
+    })
+  )
   const logoSize = isMobile ? 160 : 140
-  const slides = images.map((url) => (
-    <Carousel.Slide key={url}>
+  const slides = homeCompaniesSlider.map((img, index) => (
+    <Carousel.Slide key={`company_${index}`}>
       <div className="h-full w-full flex flex-col items-center justify-center">
         <Image
-          src={url}
+          src={img.src}
           alt="Picture of the author"
           height={logoSize}
           width={logoSize}
@@ -50,14 +39,12 @@ export function CompaniesCarousel({ isMobile }: CompaniesCarouselProps) {
         plugins={[autoplay.current]}
         slideSize={isMobile ? '100%' : '20%'}
         height="100%"
-        style={{ flex: 1 }}
+        style={{ flex: 1, width: '100%' }}
         classNames={classes}
         slideGap="md"
         loop
         withIndicators={!isMobile}
         withControls={isMobile}
-        onMouseEnter={autoplay.current.stop}
-        onMouseLeave={autoplay.current.reset}
       >
         {slides}
       </Carousel>

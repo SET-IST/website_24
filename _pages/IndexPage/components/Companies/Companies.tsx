@@ -13,7 +13,7 @@ export default function CompaniesSection() {
         <Container p={0}>
           <Text size={isMobile ? 'md' : 'lg'} className={classes.description}>
             Todos os anos estão presentes no evento{' '}
-            <strong className="text-[#009bd6]">mais de 30 empresas</strong> dos
+            <strong className="text-[#009bd6]">mais de 50 empresas</strong> dos
             mais <strong className="text-[#009bd6]">diversos setores</strong>
           </Text>
         </Container>
