@@ -31,6 +31,7 @@ import {
 } from '../Notifications'
 import { useBoundStore } from '@/lib/frontend/store'
 import { FileWithPath } from '@mantine/dropzone'
+import { isPhoneNumber } from 'class-validator'
 
 interface FormValues {
   name?: string
@@ -40,6 +41,7 @@ interface FormValues {
   profileImage?: FileWithPath
   cv?: File | null
   termsOfService: boolean
+  phoneNumber?: string | null
 }
 
 const StudentSettingsForm = () => {
@@ -53,18 +55,33 @@ const StudentSettingsForm = () => {
   const { data: user } = useProfile()
   const student = user as StudentProfile
 
-  const schema = Yup.object().shape({
-    name: Yup.string().min(2, 'O nome deve ter pelo menos 2 caracteres'),
-    email: Yup.string()
-      .required('É necessário fornecer um endereço válido')
-      .email('Endereço inválido'),
-    courseCode: Yup.string().required('É necessário selecionar um curso'),
-    termsOfService: Yup.boolean().when([], {
-      is: () => form.isDirty('cv'),
-      then: (schema) =>
-        schema.isTrue('É necessário aceitar os termos e condições'),
-    }),
-  })
+  const schema = Yup.object().shape(
+    {
+      name: Yup.string().min(2, 'O nome deve ter pelo menos 2 caracteres'),
+      email: Yup.string()
+        .required('É necessário fornecer um endereço válido')
+        .email('Endereço inválido'),
+      courseCode: Yup.string().required('É necessário selecionar um curso'),
+      termsOfService: Yup.boolean().when([], {
+        is: () => form.isDirty('cv'),
+        then: (schema) =>
+          schema.isTrue('É necessário aceitar os termos e condições'),
+      }),
+      phoneNumber: Yup.string().when('phoneNumber', (val, schema) => {
+        const value = val[0]
+        if (value && value.length > 0) {
+          return Yup.string().test(
+            'phone',
+            () => `Este contacto é inválido`,
+            (value) => !!value && isPhoneNumber(value)
+          )
+        } else {
+          return Yup.string().notRequired()
+        }
+      }),
+    },
+    [['phoneNumber', 'phoneNumber']]
+  )
 
   const form = useForm<FormValues>({
     validate: yupResolver(schema),
@@ -76,8 +93,22 @@ const StudentSettingsForm = () => {
       profileImage: undefined,
       cv: undefined,
       termsOfService: false,
+      phoneNumber: student?.studentDetails?.phoneNumber,
     },
   })
+
+  useEffect(() => {
+    form.initialize({
+      name: student?.name,
+      email: student?.email,
+      institutionCode: student?.studentDetails?.university,
+      courseCode: student?.studentDetails?.course,
+      profileImage: undefined,
+      cv: undefined,
+      termsOfService: false,
+      phoneNumber: student?.studentDetails?.phoneNumber,
+    })
+  }, [student])
 
   const { data: institutions } = useInstitutions()
   const { data: courses } = useCourses(form.values.institutionCode)
@@ -164,7 +195,7 @@ const StudentSettingsForm = () => {
               value: course.code,
               label: course.name,
             }))}
-            defaultValue={form.values.institutionCode}
+            value={form.values.institutionCode}
             defaultSearchValue={
               getInstitution(form.values.institutionCode)?.name
             }
@@ -196,6 +227,22 @@ const StudentSettingsForm = () => {
 
         <Divider mt={12} />
 
+        <TextInput
+          className="w-full"
+          label="Contacto"
+          description="Vamos usar este número para contactar-te e confirmar as tuas inscrições nas atividades"
+          inputMode="tel"
+          placeholder="+351"
+          {...form.getInputProps('phoneNumber')}
+          onChange={(e) => {
+            const value = e.target.value
+            form.setFieldValue(
+              'phoneNumber',
+              value ? (value.includes('+') ? value : `+351 ${value}`) : ''
+            )
+          }}
+        />
+
         <FileInput
           accept="application/pdf"
           onChange={(file) => form.setFieldValue('cv', file)}
@@ -205,7 +252,8 @@ const StudentSettingsForm = () => {
               stroke={1.5}
             />
           }
-          label="Gerir CV"
+          label="Atualizar CV"
+          description="O teu CV irá ser partilhado com as empresas a que deste scan ou durante as atividades (Speed Interviews / Workshops)"
           placeholder={
             student?.cv && student.cv.metadata
               ? student.cv.metadata['originalfilename']
