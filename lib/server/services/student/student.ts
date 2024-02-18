@@ -22,6 +22,7 @@ export async function getStudentProfile(user: User) {
             scans: true,
             points: true,
             cvLocation: true,
+            phoneNumber: true,
           },
         },
       },
@@ -57,6 +58,7 @@ export async function patchStudentProfile(
         },
         university: data.institutionCode,
         course: data.courseCode,
+        phoneNumber: data.phoneNumber,
       },
     })
     return { message: 'User profile updated' }

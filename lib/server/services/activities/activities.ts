@@ -208,6 +208,7 @@ export async function activityManagement(id: number) {
               student: {
                 select: {
                   id: true,
+                  phoneNumber: true,
                   userId: true,
                   user: true,
                 },
