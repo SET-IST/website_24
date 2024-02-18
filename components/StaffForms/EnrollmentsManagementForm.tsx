@@ -126,7 +126,7 @@ const EnrollmentsManagementForm = () => {
                           {enrollment.student.user.email}
                         </Text>
                         <Text c="dimmed" size="xs">
-                          {enrollment.userId}
+                          {enrollment.student.phoneNumber}
                         </Text>
                         {enrollment.confirmed && (
                           <Badge size="sm">CONFIRMADO</Badge>
