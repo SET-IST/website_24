@@ -108,6 +108,7 @@ const StudentSettingsForm = () => {
       termsOfService: false,
       phoneNumber: student?.studentDetails?.phoneNumber,
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [student])
 
   const { data: institutions } = useInstitutions()
