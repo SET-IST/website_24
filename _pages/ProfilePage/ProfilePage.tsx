@@ -13,6 +13,7 @@ import { UserType } from '@prisma/client'
 import { QRDialog } from '@/components/QRDialog'
 import { useEffect } from 'react'
 import { PrizeDialog } from '@/components/PrizeDialog'
+import { TCDialog } from '@/components/TCDialog'
 
 const ProfilePage = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
@@ -69,6 +70,8 @@ const ProfilePage = () => {
       )}
 
       {!!selectedCompany && !isMobile && <PreviewCard data={selectedCompany} />}
+
+      <TCDialog />
     </div>
   )
 }

@@ -5,12 +5,14 @@ export interface ProfileSlice {
   profileSettingsVisible: boolean
   scanModalVisible: boolean
   redeemModalVisible: boolean
+  tcModalVisible: boolean
 
   selectedCompany?: ScannedCompany
 
   showSettings: (show: boolean) => void
   showScanModal: (show: boolean) => void
   showRedeemModal: (show: boolean) => void
+  showTermsAndConditionsModal: (show: boolean) => void
   selectCompany: (company: ScannedCompany) => void
 }
 
@@ -24,6 +26,7 @@ export const createProfileSlice: StateCreator<
   selectedCompany: undefined,
   scanModalVisible: false,
   redeemModalVisible: false,
+  tcModalVisible: false,
   showSettings: (show) =>
     set({
       profileSettingsVisible: show,
@@ -39,5 +42,9 @@ export const createProfileSlice: StateCreator<
   selectCompany: (company) =>
     set({
       selectedCompany: company,
+    }),
+  showTermsAndConditionsModal: (show) =>
+    set({
+      tcModalVisible: show,
     }),
 })

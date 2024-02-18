@@ -11,6 +11,7 @@ import {
   FileInput,
   rem,
   Select,
+  Anchor,
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconFileCv } from '@tabler/icons-react'
@@ -49,6 +50,9 @@ const StudentSettingsForm = () => {
 
   // Local state management
   const showSettings = useBoundStore((state) => state.showSettings)
+  const showTermsAndConditions = useBoundStore(
+    (state) => state.showTermsAndConditionsModal
+  )
 
   // Queries
 
@@ -267,9 +271,20 @@ const StudentSettingsForm = () => {
           mt="sm"
           disabled={!form.isDirty('cv')}
           label={
-            <span>
-              Aceito os <strong>termos e condições</strong> da plataforma de CVs
-            </span>
+            <>
+              Aceito os{' '}
+              <Anchor
+                component="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  showTermsAndConditions(true)
+                }}
+                inherit
+              >
+                termos e condições
+              </Anchor>{' '}
+              da plataforma de CVs
+            </>
           }
           {...form.getInputProps('termsOfService', { type: 'checkbox' })}
         />
