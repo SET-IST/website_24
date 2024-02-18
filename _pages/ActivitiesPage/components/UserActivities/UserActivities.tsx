@@ -16,10 +16,15 @@ import {
   UnEnrollUserResponse,
 } from '@/lib/frontend/api/activities'
 import ActivitySkeleton from './ActivitySkeleton'
+import { User } from 'next-auth'
+import { UserType } from '@prisma/client'
+import { fetchStudentProfile } from '@/lib/frontend/api'
+import { CVDialog } from '@/components/CVDialog'
 
 const UserActivities = () => {
   const session = useSession()
   const showLogin = useBoundStore((state) => state.showLoginDialog)
+  const showCVDialog = useBoundStore((state) => state.showCVDialog)
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
 
   const currentDate = useBoundStore((state) => state.selectedDate)
@@ -38,11 +43,28 @@ const UserActivities = () => {
     error: unEnrollError,
   } = useUnEnrollStudent(queryClient)
 
-  const enrollStudent = (activityId: string) => {
+  const enrollStudent = async (activityId: string) => {
     if (session.status !== 'authenticated') {
       showLogin(true)
       return
     }
+
+    if (
+      session.data.user &&
+      (session.data.user as User).role === UserType.Company
+    )
+      return
+
+    const profile = await fetchStudentProfile()
+
+    if (
+      !profile?.studentDetails?.phoneNumber ||
+      !profile.studentDetails.cvLocation
+    ) {
+      showCVDialog(true)
+      return
+    }
+
     enroll(activityId).then((activity: EnrollUserResponse) => {
       showInfoNotification({
         title: 'Inscrição pendente de confirmação',
@@ -60,25 +82,28 @@ const UserActivities = () => {
     })
   }
   return (
-    <div className="flex bg-[#ffffff] sm:bg-[color:var(--mantine-color-white)] flex-col sm:gap-4 sm:h-[26rem] sm:overflow-scroll sm:rounded-lg sm:p-2 sm:py-4">
-      {!activities && (
-        <>
-          <ActivitySkeleton />
-          <ActivitySkeleton />
-          <ActivitySkeleton />
-          <ActivitySkeleton />
-        </>
-      )}
-      {activities?.map((activityData, index) => (
-        <Activity
-          key={`activity_${index}`}
-          data={activityData}
-          isMobile={isMobile}
-          enrollCallback={enrollStudent}
-          unEnrollCallback={unEnrollStudent}
-        />
-      ))}
-    </div>
+    <>
+      <div className="flex bg-[#ffffff] sm:bg-[color:var(--mantine-color-white)] flex-col sm:gap-4 sm:h-[26rem] sm:overflow-scroll sm:rounded-lg sm:p-2 sm:py-4">
+        {!activities && (
+          <>
+            <ActivitySkeleton />
+            <ActivitySkeleton />
+            <ActivitySkeleton />
+            <ActivitySkeleton />
+          </>
+        )}
+        {activities?.map((activityData, index) => (
+          <Activity
+            key={`activity_${index}`}
+            data={activityData}
+            isMobile={isMobile}
+            enrollCallback={enrollStudent}
+            unEnrollCallback={unEnrollStudent}
+          />
+        ))}
+      </div>
+      <CVDialog />
+    </>
   )
 }
 
