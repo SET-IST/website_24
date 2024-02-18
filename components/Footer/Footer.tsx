@@ -15,26 +15,26 @@ export default function Footer() {
           </div>
           <div className="flex flex-col gap-0">
             <Text className={classes.title}>Contactos</Text>
-            <span>+351 214 233 759 (5179)</span>
             <span>
               <strong>geral@set-tagus.tecnico.ulisboa.pt</strong>
             </span>
+            <span>+351 964 270 753 | +351 924 156 199</span>
           </div>
           <div className="flex flex-col gap-1 sm:gap-0">
             <Text className={classes.title}>Ajuda</Text>
-            <Text<'a'>
+            {/* <Text<'a'>
               className={classes.link}
               component="a"
               href="#"
               onClick={(event) => event.preventDefault()}
             >
               FAQ
-            </Text>
-            <Text<'a'>
+            </Text> */}
+            <Text
               className={classes.link}
               component="a"
-              href="#"
-              onClick={(event) => event.preventDefault()}
+              target="_blank"
+              href="https://forms.gle/77rwxPZ7tTMSrci48"
             >
               Reportar um bug
             </Text>

@@ -9,6 +9,7 @@ import {
   Divider,
   rem,
   Textarea,
+  CloseButton,
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconLink } from '@tabler/icons-react'
@@ -85,6 +86,20 @@ const CompanySettingsForm = () => {
       }
     })
 
+    updatedValues = {
+      ...updatedValues,
+      linkHref:
+        updatedValues.linkHref && updatedValues.linkHref.length == 0
+          ? null
+          : updatedValues.linkHref,
+      linkText:
+        updatedValues.linkText && updatedValues.linkText.length == 0
+          ? null
+          : updatedValues.linkText,
+    }
+
+    console.log(updatedValues)
+
     updateProfileData(updatedValues).then(() => {
       showSettings(false)
       showSuccessNotification({
@@ -92,6 +107,12 @@ const CompanySettingsForm = () => {
       })
     })
   }
+
+  const clearLink = () =>
+    form.setValues({
+      linkHref: '',
+      linkText: '',
+    })
 
   useEffect(() => {
     if (isError) {
@@ -145,6 +166,11 @@ const CompanySettingsForm = () => {
           <TextInput
             leftSection={
               <IconLink style={{ width: rem(16), height: rem(16) }} />
+            }
+            rightSection={
+              !!form.values.linkHref && (
+                <CloseButton aria-label="Clear input" onClick={clearLink} />
+              )
             }
             description="URL"
             className="w-full"

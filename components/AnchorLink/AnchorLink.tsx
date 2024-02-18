@@ -20,7 +20,7 @@ const AnchorLink = ({ label, href, preview }: AnchorLinkProps) => {
       )}
       fz="sm"
       fw={600}
-      href={href ?? '#'}
+      href={!disabled ? href : undefined}
       target="_blank"
     >
       <span className="flex flex-row gap-1">

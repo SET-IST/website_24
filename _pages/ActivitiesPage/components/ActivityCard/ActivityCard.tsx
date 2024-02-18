@@ -32,7 +32,7 @@ const ActivityCard = ({
       >
         <div className="flex flex-col gap-4">
           <Title className={classes.title}>{title}</Title>
-          <Container className="!max-w-lg" p={0}>
+          <Container p={0}>
             <Text size={isMobile ? 'md' : 'lg'} className={classes.description}>
               {children}
             </Text>

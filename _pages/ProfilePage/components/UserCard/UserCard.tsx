@@ -1,4 +1,13 @@
-import { Avatar, Text, Button, Paper, Skeleton, em } from '@mantine/core'
+import {
+  Avatar,
+  Text,
+  Button,
+  Paper,
+  Skeleton,
+  em,
+  ScrollArea,
+  Overlay,
+} from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconQrcode } from '@tabler/icons-react'
 import UserStats from './UserStats'
@@ -45,27 +54,30 @@ const UserCard = () => {
           className="flex flex-col items-center gap-2"
           visible={isUserLoading}
         >
-          <Text
-            className="sm:min-w-[18rem]"
-            ta="center"
-            c="dimmed"
-            fw={500}
-            fz="sm"
-          >
-            {user?.role === UserType.Company
-              ? (user as CompanyProfile)?.companyDetails?.description ||
-                'Sem descrição da empresa'
-              : getCourse(
-                  (user as StudentProfile)?.studentDetails?.university,
-                  (user as StudentProfile)?.studentDetails?.course
-                )?.name ?? ''}
-          </Text>
+          <div className="relative h-fit pb-4 max-h-16 overflow-y-auto">
+            <div className="fixed bottom-6 left-0 right-0 bg-[var(--mantine-color-white)] blur-sm h-5"></div>
+            <Text
+              className="sm:min-w-[18rem]"
+              ta="center"
+              c="dimmed"
+              fw={500}
+              fz="sm"
+            >
+              {user?.role === UserType.Company
+                ? (user as CompanyProfile)?.companyDetails?.description ||
+                  'Sem descrição da empresa'
+                : getCourse(
+                    (user as StudentProfile)?.studentDetails?.university,
+                    (user as StudentProfile)?.studentDetails?.course
+                  )?.name ?? ''}
+            </Text>
+          </div>
 
           {user?.role === UserType.Company && (
             <AnchorLink
               preview={false}
               label={(user as CompanyProfile)?.companyDetails?.linkText}
-              href={(user as CompanyProfile)?.companyDetails?.linkHref ?? '#'}
+              href={(user as CompanyProfile)?.companyDetails?.linkHref}
             />
           )}
         </Skeleton>

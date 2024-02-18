@@ -20,8 +20,8 @@ const OurMissionSection = () => {
   const router = useRouter()
 
   return (
-    <div className="flex flex-col-reverse sm:flex-row justify-center items-stretch">
-      <div className="flex flex-col justify-between items-start gap-4 p-4 sm:p-8 py-8 bg-[#00415a]">
+    <div className="flex flex-col-reverse sm:flex-row justify-center sm:justify-stretch items-stretch">
+      <div className="grow flex flex-col justify-between items-start gap-4 p-4 sm:p-8 py-8 bg-[#00415a]">
         <div className="flex flex-col gap-4">
           <Title className={classes.title}>A nossa missão</Title>
           <Container p={0}>
