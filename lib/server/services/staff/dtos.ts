@@ -1,8 +1,9 @@
 import { AwardType } from '@prisma/client'
-import { IsIn, IsPositive, IsUUID, Max } from 'class-validator'
+import { IsIn, IsInt, Max, Min } from 'class-validator'
 
 export class UpdatePointsDto {
-  @IsPositive()
+  @IsInt()
+  @Min(0)
   @Max(1000)
   points!: number
 }

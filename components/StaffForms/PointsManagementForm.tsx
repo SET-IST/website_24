@@ -23,7 +23,8 @@ const PointsManagementForm = () => {
       .uuid('UUID inválido')
       .required('É necessário fornecer um UUID válido'),
     points: Yup.number()
-      .positive('O número de pontos tem de ser positivo')
+      .integer('O número de pontos tem de ser inteiro')
+      .min(0, 'O número de pontos tem de ser positivo')
       .max(1000, 'Valor máximo de pontos: 1000'),
   })
 
@@ -59,7 +60,7 @@ const PointsManagementForm = () => {
   }
 
   const updateStudentPoints = (values: FormValues) => {
-    if (!values.uuid || !values.points) return
+    if (!values.uuid || (!values.points && values.points != 0)) return
 
     updatePoints({
       uuid: values.uuid,
