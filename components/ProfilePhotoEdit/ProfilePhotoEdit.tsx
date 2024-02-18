@@ -18,11 +18,17 @@ const ProfilePhotoEdit = (
 
   const imageUrl = file ? URL.createObjectURL(file) : undefined
 
+  const propsWithoutExtensions = {
+    ...props,
+    callback: undefined,
+    currentImage: undefined,
+  }
+
   return (
     <Input.Wrapper label="Fotografia de perfil">
       <div className="flex flex-row items-center gap-2">
         <Dropzone
-          {...props}
+          {...propsWithoutExtensions}
           className="max-w-sm"
           onDrop={(files) => {
             setFile(files[0])
