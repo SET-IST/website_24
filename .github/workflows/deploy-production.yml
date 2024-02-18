@@ -21,11 +21,15 @@ jobs:
           # DATABASE
           echo DATABASE_URL="postgresql://${{ vars.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}/${{ vars.DB_NAME_PROD }}?schema=public" >> env
 
-          # S3 (MinIO instance)
-          echo S3_HOST="${{ vars.S3_HOST }}" >> env
-          echo S3_BUCKET="${{ vars.S3_BUCKET }}" >> env
-          echo S3_ACS_KEY="${{ vars.S3_ACS_KEY }}" >> env
-          echo S3_ACS_SCRT="${{ secrets.S3_ACS_SCRT }}" >> env
+          # EDGE STORE
+          echo EDGE_STORE_BASE_URL="${{ vars.ES_BASE_URL }}" >> env
+          echo EDGE_STORE_JWT_SECRET="${{ secrets.ES_SECRET }}" >> env
+
+          # AWS S3
+          echo ES_AWS_ACCESS_KEY_ID="${{ vars.S3_KEY }}" >> env
+          echo ES_AWS_SECRET_ACCESS_KEY="${{ secrets.S3_SECRET }}" >> env
+          echo ES_AWS_BUCKET_NAME="${{ vars.S3_BUCKET }}" >> env
+          echo ES_AWS_REGION="${{ vars.S3_REGION }}" >> env
 
           # AUTHENTICATION
           echo NEXTAUTH_URL="${{ vars.NEXTAUTH_URL_PROD }}" >> env
@@ -37,10 +41,6 @@ jobs:
           echo FENIX_ID="${{ vars.FENIX_CLIENT_ID_PROD }}" >> env
           echo FENIX_SECRET="${{ secrets.FENIX_CLIENT_SECRET_PROD }}" >> env
           echo FENIX_URL="${{ vars.FENIX_CLIENT_URL_PROD }}" >> env
-
-          # Activities
-          echo CALENDAR_ID="${{ secrets.CALENDAR_ID }}" >> env
-          echo SCHEDULE_URL="${{ secrets.SCHEDULE_URL }}" >> env
 
       - name: upload env artifact
         uses: actions/upload-artifact@v3
@@ -77,6 +77,8 @@ jobs:
           #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:${GITHUB_REF#refs/*/}"
           #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest"
           #"${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:v0.0.0"
+          build-args: |
+            "NEXT_PUBLIC_API_BASE_URL=${{ vars.API_ENDPOINT_PROD }}"
           tags: |
             "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:latest-prod"
             "${{ secrets.DOCKER_USER }}/${{ secrets.DOCKER_REPO }}:${{ steps.tag.outputs.tag }}"
