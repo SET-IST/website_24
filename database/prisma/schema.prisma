@@ -57,6 +57,7 @@ model StudentDetails {
   points             Int                  @default(0)
   course             String               @db.VarChar(128)
   university         String               @db.VarChar(128)
+  phoneNumber        String?
   companies_ids      String[]
   companies          CompanyDetails[]
   user               User                 @relation(fields: [userId], references: [id])
