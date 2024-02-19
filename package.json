@@ -15,7 +15,7 @@
     "dev:db:start": "cd database && docker compose up -d",
     "dev:db:stop": "cd database && docker compose rm -s -f -v",
     "dev:db:push": "yarn prisma db push",
-    "dev:db:seed": "command -v psql >/dev/null && psql -h localhost -p 5432 -U postgres -c 'create database setdb' && psql -h localhost -p 5432 -U postgres setdb < ./database/seeds/BASE_db_seed-18-02-2024.sql",
+    "dev:db:seed": "command -v psql >/dev/null && psql -h localhost -p 5432 -U postgres -c 'create database setdb' && psql -h localhost -p 5432 -U postgres setdb < ./database/seeds/PROD_db_seed-19-02-2024.sql",
     "dev:db:dump": "command -v psql >/dev/null && pg_dump -h localhost -p 5432 -U postgres setdb -f ./database/seeds/db_seed-$(date +'%d-%m-%Y').sql && echo \"Dump saved to ./database/seeds/db_seed-$(date +'%d-%m-%Y').sql\""
   },
   "dependencies": {

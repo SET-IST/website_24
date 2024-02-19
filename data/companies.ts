@@ -17,6 +17,7 @@ import Glintt from '@/assets/logos/empresas/glintt.webp'
 import GrupoVisabeira from '@/assets/logos/empresas/grupo_visabeira.webp'
 import IndieCampers from '@/assets/logos/empresas/indie_campers.webp'
 import Inesc from '@/assets/logos/empresas/inesc.webp'
+import InnovationMakers from '@/assets/logos/empresas/innovation_makers.webp'
 import Innowave from '@/assets/logos/empresas/innowave.webp'
 import ItSector from '@/assets/logos/empresas/itsector.webp'
 import JeronimoMartins from '@/assets/logos/empresas/jeronimo_martins.webp'
@@ -27,9 +28,11 @@ import LeroyMerlin from '@/assets/logos/empresas/leroy_merlin.webp'
 import Lidl from '@/assets/logos/empresas/lidl.webp'
 import Logicalis from '@/assets/logos/empresas/logicalis.webp'
 import MagicBeans from '@/assets/logos/empresas/magic_beans.webp'
+import Neyond from '@/assets/logos/empresas/neyond.webp'
 import Noesis from '@/assets/logos/empresas/noesis_logo.webp'
 import Nos from '@/assets/logos/empresas/nos_rgb.webp'
 import NttData from '@/assets/logos/empresas/ntt_data.webp'
+import PremiumMinds from '@/assets/logos/empresas/premium_minds.webp'
 import PrimeIt from '@/assets/logos/empresas/primeit.webp'
 import Santander from '@/assets/logos/empresas/santander.webp'
 import Secil from '@/assets/logos/empresas/secil.webp'
@@ -43,6 +46,7 @@ import Thales from '@/assets/logos/empresas/thales.webp'
 import TheLoop from '@/assets/logos/empresas/the_loop.webp'
 import TimWeTech from '@/assets/logos/empresas/timwetech.webp'
 import Unicre from '@/assets/logos/empresas/unicre.webp'
+import Velocix from '@/assets/logos/empresas/velocix.webp'
 import Vodafone from '@/assets/logos/empresas/vodafone.webp'
 import Vtxrm from '@/assets/logos/empresas/vtxrm.webp'
 import Worten from '@/assets/logos/empresas/worten.webp'
@@ -67,6 +71,7 @@ const homeCompaniesSlider = [
   GrupoVisabeira,
   IndieCampers,
   Inesc,
+  InnovationMakers,
   Innowave,
   ItSector,
   JeronimoMartins,
@@ -77,9 +82,11 @@ const homeCompaniesSlider = [
   Lidl,
   Logicalis,
   MagicBeans,
+  Neyond,
   Noesis,
   Nos,
   NttData,
+  PremiumMinds,
   PrimeIt,
   Santander,
   Secil,
@@ -93,6 +100,7 @@ const homeCompaniesSlider = [
   TheLoop,
   TimWeTech,
   Unicre,
+  Velocix,
   Vodafone,
   Vtxrm,
   // Worten, Waiting for logo
