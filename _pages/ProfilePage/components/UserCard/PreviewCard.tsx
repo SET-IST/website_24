@@ -1,6 +1,7 @@
 import { Avatar, Text, Paper, em } from '@mantine/core'
 import { AnchorLink } from '@/components/AnchorLink'
 import { CompanyScan, ScannedCompany } from '@/lib/frontend/api'
+import { TruncatedText } from '@/components/TruncatedText'
 
 interface PreviewCardProps {
   data: CompanyScan | ScannedCompany
@@ -27,15 +28,9 @@ const PreviewCard = ({ data }: PreviewCardProps) => {
             href={data?.linkHref}
             preview={true}
           />
-          <Text
-            className="sm:min-w-[18rem]"
-            ta="center"
-            c="dimmed"
-            fw={500}
-            fz="sm"
-          >
-            {data?.description}
-          </Text>
+          <TruncatedText
+            text={data?.description ?? 'Esta empresa não tem descrição'}
+          />
         </div>
       </div>
     </Paper>
