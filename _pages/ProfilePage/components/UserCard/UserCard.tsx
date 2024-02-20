@@ -101,7 +101,12 @@ const UserCard = () => {
 
         {user?.role !== UserType.Company && (
           <div className="flex flex-row gap-2 w-full min-w-fit">
-            <Button fullWidth mt="lg" onClick={() => showRedeemModal(true)}>
+            <Button
+              className="!min-w-fit"
+              fullWidth
+              mt="lg"
+              onClick={() => showRedeemModal(true)}
+            >
               Receber brinde
             </Button>
             <Button
