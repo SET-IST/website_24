@@ -69,13 +69,11 @@ const ActivitiesPage = () => {
             presentes, nesta edição.
           </ActivityCard>
           <ActivityCard title="Workshops" image={Workshop}>
-            A Magma vem te esclarecer todas as dúvidas acerca de como
-            comunicares no mundo profissional de forma eficaz. Vais aprender
-            como estabelecer a tua própria rede de contactos e como geri-la.
-            Tudo com exemplos práticos é templates de comunicação. A JUNITEC irá
-            oferecer formação presencial em diversas áreas de gestão de projeto,
-            com foco especial em gestão de tarefas, equipas e metodologias de
-            gestão ágil. Ambos os workshops serão relaizados na sala 0.65
+            Esta atividade foi concebida para proporcionar um envolvimento
+            direto entre empresas e estudantes, promovendo a troca de
+            conhecimento e experiência. Durante esta atividade, a empresa
+            organiza uma sessão interativa com duração de 30 a 45 minutos, em
+            conjunto com os alunos.
           </ActivityCard>
         </FooterLayout>
       </div>

@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Text,
-  Button,
-  Paper,
-  Skeleton,
-  em,
-  ScrollArea,
-  Overlay,
-} from '@mantine/core'
+import { Avatar, Text, Button, Paper, Skeleton, em } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconQrcode } from '@tabler/icons-react'
 import UserStats from './UserStats'
@@ -17,6 +8,8 @@ import { useProfile } from '@/lib/frontend/hooks'
 import { CompanyProfile, StudentProfile } from '@/lib/frontend/api'
 import { useBoundStore } from '@/lib/frontend/store'
 import { getCourse } from '@/lib/frontend/utils'
+import { useRef } from 'react'
+import { TruncatedText } from '@/components/TruncatedText'
 
 const UserCard = () => {
   const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
@@ -30,6 +23,8 @@ const UserCard = () => {
   const showSettings = useBoundStore((state) => state.showSettings)
   const showScanModal = useBoundStore((state) => state.showScanModal)
   const showRedeemModal = useBoundStore((state) => state.showRedeemModal)
+
+  const spoilerControlRef = useRef<HTMLButtonElement>(null)
 
   return (
     <Paper
@@ -54,24 +49,17 @@ const UserCard = () => {
           className="flex flex-col items-center gap-2"
           visible={isUserLoading}
         >
-          <div className="relative h-fit pb-4 max-h-16 overflow-y-auto">
-            <div className="fixed bottom-6 left-0 right-0 bg-[var(--mantine-color-white)] blur-sm h-5"></div>
-            <Text
-              className="sm:min-w-[18rem]"
-              ta="center"
-              c="dimmed"
-              fw={500}
-              fz="sm"
-            >
-              {user?.role === UserType.Company
+          <TruncatedText
+            text={
+              user?.role === UserType.Company
                 ? (user as CompanyProfile)?.companyDetails?.description ||
                   'Sem descrição da empresa'
                 : getCourse(
                     (user as StudentProfile)?.studentDetails?.university,
                     (user as StudentProfile)?.studentDetails?.course
-                  )?.name ?? ''}
-            </Text>
-          </div>
+                  )?.name ?? ''
+            }
+          />
 
           {user?.role === UserType.Company && (
             <AnchorLink
@@ -113,7 +101,12 @@ const UserCard = () => {
 
         {user?.role !== UserType.Company && (
           <div className="flex flex-row gap-2 w-full min-w-fit">
-            <Button fullWidth mt="lg" onClick={() => showRedeemModal(true)}>
+            <Button
+              className="!min-w-fit"
+              fullWidth
+              mt="lg"
+              onClick={() => showRedeemModal(true)}
+            >
               Receber brinde
             </Button>
             <Button

@@ -32,7 +32,7 @@ const PointsManagementForm = () => {
     validate: yupResolver(schema),
     initialValues: {
       uuid: undefined,
-      points: undefined,
+      points: 0,
     },
   })
 
@@ -54,9 +54,8 @@ const PointsManagementForm = () => {
   }, [userDetails])
 
   const addPoints = (points: number) => {
-    if (form.values.points) {
-      form.setFieldValue('points', form.values.points + points)
-    }
+    const val = !form.values.points ? points : form.values.points + points
+    form.setFieldValue('points', val)
   }
 
   const updateStudentPoints = (values: FormValues) => {
@@ -107,15 +106,7 @@ const PointsManagementForm = () => {
             fullWidth
             variant="default"
           >
-            Scan (+10)
-          </Button>
-          <Button
-            disabled={!isValidUser}
-            onClick={() => addPoints(50)}
-            fullWidth
-            variant="default"
-          >
-            Todas as bancas (+50)
+            Scan a empresa (+10)
           </Button>
           <Button
             disabled={!isValidUser}
@@ -123,7 +114,31 @@ const PointsManagementForm = () => {
             fullWidth
             variant="default"
           >
-            Atividade (+20)
+            Palestra (+20)
+          </Button>
+          <Button
+            disabled={!isValidUser}
+            onClick={() => addPoints(30)}
+            fullWidth
+            variant="default"
+          >
+            Speed Interview (+30)
+          </Button>
+          <Button
+            disabled={!isValidUser}
+            onClick={() => addPoints(40)}
+            fullWidth
+            variant="default"
+          >
+            Workshop (+40)
+          </Button>
+          <Button
+            disabled={!isValidUser}
+            onClick={() => addPoints(50)}
+            fullWidth
+            variant="default"
+          >
+            Todas as bancas do dia (+50)
           </Button>
           <Button
             disabled={!isValidUser}
