@@ -29,6 +29,7 @@ export const TruncatedText = ({ text }: TextTruncateProps) => {
         setShouldTruncate(elLineCount > 4)
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [text]
   )
 
