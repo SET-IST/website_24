@@ -251,7 +251,7 @@ export async function patchEnrollment(
       const confirmed = patchActivity.action == 'CONFIRM'
 
       try {
-        await prisma.activityEnrollment.upsert({
+        await PrismaService.activityEnrollment.upsert({
           where: {
             enrollmentId: {
               userId: patchActivity.userId,
