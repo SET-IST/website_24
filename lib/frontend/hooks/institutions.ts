@@ -16,6 +16,9 @@ export const useInstitutions = () => {
 export const useCourses = (instituitionCode?: string | null) => {
   return useQuery<CourseData | undefined, Error>(
     ['Course', instituitionCode],
-    () => fetchCourseData(instituitionCode)
+    () => fetchCourseData(instituitionCode),
+    {
+      enabled: !!instituitionCode,
+    }
   )
 }
