@@ -53,12 +53,12 @@ export const TruncatedText = ({ text }: TextTruncateProps) => {
 
   return (
     <Text className="sm:min-w-[18rem]" ta="center" c="dimmed" fw={500} fz="sm">
-      <p
+      <span
         ref={measuredRef}
         className={`${shouldClamp ? 'line-clamp-3' : 'line-clamp-none'}`}
       >
         {text}
-      </p>
+      </span>
       {shouldTruncate && toggle}
     </Text>
   )

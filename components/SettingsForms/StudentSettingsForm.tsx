@@ -90,30 +90,30 @@ const StudentSettingsForm = () => {
   const form = useForm<FormValues>({
     validate: yupResolver(schema),
     initialValues: {
-      name: student?.name,
-      email: student?.email,
-      institutionCode: student?.studentDetails?.university,
-      courseCode: student?.studentDetails?.course,
+      name: student?.name ?? '',
+      email: student?.email ?? '',
+      institutionCode: student?.studentDetails?.university ?? '',
+      courseCode: student?.studentDetails?.course ?? '',
       profileImage: undefined,
       cv: undefined,
       termsOfService: false,
-      phoneNumber: student?.studentDetails?.phoneNumber,
+      phoneNumber: student?.studentDetails?.phoneNumber ?? '',
     },
   })
 
   useEffect(() => {
-    console.log(student)
-
-    form.initialize({
-      name: student?.name,
-      email: student?.email,
-      institutionCode: student?.studentDetails?.university,
-      courseCode: student?.studentDetails?.course,
-      profileImage: undefined,
-      cv: undefined,
-      termsOfService: false,
-      phoneNumber: student?.studentDetails?.phoneNumber,
-    })
+    if (student) {
+      form.initialize({
+        name: student?.name ?? '',
+        email: student?.email ?? '',
+        institutionCode: student?.studentDetails?.university ?? '',
+        courseCode: student?.studentDetails?.course ?? '',
+        profileImage: undefined,
+        cv: undefined,
+        termsOfService: false,
+        phoneNumber: student?.studentDetails?.phoneNumber ?? '',
+      })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [student])
 
