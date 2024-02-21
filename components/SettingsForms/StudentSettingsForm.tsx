@@ -102,6 +102,8 @@ const StudentSettingsForm = () => {
   })
 
   useEffect(() => {
+    console.log(student)
+
     form.initialize({
       name: student?.name,
       email: student?.email,
