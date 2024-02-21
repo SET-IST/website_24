@@ -60,7 +60,7 @@ export const useUpdateProfile = (queryClient: QueryClient) => {
         await edgestore.profileImages.upload({ file: data.profileImage })
       }
 
-      if (data.cv && user.role === UserType.Student) {
+      if (data.cv && user.role !== UserType.Company) {
         await edgestore.cvs.upload({
           file: data.cv,
           options: {
