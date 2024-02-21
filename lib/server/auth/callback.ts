@@ -33,7 +33,6 @@ export const AuthCallbacks = (
 
         cookies.set('next-auth.session-token', sessionToken, {
           expires: sessionExpiry,
-          secure: process.env.NODE_ENV === 'production',
         })
       }
       return true
