@@ -166,7 +166,7 @@ export async function getCompanyStudents(
           },
         },
       }),
-      prisma.studentDetails.count({
+      PrismaService.studentDetails.count({
         where: searchQuery,
       }),
     ])
