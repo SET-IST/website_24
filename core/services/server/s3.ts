@@ -1,4 +1,5 @@
 import { S3Client } from '@aws-sdk/client-s3'
+import { LoggerCore } from './logger-scopes'
 
 let s3Client: S3Client
 
@@ -16,9 +17,11 @@ function createNewClient(): S3Client {
 
 if (process.env.NODE_ENV === 'production') {
   s3Client = createNewClient()
+  LoggerCore.success('Started S3ClientService')
 } else {
   if (!global.s3Client) {
     global.s3Client = createNewClient()
+    LoggerCore.success('Started S3ClientService')
   }
 
   s3Client = global.s3Client

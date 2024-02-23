@@ -4,13 +4,14 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from 'next-api-decorators'
+import Logger from 'signale'
 
 export function handleDatabaseException(dbException: any): HttpException {
   if (dbException instanceof Prisma.PrismaClientKnownRequestError) {
     let exception: HttpException
 
-    console.error(
-      `[DatabaseError]: ${dbException.code}: ${dbException.message}`
+    Logger.scope('database').error(
+      `${dbException.code}: ${dbException.message} (Query metadata: ${dbException.meta})`
     )
 
     if (dbException.code === 'P2025') {
@@ -21,7 +22,7 @@ export function handleDatabaseException(dbException: any): HttpException {
 
     throw exception
   } else {
-    console.error(`[ServerError]: ${dbException.name}: ${dbException.message}`)
+    Logger.scope('service').error(`${dbException.name}: ${dbException.message}`)
 
     if (dbException instanceof HttpException) {
       throw dbException
