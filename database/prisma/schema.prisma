@@ -130,11 +130,11 @@ model ActivityEnrollment {
 model Activity {
   id          Int          @id @default(autoincrement())
   idHash      String       @unique
-  title       String       @db.VarChar(60)
-  description String       @db.VarChar(128)
+  title       String       @db.VarChar(128)
+  description String       @db.VarChar(256)
   date        DateTime
   duration    Int
-  location    String       @db.VarChar(60)
+  location    String       @db.VarChar(80)
   validated   Boolean      @default(false)
   type        ActivityType
 
