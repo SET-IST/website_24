@@ -135,6 +135,7 @@ model Activity {
   date        DateTime
   duration    Int
   location    String       @db.VarChar(60)
+  validated   Boolean      @default(false)
   type        ActivityType
 
   companies CompanyDetails[]
