@@ -117,11 +117,26 @@ export async function redeemAward(uuid: string) {
       },
     })
 
-    await PrismaService.awardToken.delete({
-      where: {
-        id: details.id,
-      },
-    })
+    await PrismaService.$transaction([
+      PrismaService.awardToken.delete({
+        where: {
+          id: details.id,
+        },
+      }),
+      PrismaService.studentDetails.update({
+        where: {
+          userId: details.userId,
+        },
+        data: {
+          points: {
+            decrement: 40,
+          },
+          reedems: {
+            increment: 1,
+          },
+        },
+      }),
+    ])
 
     return details
   })

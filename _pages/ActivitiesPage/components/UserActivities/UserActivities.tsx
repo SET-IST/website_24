@@ -17,7 +17,7 @@ import {
 } from '@/lib/frontend/api/activities'
 import ActivitySkeleton from './ActivitySkeleton'
 import { User } from 'next-auth'
-import { UserType } from '@prisma/client'
+import { ActivityType, UserType } from '@prisma/client'
 import { fetchStudentProfile } from '@/lib/frontend/api'
 import { CVDialog } from '@/components/CVDialog'
 
@@ -43,7 +43,10 @@ const UserActivities = () => {
     error: unEnrollError,
   } = useUnEnrollStudent(queryClient)
 
-  const enrollStudent = async (activityId: string) => {
+  const enrollStudent = async (
+    activityId: string,
+    activityType: ActivityType
+  ) => {
     if (session.status !== 'authenticated') {
       showLogin(true)
       return
@@ -57,11 +60,15 @@ const UserActivities = () => {
 
     const profile = await fetchStudentProfile()
 
-    if (
-      !profile?.studentDetails?.phoneNumber ||
-      !profile.studentDetails.cvLocation
-    ) {
-      showCVDialog(true)
+    const missingInfo =
+      (activityType === ActivityType.Workshop &&
+        !profile?.studentDetails?.phoneNumber) ||
+      (activityType === ActivityType.SpeedInterview &&
+        (!profile?.studentDetails?.phoneNumber ||
+          !profile.studentDetails.cvLocation))
+
+    if (missingInfo) {
+      showCVDialog(activityType)
       return
     }
 

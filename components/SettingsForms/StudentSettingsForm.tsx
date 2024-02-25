@@ -260,7 +260,7 @@ const StudentSettingsForm = () => {
             />
           }
           label="Atualizar CV"
-          description="O teu CV irá ser partilhado com as empresas a que deste scan ou durante as atividades (Speed Interviews / Workshops)"
+          description="O teu CV irá ser partilhado com as empresas a que deste scan ou durante as atividades (Speed Interviews)"
           placeholder={
             student?.cv && student.cv.metadata
               ? student.cv.metadata['originalfilename']
