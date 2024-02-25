@@ -20,6 +20,7 @@ RUN yarn install --immutable
 FROM node:18-alpine3.18 AS builder
 WORKDIR /app
 COPY . .
+COPY --from=deps --chown=nextjs:nodejs /usr/local/lib/node_modules/sharp /usr/local/lib/node_modules/sharp
 COPY --from=deps /app/node_modules ./node_modules
 
 ARG NEXT_PUBLIC_API_BASE_URL
@@ -43,10 +44,10 @@ ENV NODE_ENV production
 ENV NEXT_SHARP_PATH=/usr/local/lib/node_modules/sharp
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
+COPY --from=deps --chown=nextjs:nodejs /usr/local/lib/node_modules/sharp /usr/local/lib/node_modules/sharp
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-
 COPY --from=builder /app/public ./public
 
 # Automatically leverage output traces to reduce image size
