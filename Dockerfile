@@ -7,6 +7,7 @@ WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
 
+RUN npx envinfo --yes --binaries --system --npmPackages=sharp --npmGlobalPackages=sharp
 RUN yarn install --frozen-lockfile
 
 
