@@ -40,5 +40,9 @@ export const useScan = (queryClient: QueryClient) => {
 }
 
 export const useAward = () => {
-  return useQuery<Award, AxiosError>(['Award'], () => fetchAward())
+  return useQuery<Award, AxiosError>(['Award'], () => fetchAward(), {
+    refetchInterval: (data, query) => {
+      return !query.state.error ? 800 : false
+    },
+  })
 }
