@@ -12,7 +12,7 @@ COPY package.json ./
 COPY .yarnrc.yml ./
 COPY yarn.lock ./
 
-RUN yarn install --immutable && yarn add @img/sharp-linuxmusl-x64
+RUN yarn install --immutable
 
 # Rebuild the source code only when needed
 FROM node:18-alpine AS builder
