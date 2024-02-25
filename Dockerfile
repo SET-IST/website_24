@@ -9,10 +9,10 @@ RUN corepack enable
 RUN yarn set version berry
 
 COPY package.json ./
+COPY .yarnrc.yml ./
 COPY yarn.lock ./
 
 RUN yarn install --immutable
-
 
 # Rebuild the source code only when needed
 FROM node:18-alpine AS builder
@@ -22,7 +22,6 @@ COPY . .
 
 ARG NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_API_BASE_URL ${NEXT_PUBLIC_API_BASE_URL}
-ENV NEXT_SHARP_PATH=/app/node_modules/sharp
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
