@@ -22,11 +22,16 @@ export function handleDatabaseException(dbException: any): HttpException {
 
     throw exception
   } else {
-    Logger.scope('service').error(`${dbException.name}: ${dbException.message}`)
+    Logger.scope('service exception').debug(
+      `${dbException.name}: ${dbException.message}`
+    )
 
     if (dbException instanceof HttpException) {
       throw dbException
     } else {
+      Logger.scope('service').error(
+        `${dbException.name}: ${dbException.message}`
+      )
       throw new InternalServerErrorException(
         `${dbException.name}: ${dbException.message}`
       )
