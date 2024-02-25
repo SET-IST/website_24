@@ -99,5 +99,6 @@
   "signale": {
     "displayTimestamp": true,
     "displayDate": true
-  }
+  },
+  "packageManager": "yarn@4.1.0"
 }

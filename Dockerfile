@@ -1,24 +1,30 @@
 # Install dependencies only when needed
-FROM node:18-alpine AS deps
+FROM node:18-alpine3.18 AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+RUN npm install -g --arch=x64 --platform=linux --libc=musl sharp@0.33.0-rc.2
+
+# Migrate to yarn 4
+RUN corepack enable
+RUN yarn set version berry
+
 COPY package.json ./
+COPY .yarnrc.yml ./
 COPY yarn.lock ./
 
-RUN yarn install --frozen-lockfile --ignore-engines
-
+RUN yarn install --immutable
 
 # Rebuild the source code only when needed
-FROM node:18-alpine AS builder
+FROM node:18-alpine3.18 AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+COPY --from=deps --chown=nextjs:nodejs /usr/local/lib/node_modules/sharp /usr/local/lib/node_modules/sharp
+COPY --from=deps /app/node_modules ./node_modules
 
 ARG NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_API_BASE_URL ${NEXT_PUBLIC_API_BASE_URL}
-ENV NEXT_SHARP_PATH=/app/node_modules/sharp
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -31,16 +37,17 @@ RUN yarn build
 # RUN npm run build
 
 # Production image, copy all the files and run next
-FROM node:18-alpine AS runner
+FROM node:18-alpine3.18 AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
+ENV NEXT_SHARP_PATH=/usr/local/lib/node_modules/sharp
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
+COPY --from=deps --chown=nextjs:nodejs /usr/local/lib/node_modules/sharp /usr/local/lib/node_modules/sharp
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-
 COPY --from=builder /app/public ./public
 
 # Automatically leverage output traces to reduce image size
