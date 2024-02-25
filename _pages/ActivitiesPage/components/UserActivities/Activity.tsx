@@ -9,14 +9,14 @@ import { useSession } from 'next-auth/react'
 interface ActivityComponentProps {
   data: ActivityData
   isMobile?: boolean
-  enrollCallback: (activityId: string) => void
+  enrollCallback: (activityId: string, activityType: ActivityType) => void
   unEnrollCallback: (activityId: string) => void
 }
 
 interface ActivityButtonProps {
   data: ActivityData
   isMobile?: boolean
-  enrollCallback: (activityId: string) => void
+  enrollCallback: (activityId: string, activityType: ActivityType) => void
   unEnrollCallback: (activityId: string) => void
 }
 
@@ -30,7 +30,7 @@ const ActivityButton = ({
     if (data.confirmed == undefined) {
       return (
         <Button
-          onClick={() => enrollCallback(String(data.id))}
+          onClick={() => enrollCallback(String(data.id), data.type)}
           fullWidth={!!isMobile}
           className="min-w-fit"
         >
