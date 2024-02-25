@@ -4,6 +4,8 @@ FROM node:18-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+RUN npm install --global yarn
+
 COPY package.json ./
 COPY yarn.lock ./
 
