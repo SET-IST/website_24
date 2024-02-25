@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN yarn install --frozen-lockfile --ignore-engines
+RUN yarn install --frozen-lockfile
 
 
 # Rebuild the source code only when needed
