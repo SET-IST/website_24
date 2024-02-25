@@ -131,7 +131,7 @@ model Activity {
   id          Int          @id @default(autoincrement())
   idHash      String       @unique
   title       String       @db.VarChar(128)
-  description String       @db.VarChar(256)
+  description String       @db.VarChar(512)
   date        DateTime
   duration    Int
   location    String       @db.VarChar(80)
