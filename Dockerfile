@@ -4,12 +4,14 @@ FROM node:18-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-RUN npm install --global yarn
+# Migrate to yarn 4
+RUN corepack enable
+RUN yarn set version berry
 
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN yarn install --frozen-lockfile && yarn add @img/sharp-linuxmusl-x64
+RUN yarn install --immutable
 
 
 # Rebuild the source code only when needed
