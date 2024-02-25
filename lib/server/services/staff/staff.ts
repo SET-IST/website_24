@@ -125,7 +125,7 @@ export async function redeemAward(uuid: string) {
       }),
       PrismaService.studentDetails.update({
         where: {
-          userId: uuid,
+          userId: details.userId,
         },
         data: {
           points: {
