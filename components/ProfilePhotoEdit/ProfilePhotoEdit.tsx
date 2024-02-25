@@ -35,7 +35,7 @@ const ProfilePhotoEdit = (
             props.callback(files)
           }}
           onReject={(files) => console.log('rejected files', files)}
-          maxSize={3 * 1024 ** 2}
+          maxSize={(3 * 1024 ** 2) * 5}
           accept={IMAGE_MIME_TYPE}
         >
           <Group justify="left" gap="md" style={{ pointerEvents: 'none' }}>
