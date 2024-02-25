@@ -4,6 +4,8 @@ FROM node:18-alpine3.18 AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+RUN npm install -g --arch=x64 --platform=linux --libc=musl sharp@0.33.0-rc.2
+
 # Migrate to yarn 4
 RUN corepack enable
 RUN yarn set version berry
