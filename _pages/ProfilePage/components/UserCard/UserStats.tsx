@@ -1,8 +1,9 @@
 import { Text } from '@mantine/core'
+import { ReactNode } from 'react'
 
 interface UserStat {
-  label: string
-  value?: number
+  label: ReactNode
+  value?: ReactNode
 }
 
 interface UserStatsProps {

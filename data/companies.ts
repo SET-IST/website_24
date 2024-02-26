@@ -9,6 +9,7 @@ import BNP from '@/assets/logos/empresas/bnp.webp'
 import BPI from '@/assets/logos/empresas/bpi.webp'
 import BubbleGo from '@/assets/logos/empresas/bubblego.webp'
 import Deloitte from '@/assets/logos/empresas/deloitte.webp'
+import Devoteam from '@/assets/logos/empresas/devoteam.webp'
 import Celfocus from '@/assets/logos/empresas/celfocus.webp'
 import Experis from '@/assets/logos/empresas/experis.webp'
 import EY from '@/assets/logos/empresas/ey.webp'
@@ -58,16 +59,17 @@ const homeCompaniesSlider = [
   Arquiconsult,
   Avanade,
   Axians,
-  Blip, // menor
+  Blip,
   BNP,
   BPI,
   BubbleGo,
-  Deloitte,
   Celfocus,
+  Deloitte,
+  Devoteam,
   Experis,
   EY,
   Fidelidade,
-  Glintt, // mudar versão
+  Glintt,
   GrupoVisabeira,
   IndieCampers,
   Inesc,
