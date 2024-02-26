@@ -1,6 +1,14 @@
 import { CompanyActivity } from '@/lib/frontend/api'
 import { Unpacked } from '@/lib/frontend/utils'
-import { UnstyledButton, Group, Avatar, Text, Tooltip } from '@mantine/core'
+import {
+  UnstyledButton,
+  Group,
+  Avatar,
+  Text,
+  Tooltip,
+  rem,
+} from '@mantine/core'
+import { IconFileDownload } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
 
 interface ActivityUserProps {
@@ -36,6 +44,11 @@ export function ActivityUser({ data }: ActivityUserProps) {
               {data.student.user.email}
             </Text>
           </div>
+
+          <IconFileDownload
+            style={{ width: rem(24), height: rem(24) }}
+            stroke={1.4}
+          />
         </Group>
       </UnstyledButton>
     </Tooltip>

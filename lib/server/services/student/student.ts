@@ -278,7 +278,8 @@ export async function requestAward(user: User) {
       return await tx.awardToken.create({
         data: {
           type:
-            studentTx.reedems % 3 == 0 && studentTx.reedems != 0
+            Number.isInteger((studentTx.reedems - 2) / 3) &&
+            studentTx.reedems > 0
               ? AwardType.SPECIAL
               : AwardType.NORMAL,
           student: {
