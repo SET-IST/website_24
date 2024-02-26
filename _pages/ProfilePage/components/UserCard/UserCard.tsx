@@ -106,6 +106,11 @@ const UserCard = () => {
                           multiline
                           position="bottom"
                           label="O teu número total de pontos contando com os brindes que recebeste"
+                          events={{
+                            hover: true,
+                            focus: false,
+                            touch: true,
+                          }}
                         >
                           <div className="relative h-fit">
                             <div className="top-[-0.1rem] start-6 absolute w-4 h-4 text-[color:#868e96] opacity-70">
