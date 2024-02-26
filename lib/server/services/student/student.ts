@@ -23,6 +23,7 @@ export async function getStudentProfile(user: User) {
             points: true,
             cvLocation: true,
             phoneNumber: true,
+            reedems: true,
           },
         },
       },
@@ -34,6 +35,9 @@ export async function getStudentProfile(user: User) {
       cv:
         student.studentDetails?.cvLocation &&
         (await getFile(student.studentDetails?.cvLocation)),
+      totalPoints:
+        (student.studentDetails?.points ?? 0) +
+        40 * (student.studentDetails?.reedems ?? 0),
     }
 
     return response

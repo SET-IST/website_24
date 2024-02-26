@@ -1,6 +1,14 @@
-import { Avatar, Text, Button, Paper, Skeleton, em } from '@mantine/core'
+import {
+  Avatar,
+  Text,
+  Button,
+  Paper,
+  Skeleton,
+  em,
+  Tooltip,
+} from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import { IconQrcode } from '@tabler/icons-react'
+import { IconQrcode, IconQuestionMark } from '@tabler/icons-react'
 import UserStats from './UserStats'
 import { AnchorLink } from '@/components/AnchorLink'
 import { UserType } from '@prisma/client'
@@ -89,6 +97,27 @@ const UserCard = () => {
                     {
                       label: 'Pontos',
                       value: (user as StudentProfile)?.studentDetails?.points,
+                    },
+                    {
+                      label: <span>Total</span>,
+                      value: (
+                        <Tooltip
+                          w={240}
+                          multiline
+                          position="bottom"
+                          label="O teu número total de pontos contando com os brindes que recebeste"
+                        >
+                          <div className="relative h-fit">
+                            <div className="top-[-0.1rem] start-6 absolute w-4 h-4 text-[color:#868e96] opacity-70">
+                              <IconQuestionMark
+                                style={{ width: '100%', height: '100%' }}
+                                stroke={2.5}
+                              />
+                            </div>
+                            <span>{(user as StudentProfile)?.totalPoints}</span>
+                          </div>
+                        </Tooltip>
+                      ),
                     },
                     {
                       label: 'Bancas',
