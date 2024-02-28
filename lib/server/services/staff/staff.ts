@@ -129,7 +129,7 @@ export async function redeemAward(uuid: string) {
         },
         data: {
           points: {
-            decrement: 40,
+            decrement: 30,
           },
           reedems: {
             increment: 1,

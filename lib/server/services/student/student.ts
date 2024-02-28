@@ -37,7 +37,7 @@ export async function getStudentProfile(user: User) {
         (await getFile(student.studentDetails?.cvLocation)),
       totalPoints:
         (student.studentDetails?.points ?? 0) +
-        40 * (student.studentDetails?.reedems ?? 0),
+        30 * (student.studentDetails?.reedems ?? 0),
     }
 
     return response
@@ -269,7 +269,7 @@ export async function requestAward(user: User) {
         },
       })
 
-      if (studentTx.points - 40 < 0) {
+      if (studentTx.points - 30 < 0) {
         throw new BadRequestException(
           'The student does not have enough points to request awards'
         )
