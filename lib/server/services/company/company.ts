@@ -111,11 +111,14 @@ export async function getCompanyStudents(
 
     const searchQuery = {
       AND: [
-        {
+        // Disabled, we need to think another way of doing this
+        // Although this enforces the policy "has to be scanned by the student", when the students
+        // scans reset (everyday at midnight) the companies also lose access to the students CVs.
+        /* {
           companies_ids: {
             has: user.id,
           },
-        },
+        }, */
         {
           OR: [
             {
@@ -309,9 +312,11 @@ export async function downloadCV(user: User, path: string) {
           },
         })
 
-      if (userEventRegistrations === 0) {
+      // Disabled, check comment at getCompanyStudents()
+
+      /* if (userEventRegistrations === 0) {
         throw new ForbiddenException('Student is not connected to the company')
-      }
+      } */
 
       activityRelatedCV = true
     }
