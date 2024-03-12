@@ -111,9 +111,20 @@ export async function getCompanyStudents(
 
     const searchQuery = {
       AND: [
-        {
+        // Disabled, we need to think another way of doing this
+        // Although this enforces the policy "has to be scanned by the student", when the students
+        // scans reset (everyday at midnight) the companies also lose access to the students CVs.
+        /* {
           companies_ids: {
             has: user.id,
+          },
+        }, */
+        // UPDATE: Nvm, found it
+        {
+          companies: {
+            some: {
+              userId: company.userId,
+            },
           },
         },
         {
@@ -272,9 +283,20 @@ export async function downloadCV(user: User, path: string) {
     if (!fileHead) throw new NotFoundException('Student CV not found')
 
     // Check if student (owner of CV) scanned this company
-    const student = await PrismaService.studentDetails.findUniqueOrThrow({
+    let connectedStudent = await PrismaService.studentDetails.findFirst({
       where: {
-        userId: fileHead.metadata?.userid,
+        AND: [
+          {
+            userId: fileHead.metadata?.userid,
+          },
+          {
+            companies: {
+              some: {
+                userId: company.userId,
+              },
+            },
+          },
+        ],
       },
       select: {
         user: {
@@ -282,13 +304,12 @@ export async function downloadCV(user: User, path: string) {
             name: true,
           },
         },
-        companies_ids: true,
       },
     })
 
     let activityRelatedCV = false
 
-    if (!student.companies_ids.includes(company.userId)) {
+    if (!connectedStudent) {
       // Ok, user didn't scan the company. Maybe it's an enrollment?
 
       const companyEvents = company.activities.map((activity) => activity.id)
@@ -313,6 +334,20 @@ export async function downloadCV(user: User, path: string) {
         throw new ForbiddenException('Student is not connected to the company')
       }
 
+      // Repeat the query but without the connect rule
+      connectedStudent = await PrismaService.studentDetails.findUniqueOrThrow({
+        where: {
+          userId: fileHead.metadata?.userid,
+        },
+        select: {
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      })
+
       activityRelatedCV = true
     }
 
@@ -325,7 +360,7 @@ export async function downloadCV(user: User, path: string) {
     const fileData = await downloadFile(path)
 
     return {
-      filename: `CV ${student.user.name}`,
+      filename: `CV ${connectedStudent.user.name}`,
       contents: fileData?.Body as ReadableStream,
       contentType: 'application/pdf',
     }

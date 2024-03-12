@@ -37,7 +37,7 @@ export function ModalContent() {
             {notEnoughPoints && (
               <Text c="white" ta="center" fz="md" fw={500}>
                 Faltam-te{' '}
-                <strong>{40 - (user?.studentDetails?.points ?? 0)}</strong>{' '}
+                <strong>{30 - (user?.studentDetails?.points ?? 0)}</strong>{' '}
                 pontos para teres um brinde
               </Text>
             )}
